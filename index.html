@@ -143,7 +143,22 @@
         document.getElementById("form-status").innerText = "❌ Failed to send. Please try again.";
         console.error("EmailJS Error:", error);
       });
-  });
+  });<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("bceEcXpLIRDpJxOHM"); // Public key
+  })();
+
+  document.getElementById("contact-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    emailjs.sendForm("service_pzzseh7", "template_xyz123", this)
+      .then(function() {
+        document.getElementById("form-status").innerText = "✅ Message sent successfully!";
+        document.getElementById("contact-form").reset();
+      }, function(error) {
+        document.getElementById("form-status").innerText = "❌ Failed to send. Please try again.";
+        console.error("EmailJS Error:", error);
 </script>
 
 <footer>

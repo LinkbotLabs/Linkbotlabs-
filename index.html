@@ -127,45 +127,34 @@
   <p id="form-status" style="margin-top:10px; font-size:0.9rem; color:#ffe169;"></p>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script>
-  (function(){
-    emailjs.init("bceEcXpLIRDpJxOHM"); // Public key
-  })();
-
-  document.getElementById("contact-form").addEventListener("submit", function(event) {
-    event.preventDefault();
-    emailjs.sendForm("service_pzzseh7", "bceEcXpLIRDpJxOHM", this)
-      .then(function() {
-        document.getElementById("form-status").innerText = "✅ Message sent successfully!";
-        document.getElementById("contact-form").reset();
-      }, function(error) {
-        document.getElementById("form-status").innerText = "❌ Failed to send. Please try again.";
-        console.error("EmailJS Error:", error);
-      });
-  });<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script>
-  (function(){
-    emailjs.init("bceEcXpLIRDpJxOHM"); // Public key
-  })();
-
-  document.getElementById("contact-form").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    emailjs.sendForm("service_pzzseh7", "template_xyz123", this)
-      .then(function() {
-        document.getElementById("form-status").innerText = "✅ Message sent successfully!";
-        document.getElementById("contact-form").reset();
-      }, function(error) {
-        document.getElementById("form-status").innerText = "❌ Failed to send. Please try again.";
-        console.error("EmailJS Error:", error);
-</script>
-
 <footer>
   <p>© 2025 LinkBotLabs – Affiliate Shopping Automation</p>
   <p>👉 Partner with us and earn commissions via the <a href="affiliate_starter.html" style="color:#ffe169;">Affiliate Page</a></p>
   <p><a href="https://www.fiverr.com/s/jj18w9L?utm_source=CopyLink_Mobile" class="btn">💼 Work With Me on Fiverr</a></p>
 </footer>
+
+<!-- ✅ EmailJS Contact Form Script -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  emailjs.init("bceEcXpLIRDpJxOHM"); // Your public key
+
+  const form = document.getElementById("contact-form");
+  const status = document.getElementById("form-status");
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // Replace "template_xyz123" with your actual EmailJS template ID
+    emailjs.sendForm("service_pzzseh7", "template_xyz123", form)
+      .then(function() {
+        status.innerText = "✅ Message sent successfully!";
+        form.reset();
+      }, function(error) {
+        status.innerText = "❌ Failed to send. Please try again.";
+        console.error("EmailJS Error:", error);
+      });
+  });
+</script>
 
 </body>
 </html>

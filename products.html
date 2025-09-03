@@ -20,15 +20,19 @@
     margin-bottom: 25px;
     text-shadow: 0 2px 6px rgba(0,255,255,0.5);
   }
+
+  /* --- Affiliate Banner --- */
   .affiliate-banner {
-    background: rgba(0, 123, 255, 0.8);
-    color: #fff;
+    background: linear-gradient(135deg, #003366, #005f99); /* Dark blue gradient */
+    color: #00ffff;
     padding: 12px;
     text-align: center;
     font-weight: bold;
     margin-bottom: 20px;
     border-radius: 8px;
     backdrop-filter: blur(5px);
+    border: 1px solid #00ffff;
+    box-shadow: 0 4px 15px rgba(0,255,255,0.3);
   }
 
   /* --- Voice Controls --- */
@@ -38,16 +42,19 @@
   }
   .voice-controls select, 
   .voice-controls button { 
-    padding: 8px 12px; 
+    padding: 10px 14px; 
     font-size: 16px; 
     margin-right: 12px; 
-    border-radius: 6px;
+    border-radius: 8px;
     border: none;
-    background: rgba(0,255,255,0.1);
-    color: #fff;
+    background: linear-gradient(135deg, #003366, #005f99);
+    color: #00ffff;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
   }
-  .voice-controls button:hover, .voice-controls select:hover {
-    background: rgba(0,255,255,0.2);
+  .voice-controls select:hover,
+  .voice-controls button:hover {
+    background: linear-gradient(135deg, #005f99, #003366);
     cursor: pointer;
   }
 
@@ -106,19 +113,20 @@
     line-height: 1.5; 
   }
 
+  /* --- Buttons --- */
   .product-btn {
     margin-top: 12px;
     padding: 12px;
-    background: linear-gradient(135deg, #00ffff, #0088ff);
+    background: linear-gradient(135deg, #003366, #005f99); /* Darker blue gradient */
     border: none;
     border-radius: 8px;
-    color: white;
+    color: #00ffff;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s;
   }
   .product-btn:hover {
-    background: linear-gradient(135deg, #0088ff, #00ffff);
+    background: linear-gradient(135deg, #005f99, #003366); /* Inverted gradient on hover */
   }
 
   .chat-box {

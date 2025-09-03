@@ -7,17 +7,18 @@
   /* --- Global Styles --- */
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
     background: linear-gradient(180deg, #000000, #0a0a1f);
     color: #fff;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
   }
   h1 {
     text-align: center;
     color: #ffffff;
-    margin-bottom: 25px;
+    margin: 20px 0;
     text-shadow: 0 2px 6px rgba(0,255,255,0.5);
   }
 
@@ -28,7 +29,7 @@
     padding: 12px;
     text-align: center;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin: 0 20px 15px 20px;
     border-radius: 8px;
     backdrop-filter: blur(5px);
     border: 1px solid #00ffff;
@@ -38,19 +39,19 @@
   /* --- Voice Controls --- */
   .voice-controls {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
   }
   .voice-controls select, 
   .voice-controls button { 
     padding: 10px 14px; 
-    font-size: 16px; 
-    margin-right: 12px; 
+    font-size: 15px; 
+    margin-right: 10px; 
     border-radius: 8px;
     border: none;
     background: linear-gradient(135deg, #000033, #001144);
     color: #00ffff;
     font-weight: bold;
-    transition: background 0.3s, color 0.3s;
+    transition: background 0.3s;
   }
   .voice-controls select:hover,
   .voice-controls button:hover {
@@ -58,10 +59,14 @@
     cursor: pointer;
   }
 
-  /* --- Product Categories --- */
-  .category { 
-    margin: 50px 0; 
+  /* --- Product Section (scrollable) --- */
+  #product-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
   }
+
+  .category { margin: 40px 0; }
   .category h2 { 
     color: #00ffff; 
     border-bottom: 2px solid #00ffff; 
@@ -70,22 +75,17 @@
     text-shadow: 0 1px 3px rgba(0,255,255,0.3);
   }
 
-  /* --- Product Cards --- */
   .products-grid { 
     display: flex; 
     flex-direction: column; 
     gap: 20px; 
-    padding: 10px; 
   }
   .product-card {
+    width: 100%;
     background: rgba(10, 10, 30, 0.95);
     border: 1px solid #111144;
     border-radius: 16px;
     padding: 25px;
-    backdrop-filter: blur(6px);
-    max-width: 100%;
-    width: 100%;
-    margin: 0 auto;
     transition: transform 0.2s, border-color 0.3s, box-shadow 0.3s;
   }
   .product-card:hover {
@@ -93,23 +93,9 @@
     border-color: #00ffff;
     box-shadow: 0 8px 25px rgba(0,255,255,0.3);
   }
-  .product-title { 
-    font-size: 22px; 
-    font-weight: 600; 
-    margin: 10px 0; 
-  }
-  .product-price { 
-    color: #00ffff; 
-    font-weight: bold; 
-    margin: 5px 0; 
-    font-size: 18px;
-  }
-  .product-desc { 
-    font-size: 16px; 
-    color: #ccc; 
-    margin-bottom: 15px; 
-    line-height: 1.5; 
-  }
+  .product-title { font-size: 22px; font-weight: 600; margin: 10px 0; }
+  .product-price { color: #00ffff; font-weight: bold; margin: 5px 0; font-size: 18px; }
+  .product-desc { font-size: 16px; color: #ccc; margin-bottom: 15px; line-height: 1.5; }
   .product-btn {
     margin-top: 12px;
     padding: 14px;
@@ -125,41 +111,30 @@
     background: linear-gradient(135deg, #001144, #000033);
   }
 
-  /* --- Floating Chat --- */
-  #floating-chat {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 360px;
-    max-height: 450px;
+  /* --- Bottom Docked Chat --- */
+  #chat-area {
+    flex-shrink: 0;
+    height: 260px;
     background: rgba(5,5,20,0.95);
-    border: 1px solid #00ffff;
-    border-radius: 12px;
+    border-top: 2px solid #00ffff;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 8px 25px rgba(0,255,255,0.4);
-    overflow: hidden;
-    font-family: monospace;
-    z-index: 9999;
+    box-shadow: 0 -4px 20px rgba(0,255,255,0.2);
   }
   #chat-header {
     background: #001122;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-  }
-  #chat-header span {
-    font-weight: bold;
+    padding: 8px 12px;
     color: #00ffff;
+    font-weight: bold;
+    font-size: 15px;
   }
   #chat-content {
     flex: 1;
     padding: 10px;
     overflow-y: auto;
-    color: #fff;
+    font-family: monospace;
     font-size: 14px;
+    color: #fff;
   }
   #chat-input {
     display: flex;
@@ -172,9 +147,11 @@
     padding: 10px;
     background: #0a0a20;
     color: #fff;
+    font-family: inherit;
+    font-size: 14px;
   }
   #chat-input button {
-    padding: 10px;
+    padding: 10px 14px;
     background: #00ffff;
     color: #000;
     border: none;
@@ -187,24 +164,6 @@
     color: #fff;
   }
 
-  /* Small chat toggle button when minimized */
-  #chat-toggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #00ffff;
-    color: #000;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    display: none;
-    z-index: 10000;
-    box-shadow: 0 4px 15px rgba(0,255,255,0.3);
-  }
-
   /* --- Social Links --- */
   .socials {
     position: fixed;
@@ -214,6 +173,7 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
+    z-index: 1000;
   }
   .socials a {
     display: flex;
@@ -228,14 +188,11 @@
     text-decoration: none;
     transition: 0.3s;
   }
-  .socials a:hover { 
-    background: #0088ff; 
-    color: #fff; 
-  }
+  .socials a:hover { background: #0088ff; color: #fff; }
 
-  /* --- Mobile responsive tweaks --- */
+  /* --- Mobile tweaks --- */
   @media (max-width: 480px) {
-    #floating-chat { width: 90%; right: 5%; bottom: 15px; }
+    #chat-area { height: 220px; }
     .product-card { padding: 20px; }
     .product-title { font-size: 20px; }
     .product-price { font-size: 16px; }
@@ -253,7 +210,19 @@
   <button id="stopTTS">⏹ Stop</button>
 </div>
 
-<div id="content"></div>
+<div id="product-area">
+  <div id="content"></div>
+</div>
+
+<!-- Docked Chat -->
+<div id="chat-area">
+  <div id="chat-header">💬 Chat GPT</div>
+  <div id="chat-content"></div>
+  <div id="chat-input">
+    <textarea id="user-input" placeholder="Type your question..."></textarea>
+    <button id="send-btn">▶</button>
+  </div>
+</div>
 
 <div class="socials">
   <a href="https://www.tiktok.com/@linkbotlabs" target="_blank">TT</a>
@@ -261,20 +230,6 @@
   <a href="https://youtube.com/@linkbotlabs" target="_blank">YT</a>
   <a href="https://facebook.com/linkbotlabs" target="_blank">FB</a>
 </div>
-
-<!-- Floating Chat -->
-<div id="floating-chat">
-  <div id="chat-header">
-    <span>💬 Chat GPT</span>
-    <button id="chat-close">✖</button>
-  </div>
-  <div id="chat-content"></div>
-  <div id="chat-input">
-    <textarea id="user-input" placeholder="Type your question..."></textarea>
-    <button id="send-btn">▶</button>
-  </div>
-</div>
-<button id="chat-toggle">💬</button>
 
 <script src="https://js.puter.com/v2/"></script>
 <script>
@@ -361,16 +316,11 @@
           if (affiliateId) link += (p.url.includes("?") ? "&" : "?") + "tag=" + affiliateId;
           window.open(link, "_blank");
         };
-        // Ask GPT floating chat
+        // Ask GPT: push product info into chat
         card.querySelector(".ask-btn").onclick = () => {
-          const chat = document.getElementById('floating-chat');
-          const toggleBtn = document.getElementById('chat-toggle');
-          const chatContent = document.getElementById('chat-content');
-          const userInput = document.getElementById('user-input');
-          chat.style.display = 'flex';
-          toggleBtn.style.display = 'none';
-          chatContent.innerHTML += `<div style="color:#00ffff;">You: ${p.title} - ${p.description}</div>`;
+          chatContent.innerHTML += `<div style="color:#00ffff;">You: Tell me more about ${p.title}</div>`;
           chatContent.scrollTop = chatContent.scrollHeight;
+          userInput.value = `Tell me more about ${p.title}`;
         };
         // TTS button
         card.querySelector(".tts-btn").onclick = () => {
@@ -384,27 +334,11 @@
   }
   loadProducts();
 
-  // --- Floating Chat ---
-  const chat = document.getElementById('floating-chat');
-  const toggleBtn = document.getElementById('chat-toggle');
-  const closeBtn = document.getElementById('chat-close');
+  // --- Chat Logic ---
   const sendBtn = document.getElementById('send-btn');
   const chatContent = document.getElementById('chat-content');
   const userInput = document.getElementById('user-input');
 
-  // Close chat
-  closeBtn.onclick = () => {
-    chat.style.display = 'none';
-    toggleBtn.style.display = 'block';
-  };
-
-  // Open chat
-  toggleBtn.onclick = () => {
-    chat.style.display = 'flex';
-    toggleBtn.style.display = 'none';
-  };
-
-  // Send message
   sendBtn.onclick = async () => {
     const text = userInput.value.trim();
     if (!text) return;
@@ -412,7 +346,7 @@
     userInput.value = '';
     chatContent.scrollTop = chatContent.scrollHeight;
 
-    const response = await puter.ai.chat(text); // Putter AI
+    const response = await puter.ai.chat(text);
     chatContent.innerHTML += `<div style="color:#fff;">GPT-4 Nano: ${response}</div>`;
     chatContent.scrollTop = chatContent.scrollHeight;
     playTTS(response);

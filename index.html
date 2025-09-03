@@ -9,31 +9,26 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
 
 <style>
+  /* ===== Body & Background ===== */
   body {
     font-family: 'Inter', sans-serif;
     margin:0; padding:0;
-    background: linear-gradient(-45deg,#0a0033,#1b004d,#1a1a66,#3b007f);
-    background-size: 400% 400%;
-    animation: gradientShift 20s ease infinite;
-    color:white;
+    background-color: #0B0F2A; /* Dark navy */
+    color: #FFFFFF; /* White text */
     line-height:1.5;
   }
-  @keyframes gradientShift {
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-  }
 
-  /* 🔔 Flash Message */
+  /* ===== Flash Message ===== */
   #flash-message {
     position: fixed;
     top: 15px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(135deg,#ff007a,#e60070);
+    background: rgba(0, 255, 255, 0.2); /* Glass cyan effect */
     color: white;
     padding: 12px 20px;
-    border-radius: 8px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
     box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     font-weight: 600;
     font-size: 0.95rem;
@@ -42,91 +37,106 @@
     z-index: 9999;
     opacity: 0;
     transition: opacity 1s ease;
-    pointer-events: none; /* ✅ stops blocking buttons */
+    pointer-events: none;
   }
   #flash-message.show { opacity: 1; }
 
+  /* ===== Header ===== */
   header {
     text-align:center;
     padding:3rem 1rem;
-    background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    border-radius:12px;
+    margin: 1rem;
   }
-  header h1 { font-size:2.8rem; margin-bottom:1rem; }
+  header h1 { font-size:2.8rem; margin-bottom:1rem; color:#00FFFF; }
   header p { font-size:1.15rem; opacity:0.9; margin-bottom:0.7rem; }
+  header img { max-width:220px; display:block; margin:0 auto 1rem; }
+
+  /* ===== Buttons ===== */
   .btn {
     display:inline-block; margin:0.5rem; padding:1rem 1.5rem;
-    background: linear-gradient(135deg,#ff8a00,#e52e71);
+    background: rgba(0,255,255,0.2); /* Glassy cyan */
     color:white; text-decoration:none; border-radius:8px;
-    font-weight:700; transition:0.3s;
+    font-weight:700; transition: all 0.3s ease;
     font-size:1.05rem;
+    border: 1px solid #00FFFF;
   }
-  .btn:hover { transform:scale(1.05); }
+  .btn:hover {
+    transform: scale(1.05);
+    background: rgba(0,255,255,0.3);
+  }
+
+  /* ===== Sections ===== */
   section { padding:2.5rem 1rem; text-align:center; max-width:1100px; margin:auto; }
-  h2 { font-size:2rem; margin-bottom:1.3rem; color:#ffe169; }
+  h2 { font-size:2rem; margin-bottom:1.3rem; color:#00FFFF; }
+
+  /* ===== Categories ===== */
   .categories { display:flex; flex-wrap:wrap; justify-content:center; gap:0.8rem; }
   .categories a {
-    flex:1 1 180px; max-width:220px; background: rgba(0,0,0,0.55);
-    padding:1rem; border-radius:10px; color:white; font-weight:600;
+    flex:1 1 180px; max-width:220px;
+    background: rgba(255,255,255,0.05);
+    padding:1rem; border-radius:12px; color:white; font-weight:600;
     text-decoration:none; transition: transform 0.2s, background 0.3s;
     font-size:1rem;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0,255,255,0.2);
   }
-  .categories a:hover { transform: scale(1.08); background: rgba(75,0,150,0.7); }
+  .categories a:hover { transform: scale(1.08); background: rgba(0,255,255,0.15); }
+
+  /* ===== Video Container ===== */
   .video-container {
     position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom:1rem;
   }
   .video-container iframe {
-    position: absolute; top:0; left:0; width:100%; height:100%; border-radius:10px;
+    position: absolute; top:0; left:0; width:100%; height:100%; border-radius:12px;
+    border: 2px solid #00FFFF;
   }
-  footer {
-    background: rgba(0,0,0,0.5); text-align:center; padding:2rem 1rem; font-size:0.9rem;
-  }
+
+  /* ===== Forms ===== */
   .contact-form input, .contact-form textarea {
     padding:10px; width:250px; border-radius:6px; border:none; margin:5px 0;
+    background: rgba(255,255,255,0.05); color:white; backdrop-filter: blur(5px);
   }
-  .contact-form button { padding:10px 18px; border-radius:6px; border:none; cursor:pointer; background:#ffe169; color:#000; font-weight:700; }
+  .contact-form button {
+    padding:10px 18px; border-radius:6px; border:none;
+    cursor:pointer; background:#00FFFF; color:#000; font-weight:700;
+    transition: all 0.3s ease;
+  }
+  .contact-form button:hover { background:#00CED1; }
+
+  /* ===== Footer ===== */
+  footer {
+    background: rgba(255,255,255,0.05); text-align:center; padding:2rem 1rem; font-size:0.9rem;
+    backdrop-filter: blur(10px); border-top: 1px solid #00FFFF;
+  }
+  footer a { color:#00FFFF; text-decoration:none; }
+  footer a:hover { color:#00CED1; }
+
 </style>
 </head>
 <body>
 
-<!-- ✅ Flash Message Block -->
+<!-- Flash Message -->
 <div id="flash-message">
-  <p>💝 No subscription, no hidden fees! Donate any amount to support your developer.<br>
-     Enjoy free AI models, image generators, cloud computing, virtual desktop, affiliate marketing,<br>
-     and our desktop product-to-video generator.<br>
-     👉 Use the contact form below to enquire about the video generator.</p>
+  💝 No subscription, no hidden fees! Donate any amount to support your developer.<br>
+  Enjoy free AI models, image generators, cloud computing, virtual desktop, affiliate marketing,<br>
+  and our desktop product-to-video generator.<br>
+  👉 Use the contact form below to enquire about the video generator.
 </div>
 
 <header>
-  <a href="index.html">
-    <img src="img_splash.jpg" alt="LinkBotLabs Logo" style="max-width:220px; display:block; margin:0 auto 1rem;">
-  </a>
+  <a href="index.html"><img src="img_splash.jpg" alt="LinkBotLabs Logo"></a>
   <h1>🚀 Welcome to LinkBotLabs</h1>
   <p><strong>AI-powered shopping, reviews, and video automation tools</strong></p>
   <p>Test our AI Playground + Desktop Demo (no key required!)</p>
 
-  <!-- ✅ Reordered Buttons -->
-  <a href="affiliate_starter.html" class="btn" style="background:linear-gradient(135deg,#FFD700,#FFA500); font-size:1.2rem;">
-    🎁 Affiliate Starter Page
-  </a>
-  <a href="products.html" class="btn" style="background:linear-gradient(135deg,#9C27B0,#4A148C); font-size:1.2rem;">
-    🛒 Affiliate Product Page
-  </a>
-  <a href="ai.html" class="btn" style="background:linear-gradient(135deg,#2196F3,#0D47A1); font-size:1.2rem;">
-    🤖 Try AI Playground (Demo)
-  </a>
-  <a href="https://www.blogger.com/blog/posts/8639219398218448839" target="_blank" class="btn" style="background:linear-gradient(135deg,#FF5722,#BF360C); font-size:1.2rem;">
-    📝 Visit Blog
-  </a>
-  <a href="for_dummies.html" class="btn" style="background:linear-gradient(135deg,#4CAF50,#2E7D32); font-size:1.2rem;">
-    📘 For Dummies – Start Here
-  </a>
-  <a href="image.html" class="btn" style="background:linear-gradient(135deg,#ff007a,#e60070); font-size:1.2rem;">
-    🖼️ AI Image Generator (Demo)
-  </a>
-  <a href="https://drive.google.com/uc?export=download&id=1xwD_gDLZyPKLMmZY6UfAej6ZvMBjrzal" class="btn" style="background:linear-gradient(135deg,#00BCD4,#006064); font-size:1.2rem;">
-    📦 Download Desktop Demo (ZIP)
-  </a>
+  <a href="affiliate_starter.html" class="btn">🎁 Affiliate Starter Page</a>
+  <a href="products.html" class="btn">🛒 Affiliate Product Page</a>
+  <a href="ai.html" class="btn">🤖 Try AI Playground (Demo)</a>
+  <a href="for_dummies.html" class="btn">📘 For Dummies – Start Here</a>
+  <a href="image.html" class="btn">🖼️ AI Image Generator (Demo)</a>
 </header>
 
 <section>
@@ -164,32 +174,26 @@
     <textarea name="message" placeholder="Your message" rows="4" required></textarea><br>
     <button type="submit">Send Message</button>
   </form>
-  <p id="form-status" style="margin-top:10px; font-size:0.9rem; color:#ffe169;"></p>
+  <p id="form-status" style="margin-top:10px; font-size:0.9rem; color:#00FFFF;"></p>
 </section>
 
 <footer>
   <p>© 2025 LinkBotLabs – Affiliate Shopping Automation</p>
-  <p>👉 Partner with us and earn commissions via the <a href="affiliate_starter.html" style="color:#ffe169;">Affiliate Page</a></p>
-  <p><a href="https://www.fiverr.com/s/jj18w9L?utm_source=CopyLink_Mobile" class="btn">💼 Work With Me on Fiverr</a></p>
+  <p>👉 Partner with us and earn commissions via the <a href="affiliate_starter.html">Affiliate Page</a></p>
 </footer>
 
-<!-- ✅ Flash Script -->
 <script>
+  // Flash message
   window.addEventListener("load", () => {
     const flash = document.getElementById("flash-message");
     flash.classList.add("show");
     setTimeout(() => { flash.classList.remove("show"); }, 12000);
   });
-</script>
 
-<!-- ✅ EmailJS Contact Form Script -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script>
-  emailjs.init("bceEcXpLIRDpJxOHM"); // Your public key
-
+  // EmailJS contact form
+  emailjs.init("bceEcXpLIRDpJxOHM"); 
   const form = document.getElementById("contact-form");
   const status = document.getElementById("form-status");
-
   form.addEventListener("submit", function(event) {
     event.preventDefault();
     emailjs.sendForm("service_pzzseh7", "template_2sariuw", form)

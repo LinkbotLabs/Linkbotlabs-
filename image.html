@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Puter Image Generator & Degen - LinkBotLabs</title>
+  <title>LinkBotLabs AI Apps</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,122 +15,133 @@
     }
     h1 {
       font-size: 2em;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
     p {
-      font-size: 1.2em;
-      margin-bottom: 30px;
+      font-size: 1.1em;
       color: #ccc;
+      margin-bottom: 30px;
     }
-    .launch-btn {
-      display: inline-block;
-      padding: 15px 30px;
+    .app-btn {
+      display: block;
+      width: 90%;
+      max-width: 400px;
+      margin: 10px auto;
+      padding: 15px;
       background: #ff007a;
-      color: white;
+      color: #fff;
       text-decoration: none;
       font-size: 18px;
       border-radius: 8px;
       transition: background 0.3s;
     }
-    .launch-btn:hover {
+    .app-btn:hover {
       background: #e60070;
     }
     /* Lock screen */
     #lock-screen {
-      position: fixed; inset: 0;
-      display: none; justify-content: center; align-items: center;
-      background: rgba(0,0,0,0.9); z-index: 9999;
+      position: fixed;
+      inset: 0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0,0,0,0.9);
+      z-index: 9999;
     }
     #lock-box {
-      max-width: 400px; background: #1c1c2b; padding: 25px;
-      border-radius: 12px; text-align: center; color:#fff;
+      max-width: 400px;
+      background: #1c1c2b;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      color: #fff;
       border: 1px solid #444;
     }
     #lock-box h2 { margin-bottom: 10px; }
-    #lock-box p { font-size: 15px; margin-bottom: 20px; color:#ccc; }
+    #lock-box p { font-size: 15px; margin-bottom: 20px; color: #ccc; }
     #lock-box input {
-      width: 100%; padding: 10px; margin: 10px 0;
-      border-radius: 8px; border:1px solid #555;
-      background:#111; color:#fff;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #555;
+      background: #111;
+      color: #fff;
     }
     #lock-box button, #lock-box a {
-      display:inline-block; margin-top:10px; padding:10px 16px;
-      background:#ff007a; color:#fff; font-weight:bold;
-      border-radius:8px; text-decoration:none; border:0; cursor:pointer;
-    }
-    #lock-box a { background:#ffe169; color:#000; }
-
-    /* Degen iframe */
-    #degen-container {
-      margin-top: 50px;
-    }
-    iframe.degen-frame {
-      width: 100%;
-      max-width: 900px;
-      height: 700px;
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 16px;
+      background: #ff007a;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
       border: 0;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      cursor: pointer;
     }
+    #lock-box a { background: #ffe169; color: #000; }
   </style>
 </head>
 <body>
-  <h1>🚀 AI Image Generator</h1>
-  <p>Powered by <strong>Puter.com</strong> — first image free, then support your developer to continue.</p>
-  <a href="https://puter.com/app/puter-image-generator" target="_blank" id="launch-btn" class="launch-btn">
-    Launch Puter Image Generator
-  </a>
+
+  <h1>🚀 LinkBotLabs AI Apps</h1>
+  <p>Try our AI apps! First demo free, then donate to unlock unlimited access.</p>
+
+  <a href="https://puter.com/app/puter-image-generator" target="_blank" class="app-btn" data-app="image-generator">🖼️ Image Generator</a>
+  <a href="https://puter.com/app/aimedialab" target="_blank" class="app-btn" data-app="aimedialab">🎬 AI Media Lab</a>
+  <a href="https://puter.com/app/d-3-g-3-n" target="_blank" class="app-btn" data-app="degen">🎲 Degen</a>
 
   <!-- LOCK SCREEN -->
   <div id="lock-screen">
     <div id="lock-box">
       <h2>💝 Support Your Developer</h2>
-      <p>Your free image is complete. To continue, please donate any amount — no subscription required.</p>
+      <p>Demo expired. Please donate any amount — no subscription required.</p>
       <a href="https://wise.com/pay/me/davids14542" target="_blank">Donate via Wise</a>
-      <p style="margin-top:12px;font-size:14px;color:#aaa;">After donation you will receive a password.<br>Enter it below to unlock unlimited access:</p>
+      <p style="margin-top:12px;font-size:14px;color:#aaa;">
+        After donation you will receive a password.<br>
+        Enter it below to unlock unlimited access:
+      </p>
       <input type="password" id="unlock-pass" placeholder="Enter password">
       <button onclick="checkPass()">Unlock</button>
     </div>
   </div>
 
-  <!-- DEGEN EMBED -->
-  <div id="degen-container">
-    <h1>🎲 Degen App</h1>
-    <p>Play directly on this page!</p>
-    <iframe class="degen-frame" src="https://puter.com/app/d-3-g-3-n" allowfullscreen></iframe>
-  </div>
-
 <script>
-/* ---- One Free Use Counter ---- */
-const PASSWORD = "imageunlocked"; // change this to the password you give supporters
-let unlocked = localStorage.getItem("imgGenUnlocked") === "true";
-let usedOnce = localStorage.getItem("imgGenUsedOnce") === "true";
+/* ---- Unlock Logic ---- */
+const PASSWORD = "unlockai"; // Change to the password you give supporters
+let unlocked = localStorage.getItem("aiUnlocked") === "true";
+let usedOnce = localStorage.getItem("demoUsedOnce") === "true";
 
-document.getElementById("launch-btn").addEventListener("click", function(e) {
-  if (!unlocked) {
-    if (!usedOnce) {
-      // Allow first free use
-      localStorage.setItem("imgGenUsedOnce","true");
-    } else {
-      // Block and show lock
-      e.preventDefault();
-      document.getElementById("lock-screen").style.display = "flex";
+document.querySelectorAll(".app-btn").forEach(btn => {
+  btn.addEventListener("click", function(e) {
+    const app = btn.dataset.app;
+    if (!unlocked) {
+      if (app === "image-generator" && !usedOnce) {
+        // Allow first demo
+        localStorage.setItem("demoUsedOnce","true");
+        return; // allow navigation
+      } else {
+        // Block and show lock screen
+        e.preventDefault();
+        document.getElementById("lock-screen").style.display = "flex";
+      }
     }
-  }
+  });
 });
 
-/* ---- Password Unlock ---- */
 function checkPass() {
   const val = document.getElementById("unlock-pass").value.trim();
-  if (val === PASSWORD) {
+  if(val === PASSWORD) {
     unlocked = true;
-    localStorage.setItem("imgGenUnlocked","true");
+    localStorage.setItem("aiUnlocked","true");
     document.getElementById("lock-screen").style.display = "none";
-    alert("✅ Unlimited access unlocked!");
+    alert("✅ Unlimited access unlocked! You can now open any AI app.");
   } else {
     alert("❌ Wrong password. Please donate to receive your unlock code.");
   }
 }
 </script>
+
 </body>
 </html>

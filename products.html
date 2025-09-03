@@ -7,7 +7,7 @@
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px;
-    background: linear-gradient(180deg, #0d0d1a, #1a1a2e);
+    background: linear-gradient(180deg, #000, #1a1a1a);
     color: #fff;
     margin: 0;
     height: 100vh;
@@ -17,8 +17,9 @@
   }
   h1 { 
     text-align: center; 
-    color: turquoise; 
+    color: cyan; 
     margin: 10px 0; 
+    text-shadow: 0 0 6px rgba(0,255,255,0.6);
   }
   .affiliate-banner {
     background: #0077b6;
@@ -52,19 +53,18 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: rgba(26, 26, 46, 0.85);
+    background: rgba(20, 20, 20, 0.85);
     border: 1px solid #3a3a5d;
-    border-radius: 0;
     padding: 20px;
     text-align: center;
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(8px);
   }
-  .product-title { font-size: 24px; font-weight: bold; margin: 10px 0; }
-  .product-price { color: turquoise; font-weight: bold; font-size: 20px; }
-  .product-desc { font-size: 16px; color: #ccc; margin: 15px 0; }
+  .product-title { font-size: 28px; font-weight: bold; margin: 10px 0; }
+  .product-price { color: cyan; font-weight: bold; font-size: 22px; }
+  .product-desc { font-size: 18px; color: #ccc; margin: 15px 0; }
   .product-btn {
-    padding: 12px;
-    background: linear-gradient(135deg, #9d4edd, #3c096c);
+    padding: 14px;
+    background: linear-gradient(135deg, #00bcd4, #0097a7);
     border: none;
     border-radius: 8px;
     color: white;
@@ -72,12 +72,15 @@
     cursor: pointer;
     width: 80%;
     margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0,255,255,0.4);
+    transition: 0.2s;
   }
+  .product-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px cyan; }
 
   /* Chat half */
   .bottom-half {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     border-top: 2px solid #3a3a5d;
     background: rgba(15, 15, 25, 0.9);
     padding: 12px;
@@ -85,33 +88,34 @@
   .chat-box {
     flex: 1;
     border-radius: 10px;
-    padding: 12px;
+    padding: 14px;
     border: 1px solid #3a3a5d;
     background: #111;
     color: #fff;
     font-family: monospace;
     resize: none;
-    margin-bottom: 10px;
-    width: 100%;
-    font-size: 16px;
+    font-size: 20px; /* Bigger text */
+    line-height: 1.5;
   }
   .chat-buttons {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    flex-direction: column;
+    gap: 12px;
+    margin-left: 12px;
   }
   .round-btn {
-    width: 55px;
-    height: 55px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     border: none;
-    background: linear-gradient(135deg, #3c096c, #9d4edd);
+    background: linear-gradient(135deg, #00bcd4, #0097a7);
     color: #fff;
-    font-size: 22px;
+    font-size: 24px;
     cursor: pointer;
+    box-shadow: 0 0 10px rgba(0,255,255,0.5);
     transition: 0.2s;
   }
-  .round-btn:hover { transform: scale(1.1); background: linear-gradient(135deg, #9d4edd, #3c096c); }
+  .round-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px cyan; }
 
   /* Socials */
   .socials {
@@ -129,12 +133,14 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: turquoise;
+    background: cyan;
     border-radius: 50%;
     color: #0d0d1a;
     font-weight: bold;
     text-decoration: none;
+    transition: 0.3s;
   }
+  .socials a:hover { background: #9d4edd; color: #fff; }
 </style>
 </head>
 <body>

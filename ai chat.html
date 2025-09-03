@@ -16,7 +16,7 @@ body {margin:0; font-family:'Segoe UI',sans-serif; background:linear-gradient(13
 button {padding:10px 15px; border:none; border-radius:10px; background:#ff4081; color:#fff; font-weight:bold; cursor:pointer;}
 button:disabled {background:#888; cursor:not-allowed;}
 #timerEl {text-align:center; padding:5px; font-size:0.9em; background:rgba(0,0,0,0.3); width:100%;}
-#overlay {position:fixed; top:0;left:0; width:100%;height:100%; background:rgba(0,0,0,0.85); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; color:#fff; font-size:1.2em; gap:15px;}
+#overlay {position:fixed; top:0;left:0; width:100%;height:100%; background:rgba(0,0,0,0.85); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; color:#fff; font-size:1.2em; gap:15px; z-index:1000;}
 #badgePopup {position:fixed; top:20%; left:50%; transform:translateX(-50%) scale(0); background:rgba(255,255,255,0.95); color:#000; padding:20px 30px; border-radius:15px; font-weight:bold; font-size:1.2em; text-align:center; z-index:2000; box-shadow:0 5px 20px rgba(0,0,0,0.5); transition:transform 0.5s ease, opacity 0.5s ease; opacity:0;}
 #imageGenArea {display:none; flex-direction:column; gap:5px; margin-top:10px;}
 #gallery {display:flex; flex-wrap:wrap; gap:5px; max-height:150px; overflow-y:auto;}
@@ -47,8 +47,8 @@ button:disabled {background:#888; cursor:not-allowed;}
 <div id="chatContainer">
   <div id="chat"></div>
   <div id="inputArea">
-    <input id="userInput" type="text" placeholder="Type your message..." disabled>
-    <button id="sendBtn" disabled>Send</button>
+    <input id="userInput" type="text" placeholder="Type your message...">
+    <button id="sendBtn">Send</button>
   </div>
   <div id="imageGenArea">
     <input id="imageInput" type="text" placeholder="Enter image prompt...">
@@ -94,6 +94,13 @@ if(!isPro){
   },1000);
 }
 
+// Always show avatars
+avatarSelection.style.display='block';
+
+// Enable input for demo
+userInput.disabled=false;
+sendBtn.disabled=false;
+
 function updateTimerDisplay(){
   timerEl.innerText = isPro ? `Pro Access: Unlimited! | Points: ${points}` : `Demo time left: ${Math.floor(demoTime/60)}:${(demoTime%60).toString().padStart(2,'0')} | Points: ${points}`;
 }
@@ -133,11 +140,8 @@ document.querySelectorAll('.avatarOption').forEach(img=>{
 
 // Unlock Pro
 if(isPro){
-  userInput.disabled=false;
-  sendBtn.disabled=false;
   overlay.style.display='none';
   imageGenArea.style.display='flex';
-  avatarSelection.style.display='block';
 }
 
 // Pro button
@@ -145,18 +149,15 @@ proBtn.addEventListener('click',()=>{
   window.open('https://wise.com/pay/me/davids14542','_blank');
   isPro=true;
   localStorage.setItem('isPro','true');
-  userInput.disabled=false;
-  sendBtn.disabled=false;
   overlay.style.display='none';
   imageGenArea.style.display='flex';
-  avatarSelection.style.display='block';
 });
 
 // Append message
 function appendMessage(text,type){
   const div = document.createElement('div');
   div.className='message '+type;
-  if(type==='bot' && isPro){
+  if(type==='bot'){
     const img = document.createElement('img');
     img.className='avatarImg';
     img.src = document.querySelector(`.avatarOption[data-avatar="${selectedAvatar}"]`).src;
@@ -202,7 +203,7 @@ function sendMessage(){
   setTimeout(()=>{
     chatEl.lastChild.remove();
     appendMessage(getBotResponse(msg),'bot');
-  },300);
+  },800);
 }
 
 sendBtn.addEventListener('click',sendMessage);
@@ -210,10 +211,13 @@ userInput.addEventListener('keydown',(e)=>{
   if(e.key==='Enter') sendMessage();
 });
 
-// Dummy Image Generator (opens external service)
+// Image Generator (gallery preview)
 generateBtn.addEventListener('click',()=>{
   if(!imageInput.value.trim()) return;
-  window.open(`https://app.leonardo.ai/?prompt=${encodeURIComponent(imageInput.value.trim())}`,'_blank');
+  const img = document.createElement('img');
+  img.src = `https://dummyimage.com/150x150/5500cc/fff&text=${encodeURIComponent(imageInput.value.trim())}`;
+  img.className='generatedImg';
+  gallery.appendChild(img);
   imageInput.value='';
   points += isPro ? 10 :5;
   localStorage.setItem('points',points);

@@ -8,37 +8,18 @@
 <style>
   :root { --glass: rgba(0,0,0,0.35); --stroke: rgba(255,255,255,0.12); --text:#fff; --muted:#cfcfcf; --accent:#ffe169; }
   * { box-sizing: border-box; }
-  html, body { height: 100%; margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; }
-
-  body { background: radial-gradient(1200px 1200px at 10% -10%, #111 0%, #000 60%, #000 100%); color: var(--text); }
-
+  html, body { height: 100%; }
+  body {
+    margin: 0; padding: 24px; color: var(--text);
+    background: radial-gradient(1200px 1200px at 10% -10%, #111 0%, #000 60%, #000 100%);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  }
   h1 { margin: 0 0 18px 0; font-weight: 700; letter-spacing: .2px; }
-
-  /* Overlay for donation/password */
-  #lock-screen {
-    position: fixed; inset: 0; z-index: 9999;
-    display: none; align-items: center; justify-content: center;
-    background: rgba(0,0,0,0.9); color: #fff;
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 18px;
   }
-  #lock-box {
-    max-width: 450px; padding: 24px; border-radius: 12px;
-    background: var(--glass); border:1px solid var(--stroke);
-    text-align: center; backdrop-filter: blur(10px);
-  }
-  #lock-box h2 { margin: 0 0 12px; }
-  #lock-box input {
-    width: 100%; padding: 10px; border-radius: 8px;
-    border: 1px solid var(--stroke); margin-bottom: 12px;
-    background: rgba(255,255,255,0.06); color: #fff;
-  }
-  #lock-box button, #lock-box a {
-    display: inline-block; margin-top: 10px; padding: 10px 14px;
-    background: var(--accent); color:#000; font-weight: 700;
-    border-radius: 8px; text-decoration: none; border:0; cursor:pointer;
-  }
-
-  /* Main layout */
-  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; padding: 24px; }
   .card {
     grid-column: span 12;
     background: var(--glass);
@@ -49,9 +30,12 @@
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 10px 30px rgba(0,0,0,.35);
   }
-  @media (min-width: 900px) { #card-chat, #card-stream { grid-column: span 6; } }
+  /* Expand to half-width on big screens */
+  @media (min-width: 900px) {
+    #card-chat, #card-stream { grid-column: span 6; }
+  }
   label { display:block; font-size: 12px; color: var(--muted); margin: 8px 0 6px; }
-  textarea, select {
+  textarea, input, select {
     width: 100%; color: var(--text); background: rgba(255,255,255,0.06);
     border: 1px solid var(--stroke); border-radius: 10px; padding: 10px 12px;
     outline: none; caret-color: var(--text);
@@ -65,34 +49,18 @@
   .output {
     margin-top: 12px; padding: 12px; border-radius: 10px;
     background: rgba(255,255,255,0.04); border: 1px solid var(--stroke);
-    white-space: pre-wrap; word-wrap: break-word; min-height: 150px; overflow-y: auto;
+    white-space: pre-wrap; word-wrap: break-word;
+    min-height: 150px; /* more room */
+    overflow-y: auto;
   }
   .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
 </style>
 </head>
 <body>
-  <!-- LOCK SCREEN -->
-  <div id="lock-screen">
-    <div id="lock-box">
-      <h2>💝 Support Your Developer</h2>
-      <p>Your free 15-minute trial has ended. Please donate any amount to continue.</p>
-      <a href="https://wise.com/pay/me/davids14542" target="_blank">Donate via Wise</a>
-      <p style="margin-top:14px;font-size:14px;color:#ccc;">
-        After donation, you’ll receive a password by email/DM.<br>
-        Enter it below to unlock unlimited access.
-      </p>
-      <input type="password" id="unlock-pass" placeholder="Enter password">
-      <button onclick="checkPass()">Unlock</button>
-      <p style="margin-top:18px;font-size:13px;color:#aaa;">
-        Have an affiliate ID? <a href="affiliate.html" style="color:#ffe169;">Join our affiliate programme</a>
-      </p>
-    </div>
-  </div>
-
-  <!-- MAIN APP -->
-  <h1 style="padding:24px 24px 0;">AI Playground</h1>
+  <h1>AI Playground</h1>
   <div class="grid">
-    <!-- CHAT -->
+
+    <!-- CHAT / Q&A -->
     <div class="card" id="card-chat">
       <h2 style="margin:0 0 6px">Chat / Q&amp;A</h2>
       <div class="hint">Ask anything. Choose a chat model (includes <strong>GPT-4.1-nano</strong>).</div>
@@ -118,7 +86,7 @@
       <div class="output" id="chat-out"></div>
     </div>
 
-    <!-- STREAM -->
+    <!-- STREAMING LONG RESPONSES -->
     <div class="card" id="card-stream">
       <h2 style="margin:0 0 6px">Streaming (Long Responses)</h2>
       <div class="hint">See responses arrive in real-time.</div>
@@ -138,40 +106,10 @@
       <button id="stream-run">Stream</button>
       <div class="output" id="stream-out"></div>
     </div>
+
   </div>
 
 <script>
-/* ---------- Trial Timer ---------- */
-const TRIAL_MINUTES = 15;
-const PASSWORD = "unlimited"; // set this when you give users access
-let unlocked = false;
-
-function startTrialTimer() {
-  setTimeout(() => {
-    if (!unlocked) {
-      document.getElementById('lock-screen').style.display = 'flex';
-    }
-  }, TRIAL_MINUTES * 60 * 1000); // 15 min
-}
-startTrialTimer();
-
-/* ---------- Password Gate ---------- */
-function checkPass() {
-  const val = document.getElementById('unlock-pass').value.trim();
-  if (val === PASSWORD) {
-    unlocked = true;
-    document.getElementById('lock-screen').style.display = 'none';
-    localStorage.setItem("aiPlaygroundUnlocked", "true");
-  } else {
-    alert("Invalid password. Please donate to receive a valid password.");
-  }
-}
-
-/* Restore unlock if already verified */
-if (localStorage.getItem("aiPlaygroundUnlocked") === "true") {
-  unlocked = true;
-}
-
 /* ---------- Helpers ---------- */
 function putText(el, text) { el.innerHTML = (text ?? '').toString(); }
 function appendText(el, text) { el.innerHTML += (text ?? '').toString(); }

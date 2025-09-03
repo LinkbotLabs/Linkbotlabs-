@@ -22,15 +22,9 @@
     0%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
-  }<!-- 🔔 FLASH MESSAGE -->
-<div id="flash-message">
-  <p>💝 No subscription, no hidden fees! Donate any amount to support your developer.  
-     Enjoy free AI models, image generators, cloud computing, virtual desktop, affiliate marketing,  
-     and our desktop product-to-video generator.  
-     👉 Use the contact form below to enquire about the video generator.</p>
-</div>
+  }
 
-<style>
+  /* 🔔 Flash Message */
   #flash-message {
     position: fixed;
     top: 15px;
@@ -50,17 +44,7 @@
     transition: opacity 1s ease;
   }
   #flash-message.show { opacity: 1; }
-</style>
 
-<script>
-  // Show flash message on load
-  window.addEventListener("load", () => {
-    const flash = document.getElementById("flash-message");
-    flash.classList.add("show");
-    // Auto-hide after 12s (optional, can remove if you want permanent)
-    setTimeout(() => { flash.classList.remove("show"); }, 12000);
-  });
-</script>
   header {
     text-align:center;
     padding:3rem 1rem;
@@ -104,6 +88,14 @@
 </head>
 <body>
 
+<!-- ✅ Flash Message Block -->
+<div id="flash-message">
+  <p>💝 No subscription, no hidden fees! Donate any amount to support your developer.<br>
+     Enjoy free AI models, image generators, cloud computing, virtual desktop, affiliate marketing,<br>
+     and our desktop product-to-video generator.<br>
+     👉 Use the contact form below to enquire about the video generator.</p>
+</div>
+
 <header>
   <a href="index.html">
     <img src="img_splash.jpg" alt="LinkBotLabs Logo" style="max-width:220px; display:block; margin:0 auto 1rem;">
@@ -111,13 +103,12 @@
   <h1>🚀 Welcome to LinkBotLabs</h1>
   <p><strong>AI-powered shopping, reviews, and video automation tools</strong></p>
   <p>Test our AI Playground + Desktop Demo (no key required!)</p>
-<a href="https://puter.com/app/linkbotlabs" 
-   target="_blank" rel="noopener noreferrer"
-   class="btn" 
-   style="background:linear-gradient(135deg,#2196F3,#0D47A1); font-size:1.4rem; display:inline-block; z-index:10; position:relative;">
-  📲 Download App Coming Soon.
-</a>
-</a>
+  <a href="https://puter.com/app/linkbotlabs" 
+     target="_blank" rel="noopener noreferrer"
+     class="btn" 
+     style="background:linear-gradient(135deg,#2196F3,#0D47A1); font-size:1.4rem; display:inline-block; z-index:10; position:relative;">
+    📲 Download App Coming Soon.
+  </a>
   <a href="image.html" class="btn" style="background:linear-gradient(135deg,#ff007a,#e60070); font-size:1.2rem;">
     🖼️ AI Image Generator (Demo)
   </a>
@@ -135,9 +126,9 @@
 
 <section>
   <h2>📖 About the Tool</h2>
-  <p>LinkBotLabs gives you full **product search, description writing, review scripts, and video automation**.  
-     Download the desktop demo ZIP, extract & run – no key needed.  
-     Share our affiliate page to earn **commissions together** on every sale!</p>
+  <p>LinkBotLabs gives you full <strong>product search, description writing, review scripts, and video automation</strong>.<br>
+     Download the desktop demo ZIP, extract & run – no key needed.<br>
+     Share our affiliate page to earn <strong>commissions together</strong> on every sale!</p>
 </section>
 
 <section>
@@ -177,6 +168,15 @@
   <p><a href="https://www.fiverr.com/s/jj18w9L?utm_source=CopyLink_Mobile" class="btn">💼 Work With Me on Fiverr</a></p>
 </footer>
 
+<!-- ✅ Flash Script -->
+<script>
+  window.addEventListener("load", () => {
+    const flash = document.getElementById("flash-message");
+    flash.classList.add("show");
+    setTimeout(() => { flash.classList.remove("show"); }, 12000);
+  });
+</script>
+
 <!-- ✅ EmailJS Contact Form Script -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
@@ -187,8 +187,6 @@
 
   form.addEventListener("submit", function(event) {
     event.preventDefault();
-
-    // Replace "template_xyz123" with your actual EmailJS template ID
     emailjs.sendForm("service_pzzseh7", "template_2sariuw", form)
       .then(function() {
         status.innerText = "✅ Message sent successfully!";

@@ -3,72 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultimate AI Playground</title>
+<title>Instant AI Chat</title>
 <style>
-    body {margin:0; font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#2c003e,#000040); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; height:100vh; overflow:hidden;}
-    #chatContainer {width:100%; max-width:500px; flex:1; display:flex; flex-direction:column; overflow:hidden; position:relative;}
-    #chat {flex:1; overflow-y:auto; padding:10px; display:flex; flex-direction:column; gap:10px;}
-    .message {padding:10px 15px; border-radius:15px; max-width:80%; word-wrap:break-word; position:relative; display:flex; align-items:flex-start; gap:10px;}
-    .user {background:#00bfa5; align-self:flex-end; color:#000;}
-    .bot {background:#5500cc;}
-    #inputArea {display:flex; padding:5px; gap:5px;}
-    #userInput, #imageInput {flex:1; padding:10px; border-radius:10px; border:none; font-size:1em;}
-    button {padding:10px 15px; border:none; border-radius:10px; background:#ff4081; color:#fff; font-weight:bold; cursor:pointer;}
-    button:disabled {background:#888; cursor:not-allowed;}
-    #timerEl {text-align:center; padding:5px; font-size:0.9em; background:rgba(0,0,0,0.3); width:100%;}
-    #overlay {position:fixed; top:0;left:0; width:100%;height:100%; background:rgba(0,0,0,0.8); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:1000; text-align:center; color:#fff; font-size:1.2em; gap:15px;}
-    #badgePopup {position:fixed; top:20%; left:50%; transform:translateX(-50%) scale(0); background:rgba(255,255,255,0.95); color:#000; padding:20px 30px; border-radius:15px; font-weight:bold; font-size:1.2em; text-align:center; z-index:2000; box-shadow:0 5px 20px rgba(0,0,0,0.5); transition:transform 0.5s ease, opacity 0.5s ease; opacity:0;}
-    #imageGenArea {display:none; flex-direction:column; gap:5px; margin-top:10px;}
-    #gallery {display:flex; flex-wrap:wrap; gap:5px; max-height:150px; overflow-y:auto;}
-    .generatedImg {width:70px; height:70px; object-fit:cover; border-radius:10px; cursor:pointer;}
-    /* Avatar */
-    #avatarSelection {display:none; margin-bottom:10px; text-align:center;}
-    .avatarOption.selected {border:3px solid #ff4081; transform:scale(1.1); transition: all 0.3s ease;}
-    .message.bot img.avatarImg {width:40px; height:40px; border-radius:50%;}
+body {margin:0; font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#2c003e,#000040); color:#fff; display:flex; flex-direction:column; align-items:center; height:100vh; overflow:hidden;}
+#chatContainer {width:100%; max-width:500px; flex:1; display:flex; flex-direction:column; overflow:hidden;}
+#chat {flex:1; overflow-y:auto; padding:10px; display:flex; flex-direction:column; gap:10px;}
+.message {padding:10px 15px; border-radius:15px; max-width:80%; word-wrap:break-word; display:flex; align-items:flex-start; gap:10px;}
+.user {background:#00bfa5; align-self:flex-end; color:#000;}
+.bot {background:#5500cc;}
+#inputArea {display:flex; padding:5px; gap:5px;}
+#userInput {flex:1; padding:10px; border-radius:10px; border:none; font-size:1em;}
+button {padding:10px 15px; border:none; border-radius:10px; background:#ff4081; color:#fff; font-weight:bold; cursor:pointer;}
+button:disabled {background:#888; cursor:not-allowed;}
+#timerEl {text-align:center; padding:5px; font-size:0.9em; background:rgba(0,0,0,0.3); width:100%;}
+#overlay {position:fixed; top:0;left:0; width:100%;height:100%; background:rgba(0,0,0,0.85); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; color:#fff; font-size:1.2em; gap:15px;}
+#badgePopup {position:fixed; top:20%; left:50%; transform:translateX(-50%) scale(0); background:rgba(255,255,255,0.95); color:#000; padding:20px 30px; border-radius:15px; font-weight:bold; font-size:1.2em; text-align:center; z-index:2000; box-shadow:0 5px 20px rgba(0,0,0,0.5); transition:transform 0.5s ease, opacity 0.5s ease; opacity:0;}
+#imageGenArea {display:none; flex-direction:column; gap:5px; margin-top:10px;}
+#gallery {display:flex; flex-wrap:wrap; gap:5px; max-height:150px; overflow-y:auto;}
+.generatedImg {width:70px; height:70px; object-fit:cover; border-radius:10px; cursor:pointer;}
+#avatarSelection {display:none; margin-bottom:10px; text-align:center;}
+.avatarOption.selected {border:3px solid #ff4081; transform:scale(1.1); transition: all 0.3s ease;}
+.message.bot img.avatarImg {width:40px; height:40px; border-radius:50%;}
 </style>
 </head>
 <body>
 
 <div id="overlay">
-    <div>💖 Any donation is appreciated and will give you unlimited access to our AI chat and affiliate programme.</div>
-    <button id="proBtn">Unlock Pro via Donation</button>
+  <div>💖 Any donation is appreciated and will give you unlimited access to our AI chat and affiliate programme.</div>
+  <button id="proBtn">Unlock Pro via Donation</button>
 </div>
 
 <div id="timerEl">Demo time left: 15:00 | Points: 0</div>
 
-<!-- Avatar Selection for Pro Users -->
 <div id="avatarSelection">
-    <div>Select your AI Avatar:</div>
-    <div style="display:flex; justify-content:center; gap:10px; margin-top:5px;">
-        <img src="https://i.imgur.com/0Rj5QyX.png" class="avatarOption" data-avatar="avatar1">
-        <img src="https://i.imgur.com/kxK1gJv.png" class="avatarOption" data-avatar="avatar2">
-        <img src="https://i.imgur.com/4Z2nPkj.png" class="avatarOption" data-avatar="avatar3">
-    </div>
+  <div>Select your AI Avatar:</div>
+  <div style="display:flex; justify-content:center; gap:10px; margin-top:5px;">
+    <img src="https://i.imgur.com/0Rj5QyX.png" class="avatarOption" data-avatar="avatar1">
+    <img src="https://i.imgur.com/kxK1gJv.png" class="avatarOption" data-avatar="avatar2">
+    <img src="https://i.imgur.com/4Z2nPkj.png" class="avatarOption" data-avatar="avatar3">
+  </div>
 </div>
 
 <div id="chatContainer">
-    <div id="chat"></div>
-    <div id="inputArea">
-        <input id="userInput" type="text" placeholder="Type your message..." disabled>
-        <button id="sendBtn" disabled>Send</button>
-    </div>
-    <div id="imageGenArea">
-        <input id="imageInput" type="text" placeholder="Enter image prompt...">
-        <button id="generateBtn">Generate Image</button>
-        <div id="gallery"></div>
-    </div>
+  <div id="chat"></div>
+  <div id="inputArea">
+    <input id="userInput" type="text" placeholder="Type your message..." disabled>
+    <button id="sendBtn" disabled>Send</button>
+  </div>
+  <div id="imageGenArea">
+    <input id="imageInput" type="text" placeholder="Enter image prompt...">
+    <button id="generateBtn">Generate Image</button>
+    <div id="gallery"></div>
+  </div>
 </div>
 
 <div id="badgePopup">🏆 Badge Unlocked!</div>
 
-<div id="loadingOverlay" style="
-    position:fixed; top:0; left:0; width:100%; height:100%;
-    background:rgba(0,0,0,0.7); color:#fff; display:none; justify-content:center; align-items:center; font-size:1.2em; z-index:1500;
-"></div>
-
-<script type="module">
-import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers/dist/transformers.min.js';
-
+<script>
 const chatEl = document.getElementById('chat');
 const userInput = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
@@ -79,7 +70,6 @@ const imageGenArea = document.getElementById('imageGenArea');
 const imageInput = document.getElementById('imageInput');
 const generateBtn = document.getElementById('generateBtn');
 const gallery = document.getElementById('gallery');
-const loadingOverlay = document.getElementById('loadingOverlay');
 const badgePopup = document.getElementById('badgePopup');
 const avatarSelection = document.getElementById('avatarSelection');
 
@@ -88,187 +78,149 @@ let isPro = localStorage.getItem('isPro')==='true';
 let points = parseInt(localStorage.getItem('points')||'0');
 let badges = JSON.parse(localStorage.getItem('badges')||'[]');
 let selectedAvatar = localStorage.getItem('selectedAvatar') || 'avatar1';
-
 updateTimerDisplay();
 
-// Timer for demo
+// Demo timer
 if(!isPro){
-    setInterval(()=>{
-        if(demoTime<=0) return;
-        demoTime--;
-        updateTimerDisplay();
-        if(demoTime===0){
-            userInput.disabled=true;
-            sendBtn.disabled=true;
-            alert("⏰ Demo time over. Unlock Pro for unlimited access!");
-        }
-    },1000);
+  setInterval(()=>{
+    if(demoTime<=0) return;
+    demoTime--;
+    updateTimerDisplay();
+    if(demoTime===0){
+      userInput.disabled=true;
+      sendBtn.disabled=true;
+      alert("⏰ Demo time over. Unlock Pro for unlimited access!");
+    }
+  },1000);
 }
 
-// Update Timer
 function updateTimerDisplay(){
-    timerEl.innerText = isPro ? `Pro Access: Unlimited! | Points: ${points}` : `Demo time left: ${Math.floor(demoTime/60)}:${(demoTime%60).toString().padStart(2,'0')} | Points: ${points}`;
+  timerEl.innerText = isPro ? `Pro Access: Unlimited! | Points: ${points}` : `Demo time left: ${Math.floor(demoTime/60)}:${(demoTime%60).toString().padStart(2,'0')} | Points: ${points}`;
 }
 
 // Badges
 function showBadgePopup(badgeName){
-    badgePopup.innerHTML = `🏆 Badge Unlocked: ${badgeName}!`;
-    badgePopup.style.opacity='1';
-    badgePopup.style.transform='translateX(-50%) scale(1)';
-    setTimeout(()=>{
-        badgePopup.style.transform='translateX(-50%) scale(0)';
-        badgePopup.style.opacity='0';
-    },3000);
+  badgePopup.innerHTML = `🏆 Badge Unlocked: ${badgeName}!`;
+  badgePopup.style.opacity='1';
+  badgePopup.style.transform='translateX(-50%) scale(1)';
+  setTimeout(()=>{
+    badgePopup.style.transform='translateX(-50%) scale(0)';
+    badgePopup.style.opacity='0';
+  },3000);
 }
-
 function checkBadges(){
-    let newBadge=null;
-    if(points>=20 && !badges.includes('Chatterbox')) newBadge='Chatterbox';
-    else if(points>=50 && !badges.includes('Social Butterfly')) newBadge='Social Butterfly';
-    else if(points>=5 && !badges.includes('Artist')) newBadge='Artist';
-    if(newBadge){
-        badges.push(newBadge);
-        localStorage.setItem('badges',JSON.stringify(badges));
-        showBadgePopup(newBadge);
-    }
-}
-
-// AI Pipeline
-let aiPipeline=null;
-async function initChatAI(){
-    loadingOverlay.style.display='flex';
-    loadingOverlay.innerText='Loading AI chat...';
-    aiPipeline = await pipeline('text-generation','Xenova/gpt2-tiny');
-    loadingOverlay.style.display='none';
-}
-initChatAI();
-
-// Image Pipeline
-let imagePipeline=null;
-async function initImageGen(){
-    loadingOverlay.style.display='flex';
-    loadingOverlay.innerText='Loading image generator...';
-    imagePipeline = await pipeline('text-to-image','Xenova/stable-diffusion-tiny',{
-        progressCallback: (p)=>loadingOverlay.innerText=`Loading image generator... ${Math.round(p*100)}%`
-    });
-    loadingOverlay.style.display='none';
-}
-
-// Pro Unlock
-if(isPro){
-    userInput.disabled=false;
-    sendBtn.disabled=false;
-    overlay.style.display='none';
-    imageGenArea.style.display='flex';
-    avatarSelection.style.display='block';
-    initImageGen();
+  let newBadge=null;
+  if(points>=20 && !badges.includes('Chatterbox')) newBadge='Chatterbox';
+  else if(points>=50 && !badges.includes('Social Butterfly')) newBadge='Social Butterfly';
+  else if(points>=5 && !badges.includes('Artist')) newBadge='Artist';
+  if(newBadge){
+    badges.push(newBadge);
+    localStorage.setItem('badges',JSON.stringify(badges));
+    showBadgePopup(newBadge);
+  }
 }
 
 // Avatar selection
 document.querySelectorAll('.avatarOption').forEach(img=>{
-    if(img.dataset.avatar===selectedAvatar) img.classList.add('selected');
-    img.addEventListener('click',()=>{
-        document.querySelectorAll('.avatarOption').forEach(i=>i.classList.remove('selected'));
-        img.classList.add('selected');
-        selectedAvatar = img.dataset.avatar;
-        localStorage.setItem('selectedAvatar',selectedAvatar);
-    });
+  if(img.dataset.avatar===selectedAvatar) img.classList.add('selected');
+  img.addEventListener('click',()=>{
+    document.querySelectorAll('.avatarOption').forEach(i=>i.classList.remove('selected'));
+    img.classList.add('selected');
+    selectedAvatar = img.dataset.avatar;
+    localStorage.setItem('selectedAvatar',selectedAvatar);
+  });
 });
 
-// Unlock Pro button
-proBtn.addEventListener('click', async ()=>{
-    window.open('https://wise.com/pay/me/davids14542','_blank');
-    isPro=true;
-    localStorage.setItem('isPro','true');
-    userInput.disabled=false;
-    sendBtn.disabled=false;
-    overlay.style.display='none';
-    imageGenArea.style.display='flex';
-    avatarSelection.style.display='block';
-    initImageGen();
-});
-
-// Append Message
-function appendMessage(text,type){
-    const div = document.createElement('div');
-    div.className='message '+type;
-    
-    if(type==='bot' && isPro){
-        const img = document.createElement('img');
-        img.className='avatarImg';
-        img.src = document.querySelector(`.avatarOption[data-avatar="${selectedAvatar}"]`).src;
-        div.appendChild(img);
-        const span = document.createElement('span');
-        span.innerText=text;
-        div.appendChild(span);
-    } else {
-        div.innerText=text;
-    }
-
-    chatEl.appendChild(div);
-    chatEl.scrollTop = chatEl.scrollHeight;
+// Unlock Pro
+if(isPro){
+  userInput.disabled=false;
+  sendBtn.disabled=false;
+  overlay.style.display='none';
+  imageGenArea.style.display='flex';
+  avatarSelection.style.display='block';
 }
 
-// Send Message
-async function sendMessage(){
-    const msg = userInput.value.trim();
-    if(!msg) return;
-    appendMessage(msg,'user');
-    points += isPro ? 2 :1;
-    localStorage.setItem('points',points);
-    updateTimerDisplay();
-    checkBadges();
-    userInput.value='';
-    appendMessage('🤔 ...','bot');
-    setTimeout(async ()=>{
-        chatEl.lastChild.remove();
-        let response="Hmm... I'm not sure how to respond 🤔";
-        if(aiPipeline){
-            try{
-                const output = await aiPipeline(msg,{max_length:80});
-                response = output[0].generated_text;
-            }catch(e){ console.error(e); }
-        }
-        appendMessage(response,'bot');
-    },300);
+// Pro button
+proBtn.addEventListener('click',()=>{
+  window.open('https://wise.com/pay/me/davids14542','_blank');
+  isPro=true;
+  localStorage.setItem('isPro','true');
+  userInput.disabled=false;
+  sendBtn.disabled=false;
+  overlay.style.display='none';
+  imageGenArea.style.display='flex';
+  avatarSelection.style.display='block';
+});
+
+// Append message
+function appendMessage(text,type){
+  const div = document.createElement('div');
+  div.className='message '+type;
+  if(type==='bot' && isPro){
+    const img = document.createElement('img');
+    img.className='avatarImg';
+    img.src = document.querySelector(`.avatarOption[data-avatar="${selectedAvatar}"]`).src;
+    div.appendChild(img);
+    const span = document.createElement('span');
+    span.innerText=text;
+    div.appendChild(span);
+  } else {
+    div.innerText=text;
+  }
+  chatEl.appendChild(div);
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+// Simple JS AI responses
+function getBotResponse(msg){
+  msg = msg.toLowerCase();
+  if(msg.includes('hello') || msg.includes('hi')) return "Hello! How's your day?";
+  if(msg.includes('how are you')) return "I'm a bot, but feeling chatty! 😄";
+  if(msg.includes('help')) return "I can chat with you and earn you points. Try donating for Pro features!";
+  if(msg.includes('image') && isPro) return "Use the image generator below! 🎨";
+  const responses = [
+    "Interesting, tell me more!",
+    "Hmm, I see...",
+    "Can you elaborate on that?",
+    "That's cool! 😎",
+    "I love talking about that!"
+  ];
+  return responses[Math.floor(Math.random()*responses.length)];
+}
+
+// Send message
+function sendMessage(){
+  const msg = userInput.value.trim();
+  if(!msg) return;
+  appendMessage(msg,'user');
+  points += isPro ? 2 :1;
+  localStorage.setItem('points',points);
+  updateTimerDisplay();
+  checkBadges();
+  userInput.value='';
+  appendMessage('🤔 ...','bot');
+  setTimeout(()=>{
+    chatEl.lastChild.remove();
+    appendMessage(getBotResponse(msg),'bot');
+  },300);
 }
 
 sendBtn.addEventListener('click',sendMessage);
 userInput.addEventListener('keydown',(e)=>{
-    if(e.key==='Enter') sendMessage();
+  if(e.key==='Enter') sendMessage();
 });
 
-// Generate Image
-generateBtn.addEventListener('click', async ()=>{
-    if(!imageInput.value.trim() || !imagePipeline) return;
-    const prompt = imageInput.value.trim();
-    loadingOverlay.style.display='flex';
-    loadingOverlay.innerText='Generating image...';
-    try{
-        const output = await imagePipeline(prompt);
-        const img = document.createElement('img');
-        img.className='generatedImg';
-        img.src = output[0].image;
-        img.title='Click to download';
-        img.addEventListener('click',()=>{
-            const a=document.createElement('a');
-            a.href=img.src;
-            a.download='generated.png';
-            a.click();
-        });
-        gallery.appendChild(img);
-        points += isPro ? 10 :5;
-        localStorage.setItem('points',points);
-        updateTimerDisplay();
-        checkBadges();
-    }catch(e){
-        alert("Image generation failed 😢 Try a simpler prompt.");
-        console.error(e);
-    }finally{
-        loadingOverlay.style.display='none';
-    }
-    imageInput.value='';
+// Dummy Image Generator (opens external service)
+generateBtn.addEventListener('click',()=>{
+  if(!imageInput.value.trim()) return;
+  window.open(`https://app.leonardo.ai/?prompt=${encodeURIComponent(imageInput.value.trim())}`,'_blank');
+  imageInput.value='';
+  points += isPro ? 10 :5;
+  localStorage.setItem('points',points);
+  updateTimerDisplay();
+  checkBadges();
 });
 </script>
+
 </body>
 </html>

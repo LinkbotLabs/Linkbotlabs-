@@ -4,35 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WebLLM Test</title>
-<script src="https://cdn.jsdelivr.net/npm/webllm@latest/dist/webllm.min.js"></script>
+
+<!-- Load the Puter WebLLM library -->
+<script src="https://js.puter.com/v2/"></script>
 </head>
-<body style="background:#111;color:#fff;font-family:sans-serif;padding:20px;">
-
+<body>
 <h1>WebLLM Test</h1>
-<label for="prompt">Prompt:</label><br>
-<textarea id="prompt" rows="4" cols="40">Hello, WebLLM!</textarea><br><br>
-<button id="runBtn">Run</button>
-
-<h2>Output:</h2>
-<div id="output" style="padding:12px;background:#222;border-radius:8px;min-height:100px;"></div>
+<div id="status">Loading WebLLM...</div>
 
 <script>
-document.getElementById('runBtn').addEventListener('click', async () => {
-  const prompt = document.getElementById('prompt').value;
-  const output = document.getElementById('output');
-  output.innerHTML = 'Loading model…';
+window.addEventListener('load', function() {
+    // Wait until WebLLM is defined
+    if (typeof WebLLM !== 'undefined') {
+        const model = new WebLLM(); // initialize the model
+        document.getElementById('status').innerText = 'WebLLM loaded successfully!';
 
-  try {
-    // Initialize WebLLM
-    const llm = await WebLLM.load({
-      model: "RedPajama-INCITE-Chat-3B-v1-q4f32_0" // change model if needed
-    });
-
-    const response = await llm.predict(prompt);
-    output.innerHTML = response;
-  } catch (err) {
-    output.innerHTML = 'Error: ' + err.message;
-  }
+        // Example: generate a simple response
+        model.generate('Hello, WebLLM!').then(response => {
+            const p = document.createElement('p');
+            p.innerText = 'Model says: ' + response;
+            document.body.appendChild(p);
+        }).catch(err => {
+            console.error(err);
+            document.getElementById('status').innerText = 'Error using WebLLM.';
+        });
+    } else {
+        document.getElementById('status').innerText = 'WebLLM is undefined!';
+        console.error('WebLLM is undefined. Check the script URL.');
+    }
 });
 </script>
 </body>

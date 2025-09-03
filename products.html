@@ -4,223 +4,148 @@
 <meta charset="UTF-8">
 <title>LinkBotLabs Products</title>
 <style>
-  /* --- Global Styles --- */
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(180deg, #000000, #0a0a1f);
+    font-size: 16px;
+    line-height: 1.6;
+    background: linear-gradient(180deg, #0d0d1a, #1a1a2e);
     color: #fff;
     margin: 0;
-    padding: 0;
+    height: 100vh; /* full screen */
     display: flex;
     flex-direction: column;
-    height: 100vh;
   }
-  h1 {
-    text-align: center;
-    color: #ffffff;
-    margin: 20px 0;
-    text-shadow: 0 2px 6px rgba(0,255,255,0.5);
+  h1 { 
+    text-align: center; 
+    color: turquoise; 
+    margin: 10px 0; 
   }
-
-  /* --- Affiliate Banner --- */
   .affiliate-banner {
-    background: linear-gradient(135deg, #000033, #001144);
-    color: #00ffff;
+    background: #0077b6;
+    color: #fff;
     padding: 12px;
     text-align: center;
     font-weight: bold;
-    margin: 0 20px 15px 20px;
-    border-radius: 8px;
-    backdrop-filter: blur(5px);
-    border: 1px solid #00ffff;
-    box-shadow: 0 4px 15px rgba(0,255,255,0.3);
+    border-radius: 6px;
   }
-
-  /* --- Voice Controls --- */
-  .voice-controls {
-    text-align: center;
-    margin-bottom: 20px;
+  .voice-controls { 
+    text-align: center; 
+    padding: 10px; 
   }
   .voice-controls select, 
   .voice-controls button { 
-    padding: 10px 14px; 
-    font-size: 15px; 
+    padding: 5px 10px; 
+    font-size: 16px; 
     margin-right: 10px; 
-    border-radius: 8px;
-    border: none;
-    background: linear-gradient(135deg, #000033, #001144);
-    color: #00ffff;
-    font-weight: bold;
-    transition: background 0.3s;
-  }
-  .voice-controls select:hover,
-  .voice-controls button:hover {
-    background: linear-gradient(135deg, #001144, #000033);
-    cursor: pointer;
   }
 
-  /* --- Product Section (scrollable) --- */
-  #product-area {
+  /* Container splits screen into two halves */
+  #main {
     flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-  }
-
-  .category { margin: 40px 0; }
-  .category h2 { 
-    color: #00ffff; 
-    border-bottom: 2px solid #00ffff; 
-    padding-bottom: 6px; 
-    text-transform: capitalize;
-    text-shadow: 0 1px 3px rgba(0,255,255,0.3);
-  }
-
-  .products-grid { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 20px; 
-  }
-  .product-card {
-    width: 100%;
-    background: rgba(10, 10, 30, 0.95);
-    border: 1px solid #111144;
-    border-radius: 16px;
-    padding: 25px;
-    transition: transform 0.2s, border-color 0.3s, box-shadow 0.3s;
-  }
-  .product-card:hover {
-    transform: translateY(-5px);
-    border-color: #00ffff;
-    box-shadow: 0 8px 25px rgba(0,255,255,0.3);
-  }
-  .product-title { font-size: 22px; font-weight: 600; margin: 10px 0; }
-  .product-price { color: #00ffff; font-weight: bold; margin: 5px 0; font-size: 18px; }
-  .product-desc { font-size: 16px; color: #ccc; margin-bottom: 15px; line-height: 1.5; }
-  .product-btn {
-    margin-top: 12px;
-    padding: 14px;
-    background: linear-gradient(135deg, #000033, #001144);
-    border: none;
-    border-radius: 10px;
-    color: #00ffff;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  .product-btn:hover {
-    background: linear-gradient(135deg, #001144, #000033);
-  }
-
-  /* --- Bottom Docked Chat --- */
-  #chat-area {
-    flex-shrink: 0;
-    height: 260px;
-    background: rgba(5,5,20,0.95);
-    border-top: 2px solid #00ffff;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 -4px 20px rgba(0,255,255,0.2);
   }
-  #chat-header {
-    background: #001122;
-    padding: 8px 12px;
-    color: #00ffff;
-    font-weight: bold;
-    font-size: 15px;
-  }
-  #chat-content {
+  .top-half {
     flex: 1;
-    padding: 10px;
     overflow-y: auto;
-    font-family: monospace;
-    font-size: 14px;
-    color: #fff;
-  }
-  #chat-input {
-    display: flex;
-    border-top: 1px solid #00ffff;
-  }
-  #chat-input textarea {
-    flex: 1;
-    resize: none;
-    border: none;
     padding: 10px;
-    background: #0a0a20;
-    color: #fff;
-    font-family: inherit;
-    font-size: 14px;
   }
-  #chat-input button {
-    padding: 10px 14px;
-    background: #00ffff;
-    color: #000;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
-  }
-  #chat-input button:hover {
-    background: #0088ff;
-    color: #fff;
+  .bottom-half {
+    flex: 1;
+    border-top: 2px solid #3a3a5d;
+    background: rgba(26,26,46,0.9);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* --- Social Links --- */
+  .product-card {
+    background: rgba(26, 26, 46, 0.8);
+    border: 1px solid #3a3a5d;
+    border-radius: 10px;
+    padding: 15px;
+    backdrop-filter: blur(6px);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 20px auto;
+    transition: transform 0.2s, border-color 0.3s;
+  }
+  .product-card:hover { 
+    transform: translateY(-5px); 
+    border-color: turquoise; 
+  }
+  .product-title { font-size: 18px; font-weight: 600; margin: 8px 0; }
+  .product-price { color: turquoise; font-weight: bold; margin: 4px 0; }
+  .product-desc { font-size: 16px; color: #ccc; margin-bottom: 8px; }
+
+  .product-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background: linear-gradient(135deg, #9d4edd, #3c096c);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+  }
+  .product-btn:hover { background: linear-gradient(135deg, #3c096c, #9d4edd); }
+
+  .chat-box {
+    flex: 1;
+    border-radius: 6px;
+    padding: 8px;
+    border: 1px solid #3a3a5d;
+    background: #111;
+    color: #fff;
+    font-family: monospace;
+    resize: none;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
   .socials {
     position: fixed;
     top: 50%;
-    left: 12px;
+    left: 10px;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    z-index: 1000;
+    gap: 12px;
   }
   .socials a {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    background: #00ffff;
+    width: 40px;
+    height: 40px;
+    background: turquoise;
     border-radius: 50%;
-    color: #0b0c1c;
+    color: #0d0d1a;
     font-weight: bold;
     text-decoration: none;
     transition: 0.3s;
   }
-  .socials a:hover { background: #0088ff; color: #fff; }
-
-  /* --- Mobile tweaks --- */
-  @media (max-width: 480px) {
-    #chat-area { height: 220px; }
-    .product-card { padding: 20px; }
-    .product-title { font-size: 20px; }
-    .product-price { font-size: 16px; }
-  }
+  .socials a:hover { background: #9d4edd; color: #fff; }
 </style>
 </head>
 <body>
-
 <div id="affiliate-banner" class="affiliate-banner" style="display:none;"></div>
 <h1>✨ LinkBotLabs Product Picks ✨</h1>
-
 <div class="voice-controls">
   <label>Select Voice:</label>
   <select id="voiceSelect"></select>
   <button id="stopTTS">⏹ Stop</button>
 </div>
 
-<div id="product-area">
-  <div id="content"></div>
-</div>
-
-<!-- Docked Chat -->
-<div id="chat-area">
-  <div id="chat-header">💬 Chat GPT</div>
-  <div id="chat-content"></div>
-  <div id="chat-input">
-    <textarea id="user-input" placeholder="Type your question..."></textarea>
-    <button id="send-btn">▶</button>
+<div id="main">
+  <div class="top-half">
+    <div id="content"></div>
+  </div>
+  <div class="bottom-half">
+    <textarea id="globalChat" class="chat-box" placeholder="Type your question here..."></textarea>
+    <button id="runGlobal" class="product-btn">▶ Run</button>
+    <button id="ttsGlobal" class="product-btn">🔊 Listen</button>
   </div>
 </div>
 
@@ -233,124 +158,109 @@
 
 <script src="https://js.puter.com/v2/"></script>
 <script>
-  // --- Affiliate Handling ---
-  const content = document.getElementById("content");
-  let synth = window.speechSynthesis;
-  let utter;
+const content = document.getElementById("content");
+let synth = window.speechSynthesis;
+let utter;
 
-  function getAffiliateId() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("aff_id") || null;
-  }
-  const affiliateId = getAffiliateId();
-  if (affiliateId) {
-    const banner = document.getElementById("affiliate-banner");
-    banner.textContent = `✅ Affiliate link active. Your purchases now support affiliate ID: ${affiliateId}`;
-    banner.style.display = "block";
-  }
+// ✅ Affiliate ID
+function getAffiliateId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("aff_id") || null;
+}
+const affiliateId = getAffiliateId();
+if (affiliateId) {
+  const banner = document.getElementById("affiliate-banner");
+  banner.textContent = `✅ Affiliate link active. Your purchases now support affiliate ID: ${affiliateId}`;
+  banner.style.display = "block";
+}
 
-  // --- Voice Setup ---
-  function populateVoiceSelects() {
-    const select = document.getElementById('voiceSelect');
-    if (!select) return;
-    let voices = synth.getVoices();
-    if (!voices.length) { setTimeout(populateVoiceSelects, 250); return; }
-    select.innerHTML = '';
-    voices.forEach(v => {
-      const opt = document.createElement('option');
-      opt.value = v.name;
-      opt.textContent = `${v.name} (${v.lang})`;
-      select.appendChild(opt);
+// ✅ Populate voice dropdown
+function populateVoiceSelects() {
+  const select = document.getElementById('voiceSelect');
+  if (!select) return;
+  let voices = synth.getVoices();
+  if (!voices.length) {
+    setTimeout(populateVoiceSelects, 250);
+    return;
+  }
+  select.innerHTML = '';
+  voices.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v.name;
+    opt.textContent = `${v.name} (${v.lang})`;
+    select.appendChild(opt);
+  });
+  const moirai = voices.find(v =>
+    v.name.toLowerCase().includes("moirai") && v.lang.toLowerCase() === "en-ie"
+  );
+  if (moirai) {
+    select.value = moirai.name;
+  } else {
+    select.selectedIndex = 0;
+  }
+}
+if (typeof speechSynthesis !== "undefined") {
+  speechSynthesis.onvoiceschanged = populateVoiceSelects;
+  populateVoiceSelects();
+}
+
+// ✅ Play TTS
+function playTTS(text) {
+  if (synth.speaking) synth.cancel();
+  utter = new SpeechSynthesisUtterance(text);
+  const selectedVoice = document.getElementById('voiceSelect').value;
+  utter.voice = synth.getVoices().find(v => v.name === selectedVoice) || synth.getVoices()[0];
+  synth.speak(utter);
+}
+document.getElementById('stopTTS').onclick = () => { if (synth.speaking) synth.cancel(); };
+
+// ✅ Load products
+async function loadProducts() {
+  try {
+    const res = await fetch("products.json?cachebust=" + Date.now());
+    const data = await res.json();
+    renderProducts(data);
+  } catch (e) {
+    content.innerHTML = `<p style="color:red;text-align:center;">❌ Failed to load products.</p>`;
+  }
+}
+function renderProducts(data) {
+  content.innerHTML = "";
+  for (const [category, items] of Object.entries(data)) {
+    items.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <h3 class="product-title">${p.title}</h3>
+        <p class="product-price">${p.price}</p>
+        <p class="product-desc">${p.description}</p>
+        <button class="product-btn view-btn">🛒 Click to View</button>
+      `;
+      card.querySelector(".view-btn").onclick = () => {
+        let link = p.url;
+        if (affiliateId) link += (p.url.includes("?") ? "&" : "?") + "tag=" + affiliateId;
+        window.open(link, "_blank");
+      };
+      content.appendChild(card);
     });
-    const moirai = voices.find(v => v.name.toLowerCase().includes("moirai") && v.lang.toLowerCase() === "en-ie");
-    if (moirai) select.value = moirai.name;
-    else select.selectedIndex = 0;
   }
-  if (typeof speechSynthesis !== "undefined") {
-    speechSynthesis.onvoiceschanged = populateVoiceSelects;
-    populateVoiceSelects();
-  }
+}
+loadProducts();
 
-  function playTTS(text) {
-    if (synth.speaking) synth.cancel();
-    utter = new SpeechSynthesisUtterance(text);
-    const selectedVoice = document.getElementById('voiceSelect').value;
-    utter.voice = synth.getVoices().find(v => v.name === selectedVoice) || synth.getVoices()[0];
-    synth.speak(utter);
-  }
-  document.getElementById('stopTTS').onclick = () => { if(synth.speaking) synth.cancel(); };
-
-  // --- Load Products ---
-  async function loadProducts() {
-    try {
-      const res = await fetch("products.json?cachebust=" + Date.now());
-      const data = await res.json();
-      renderProducts(data);
-    } catch (e) {
-      content.innerHTML = `<p style="color:red;text-align:center;">❌ Failed to load products.</p>`;
-    }
-  }
-
-  function renderProducts(data) {
-    content.innerHTML = "";
-    for (const [category, items] of Object.entries(data)) {
-      const section = document.createElement("div");
-      section.className = "category";
-      section.innerHTML = `<h2>${category}</h2><div class="products-grid"></div>`;
-      const grid = section.querySelector(".products-grid");
-
-      items.forEach(p => {
-        const card = document.createElement("div");
-        card.className = "product-card";
-        card.innerHTML = `
-          <h3 class="product-title">${p.title}</h3>
-          <p class="product-price">${p.price}</p>
-          <p class="product-desc">${p.description}</p>
-          <button class="product-btn view-btn">🛒 Click to View</button>
-          <button class="product-btn ask-btn">💬 Ask GPT</button>
-          <button class="product-btn tts-btn">🔊 Listen</button>
-        `;
-        // Affiliate link
-        card.querySelector(".view-btn").onclick = () => {
-          let link = p.url;
-          if (affiliateId) link += (p.url.includes("?") ? "&" : "?") + "tag=" + affiliateId;
-          window.open(link, "_blank");
-        };
-        // Ask GPT: push product info into chat
-        card.querySelector(".ask-btn").onclick = () => {
-          chatContent.innerHTML += `<div style="color:#00ffff;">You: Tell me more about ${p.title}</div>`;
-          chatContent.scrollTop = chatContent.scrollHeight;
-          userInput.value = `Tell me more about ${p.title}`;
-        };
-        // TTS button
-        card.querySelector(".tts-btn").onclick = () => {
-          playTTS(p.description);
-        };
-
-        grid.appendChild(card);
-      });
-      content.appendChild(section);
-    }
-  }
-  loadProducts();
-
-  // --- Chat Logic ---
-  const sendBtn = document.getElementById('send-btn');
-  const chatContent = document.getElementById('chat-content');
-  const userInput = document.getElementById('user-input');
-
-  sendBtn.onclick = async () => {
-    const text = userInput.value.trim();
-    if (!text) return;
-    chatContent.innerHTML += `<div style="color:#00ffff;">You: ${text}</div>`;
-    userInput.value = '';
-    chatContent.scrollTop = chatContent.scrollHeight;
-
-    const response = await puter.ai.chat(text);
-    chatContent.innerHTML += `<div style="color:#fff;">GPT-4 Nano: ${response}</div>`;
-    chatContent.scrollTop = chatContent.scrollHeight;
-    playTTS(response);
-  };
+// ✅ Global Chat
+const globalChat = document.getElementById("globalChat");
+document.getElementById("runGlobal").onclick = async () => {
+  const userText = globalChat.value.trim();
+  if (!userText) return;
+  const response = await puter.ai.chat(userText);
+  globalChat.value += `\nGPT-4 Nano: ${response}`;
+  globalChat.scrollTop = globalChat.scrollHeight;
+  playTTS(response);
+};
+document.getElementById("ttsGlobal").onclick = () => {
+  const text = globalChat.value || "Please type something to listen.";
+  playTTS(text);
+};
 </script>
 </body>
 </html>

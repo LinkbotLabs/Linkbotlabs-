@@ -6,11 +6,21 @@
 <title>AI Playground</title>
 <script src="https://js.puter.com/v2/"></script>
 <style>
-  :root { --glass: rgba(0,0,0,0.35); --stroke: rgba(255,255,255,0.12); --text:#fff; --muted:#cfcfcf; --accent:#ffe169; }
+  :root {
+    --glass: rgba(20,20,40,0.4);
+    --stroke: rgba(255,255,255,0.12);
+    --text:#fff;
+    --muted:#b0b0ff;
+    --accent:#9d4edd; /* deep purple accent */
+    --accent2:#4dd0e1; /* cyan secondary */
+  }
   * { box-sizing: border-box; }
   html, body { height: 100%; margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; }
 
-  body { background: radial-gradient(1200px 1200px at 10% -10%, #111 0%, #000 60%, #000 100%); color: var(--text); }
+  body {
+    background: radial-gradient(1200px 1200px at 10% -10%, #0d0d2b 0%, #000 60%, #000 100%);
+    color: var(--text);
+  }
 
   h1 { margin: 0 0 18px 0; font-weight: 700; letter-spacing: .2px; }
 
@@ -33,7 +43,7 @@
   }
   #lock-box button, #lock-box a {
     display: inline-block; margin-top: 10px; padding: 10px 14px;
-    background: var(--accent); color:#000; font-weight: 700;
+    background: var(--accent); color:#fff; font-weight: 700;
     border-radius: 8px; text-decoration: none; border:0; cursor:pointer;
   }
 
@@ -45,29 +55,42 @@
     border: 1px solid var(--stroke);
     border-radius: 14px;
     padding: 16px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.5);
   }
   @media (min-width: 900px) { #card-chat, #card-stream { grid-column: span 6; } }
+
   label { display:block; font-size: 12px; color: var(--muted); margin: 8px 0 6px; }
   textarea, select {
-    width: 100%; color: var(--text); background: rgba(255,255,255,0.06);
+    width: 100%; color: var(--text); background: rgba(255,255,255,0.08);
     border: 1px solid var(--stroke); border-radius: 10px; padding: 10px 12px;
     outline: none; caret-color: var(--text);
   }
-  textarea { min-height: 120px; resize: vertical; }
+  textarea { min-height: 100px; resize: vertical; }
   button {
     display:inline-flex; align-items:center; gap:8px;
-    background: var(--accent); color:#000; font-weight:700; border:0;
+    background: var(--accent); color:#fff; font-weight:700; border:0;
     border-radius: 10px; padding: 10px 14px; cursor:pointer; margin-top: 10px;
   }
   .output {
     margin-top: 12px; padding: 12px; border-radius: 10px;
-    background: rgba(255,255,255,0.04); border: 1px solid var(--stroke);
+    background: rgba(255,255,255,0.06); border: 1px solid var(--stroke);
     white-space: pre-wrap; word-wrap: break-word; min-height: 150px; overflow-y: auto;
   }
   .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+  /* Quick buttons */
+  .quick-btn {
+    background: var(--accent2);
+    color:#000;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin: 5px;
+    padding: 8px 12px;
+    font-weight:600;
+  }
 </style>
 </head>
 <body>
@@ -83,19 +106,50 @@
       </p>
       <input type="password" id="unlock-pass" placeholder="Enter password">
       <button onclick="checkPass()">Unlock</button>
-      <p style="margin-top:18px;font-size:13px;color:#aaa;">
-        Have an affiliate ID? <a href="affiliate.html" style="color:#ffe169;">Join our affiliate programme</a>
-      </p>
     </div>
   </div>
 
   <!-- MAIN APP -->
   <h1 style="padding:24px 24px 0;">AI Playground</h1>
   <div class="grid">
-    <!-- CHAT -->
+
+    <!-- WEBLLM (Browser-based free AI) -->
+    <div class="card" id="card-webllm">
+      <h2 style="margin:0 0 6px">💻 Free Local WebLLM Chat</h2>
+      <div class="hint">Runs in your browser using WebGPU. No API, no cost.</div>
+
+      <label for="webllm-model">Model</label>
+      <select id="webllm-model">
+        <option value="vicuna-v1-7b-q4f32_0">Vicuna 7B (best quality)</option>
+        <option value="vicuna-v1-7b-q4f16_1">Vicuna 7B (smaller, faster)</option>
+        <option value="RedPajama-INCITE-Chat-3B-v1-q4f32_0">RedPajama 3B (lightweight)</option>
+        <option value="MPT-7B-Chat-q4f16_0">MPT-7B Chat</option>
+        <option value="OPT-1.3B-q4f16_0">OPT-1.3B (tiny, fast)</option>
+        <option value="OPT-125M-q4f16_0">OPT-125M (super tiny)</option>
+      </select>
+      <button id="webllm-load">Load Model</button>
+
+      <div style="margin-top:8px;">
+        <h4 style="margin:6px 0;">Quick Load:</h4>
+        <button class="quick-btn" data-model="vicuna-v1-7b-q4f32_0">Vicuna 7B</button>
+        <button class="quick-btn" data-model="RedPajama-INCITE-Chat-3B-v1-q4f32_0">RedPajama 3B</button>
+        <button class="quick-btn" data-model="OPT-1.3B-q4f16_0">OPT-1.3B</button>
+      </div>
+
+      <div id="webllm-progress-text" style="margin-top:10px;font-size:13px;color:#ccc;"></div>
+      <div id="webllm-progress" style="width:100%;background:#222;border:1px solid #444;height:18px;display:none;">
+        <div id="webllm-bar" style="height:100%;width:0%;background:var(--accent2);"></div>
+      </div>
+
+      <div id="webllm-chatbox" class="output" style="margin-top:12px;min-height:200px;"></div>
+      <textarea id="webllm-input" placeholder="Type your message..." disabled></textarea>
+      <button id="webllm-send" disabled>Send</button>
+    </div>
+
+    <!-- PUTER CHAT -->
     <div class="card" id="card-chat">
-      <h2 style="margin:0 0 6px">Chat / Q&amp;A</h2>
-      <div class="hint">Ask anything. Choose a chat model (includes <strong>GPT-4.1-nano</strong>).</div>
+      <h2 style="margin:0 0 6px">☁️ Puter Cloud Chat / Q&amp;A</h2>
+      <div class="hint">Ask anything. Choose a model (GPT / Claude / Gemini).</div>
       <label for="chat-model">Model</label>
       <select id="chat-model">
         <option value="gpt-4.1-nano" selected>GPT-4.1-nano (fast & light)</option>
@@ -118,10 +172,10 @@
       <div class="output" id="chat-out"></div>
     </div>
 
-    <!-- STREAM -->
+    <!-- PUTER STREAM -->
     <div class="card" id="card-stream">
-      <h2 style="margin:0 0 6px">Streaming (Long Responses)</h2>
-      <div class="hint">See responses arrive in real-time.</div>
+      <h2 style="margin:0 0 6px">☁️ Streaming Responses</h2>
+      <div class="hint">See long answers appear in real-time.</div>
       <label for="stream-model">Model</label>
       <select id="stream-model">
         <option value="gpt-4.1-nano" selected>GPT-4.1-nano</option>
@@ -143,19 +197,16 @@
 <script>
 /* ---------- Trial Timer ---------- */
 const TRIAL_MINUTES = 15;
-const PASSWORD = "unlimited"; // set this when you give users access
+const PASSWORD = "unlimited";
 let unlocked = false;
-
 function startTrialTimer() {
   setTimeout(() => {
     if (!unlocked) {
       document.getElementById('lock-screen').style.display = 'flex';
     }
-  }, TRIAL_MINUTES * 60 * 1000); // 15 min
+  }, TRIAL_MINUTES * 60 * 1000);
 }
 startTrialTimer();
-
-/* ---------- Password Gate ---------- */
 function checkPass() {
   const val = document.getElementById('unlock-pass').value.trim();
   if (val === PASSWORD) {
@@ -166,13 +217,11 @@ function checkPass() {
     alert("Invalid password. Please donate to receive a valid password.");
   }
 }
-
-/* Restore unlock if already verified */
 if (localStorage.getItem("aiPlaygroundUnlocked") === "true") {
   unlocked = true;
 }
 
-/* ---------- Helpers ---------- */
+/* ---------- Puter Helpers ---------- */
 function putText(el, text) { el.innerHTML = (text ?? '').toString(); }
 function appendText(el, text) { el.innerHTML += (text ?? '').toString(); }
 function normalizeNonStream(resp) {
@@ -182,7 +231,7 @@ function normalizeNonStream(resp) {
   return JSON.stringify(resp ?? {});
 }
 
-/* ---------- CHAT ---------- */
+/* ---------- PUTER CHAT ---------- */
 document.getElementById('chat-run').addEventListener('click', async () => {
   const model = document.getElementById('chat-model').value;
   const prompt = document.getElementById('chat-prompt').value.trim();
@@ -197,7 +246,7 @@ document.getElementById('chat-run').addEventListener('click', async () => {
   }
 });
 
-/* ---------- STREAMING ---------- */
+/* ---------- PUTER STREAM ---------- */
 document.getElementById('stream-run').addEventListener('click', async () => {
   const model = document.getElementById('stream-model').value;
   const prompt = document.getElementById('stream-prompt').value.trim();
@@ -214,6 +263,64 @@ document.getElementById('stream-run').addEventListener('click', async () => {
     putText(out, 'Error: ' + (e?.message ?? e));
   }
 });
+</script>
+
+<!-- WEBLLM SCRIPT -->
+<script type="module">
+import * as webllm from "https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm";
+const wChatbox = document.getElementById("webllm-chatbox");
+const wInput = document.getElementById("webllm-input");
+const wSend = document.getElementById("webllm-send");
+const wLoad = document.getElementById("webllm-load");
+const wModelSelect = document.getElementById("webllm-model");
+const wQuickBtns = document.querySelectorAll(".quick-btn");
+const wBar = document.getElementById("webllm-bar");
+const wProgress = document.getElementById("webllm-progress");
+const wProgressText = document.getElementById("webllm-progress-text");
+let wEngine = null;
+function addMsg(sender, text) {
+  const div = document.createElement("div");
+  div.style.margin = "6px 0";
+  div.innerHTML = `<strong style="color:${sender==='user'?'#4dd0e1':'#c5e1a5'}">${sender.toUpperCase()}:</strong> ${text}`;
+  wChatbox.appendChild(div);
+  wChatbox.scrollTop = wChatbox.scrollHeight;
+}
+async function loadModel(model) {
+  wChatbox.innerHTML = "";
+  addMsg("bot", "⏳ Loading model: " + model);
+  wInput.disabled = true; wSend.disabled = true;
+  wProgress.style.display = "block"; wBar.style.width = "0%";
+  wProgressText.innerText = "Loading 0%...";
+  try {
+    wEngine = await webllm.CreateMLCEngine(model, {
+      initProgressCallback: (p) => {
+        const pct = Math.round(p.progress * 100);
+        wBar.style.width = pct + "%";
+        wProgressText.innerText = `Loading model: ${pct}%`;
+      }
+    });
+    wProgressText.innerText = "✅ Model ready!";
+    addMsg("bot", "✅ Model loaded. Start chatting.");
+    wInput.disabled = false; wSend.disabled = false;
+    localStorage.setItem("lastWebLLM", model);
+  } catch (e) {
+    wProgressText.innerText = "❌ Failed to load";
+    addMsg("bot", "Error: " + e.message);
+  }
+}
+wLoad.onclick = () => loadModel(wModelSelect.value);
+wQuickBtns.forEach(btn => {
+  btn.onclick = () => { const m = btn.getAttribute("data-model"); wModelSelect.value = m; loadModel(m); };
+});
+wSend.onclick = async () => {
+  const msg = wInput.value.trim();
+  if (!msg || !wEngine) return;
+  addMsg("user", msg); wInput.value = "";
+  const reply = await wEngine.chat.completion([{ role: "user", content: msg }]);
+  addMsg("bot", reply.choices[0].message.content);
+};
+const lastModel = localStorage.getItem("lastWebLLM");
+if (lastModel) { wModelSelect.value = lastModel; loadModel(lastModel); }
 </script>
 </body>
 </html>

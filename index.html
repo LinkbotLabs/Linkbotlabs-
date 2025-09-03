@@ -22,7 +22,45 @@
     0%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
+  }<!-- 🔔 FLASH MESSAGE -->
+<div id="flash-message">
+  <p>💝 No subscription, no hidden fees! Donate any amount to support your developer.  
+     Enjoy free AI models, image generators, cloud computing, virtual desktop, affiliate marketing,  
+     and our desktop product-to-video generator.  
+     👉 Use the contact form below to enquire about the video generator.</p>
+</div>
+
+<style>
+  #flash-message {
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg,#ff007a,#e60070);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    max-width: 90%;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 1s ease;
   }
+  #flash-message.show { opacity: 1; }
+</style>
+
+<script>
+  // Show flash message on load
+  window.addEventListener("load", () => {
+    const flash = document.getElementById("flash-message");
+    flash.classList.add("show");
+    // Auto-hide after 12s (optional, can remove if you want permanent)
+    setTimeout(() => { flash.classList.remove("show"); }, 12000);
+  });
+</script>
   header {
     text-align:center;
     padding:3rem 1rem;

@@ -9,21 +9,21 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px;
     line-height: 1.6;
-    background: linear-gradient(180deg, #0b0c1c, #1a1a2f); /* Dark navy gradient */
+    background: linear-gradient(180deg, #000000, #0a0a1f);
     color: #fff;
     margin: 0;
     padding: 20px;
   }
   h1 {
     text-align: center;
-    color: #00ffff; /* Cyan highlight */
+    color: #ffffff;
     margin-bottom: 25px;
     text-shadow: 0 2px 6px rgba(0,255,255,0.5);
   }
 
   /* --- Affiliate Banner --- */
   .affiliate-banner {
-    background: linear-gradient(135deg, #003366, #005f99); /* Dark blue gradient */
+    background: linear-gradient(135deg, #000033, #001144);
     color: #00ffff;
     padding: 12px;
     text-align: center;
@@ -47,14 +47,14 @@
     margin-right: 12px; 
     border-radius: 8px;
     border: none;
-    background: linear-gradient(135deg, #003366, #005f99);
+    background: linear-gradient(135deg, #000033, #001144);
     color: #00ffff;
     font-weight: bold;
     transition: background 0.3s, color 0.3s;
   }
   .voice-controls select:hover,
   .voice-controls button:hover {
-    background: linear-gradient(135deg, #005f99, #003366);
+    background: linear-gradient(135deg, #001144, #000033);
     cursor: pointer;
   }
 
@@ -78,25 +78,23 @@
     padding: 10px; 
   }
   .product-card {
-    background: rgba(20, 20, 40, 0.85); /* Glass effect */
-    border: 1px solid #2a2a4d;
-    border-radius: 12px;
-    padding: 20px;
+    background: rgba(10, 10, 30, 0.95);
+    border: 1px solid #111144;
+    border-radius: 16px;
+    padding: 25px;
     backdrop-filter: blur(6px);
-    max-width: 550px;
+    max-width: 100%;
+    width: 100%;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
     transition: transform 0.2s, border-color 0.3s, box-shadow 0.3s;
   }
-  .product-card:hover { 
-    transform: translateY(-5px); 
-    border-color: #00ffff; 
+  .product-card:hover {
+    transform: translateY(-5px);
+    border-color: #00ffff;
     box-shadow: 0 8px 25px rgba(0,255,255,0.3);
   }
-
   .product-title { 
-    font-size: 20px; 
+    font-size: 22px; 
     font-weight: 600; 
     margin: 10px 0; 
   }
@@ -104,41 +102,107 @@
     color: #00ffff; 
     font-weight: bold; 
     margin: 5px 0; 
+    font-size: 18px;
   }
-  .product-desc, .chat-box { 
+  .product-desc { 
     font-size: 16px; 
     color: #ccc; 
-    margin-bottom: 10px; 
-    font-family: 'Segoe UI', sans-serif; 
+    margin-bottom: 15px; 
     line-height: 1.5; 
   }
-
-  /* --- Buttons --- */
   .product-btn {
     margin-top: 12px;
-    padding: 12px;
-    background: linear-gradient(135deg, #003366, #005f99); /* Darker blue gradient */
+    padding: 14px;
+    background: linear-gradient(135deg, #000033, #001144);
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     color: #00ffff;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s;
   }
   .product-btn:hover {
-    background: linear-gradient(135deg, #005f99, #003366); /* Inverted gradient on hover */
+    background: linear-gradient(135deg, #001144, #000033);
   }
 
-  .chat-box {
-    min-height: 100px;
-    border-radius: 8px;
-    padding: 10px;
-    border: 1px solid #2a2a4d;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
+  /* --- Floating Chat --- */
+  #floating-chat {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 360px;
+    max-height: 450px;
+    background: rgba(5,5,20,0.95);
+    border: 1px solid #00ffff;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 25px rgba(0,255,255,0.4);
+    overflow: hidden;
     font-family: monospace;
-    resize: vertical;
+    z-index: 9999;
+  }
+  #chat-header {
+    background: #001122;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  #chat-header span {
+    font-weight: bold;
+    color: #00ffff;
+  }
+  #chat-content {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    color: #fff;
+    font-size: 14px;
+  }
+  #chat-input {
+    display: flex;
+    border-top: 1px solid #00ffff;
+  }
+  #chat-input textarea {
+    flex: 1;
+    resize: none;
+    border: none;
+    padding: 10px;
+    background: #0a0a20;
+    color: #fff;
+  }
+  #chat-input button {
+    padding: 10px;
+    background: #00ffff;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+  #chat-input button:hover {
+    background: #0088ff;
+    color: #fff;
+  }
+
+  /* Small chat toggle button when minimized */
+  #chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #00ffff;
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
     display: none;
+    z-index: 10000;
+    box-shadow: 0 4px 15px rgba(0,255,255,0.3);
   }
 
   /* --- Social Links --- */
@@ -168,6 +232,14 @@
     background: #0088ff; 
     color: #fff; 
   }
+
+  /* --- Mobile responsive tweaks --- */
+  @media (max-width: 480px) {
+    #floating-chat { width: 90%; right: 5%; bottom: 15px; }
+    .product-card { padding: 20px; }
+    .product-title { font-size: 20px; }
+    .product-price { font-size: 16px; }
+  }
 </style>
 </head>
 <body>
@@ -190,124 +262,161 @@
   <a href="https://facebook.com/linkbotlabs" target="_blank">FB</a>
 </div>
 
+<!-- Floating Chat -->
+<div id="floating-chat">
+  <div id="chat-header">
+    <span>💬 Chat GPT</span>
+    <button id="chat-close">✖</button>
+  </div>
+  <div id="chat-content"></div>
+  <div id="chat-input">
+    <textarea id="user-input" placeholder="Type your question..."></textarea>
+    <button id="send-btn">▶</button>
+  </div>
+</div>
+<button id="chat-toggle">💬</button>
+
 <script src="https://js.puter.com/v2/"></script>
 <script>
-// --- Affiliate Handling ---
-const content = document.getElementById("content");
-let synth = window.speechSynthesis;
-let utter;
+  // --- Affiliate Handling ---
+  const content = document.getElementById("content");
+  let synth = window.speechSynthesis;
+  let utter;
 
-function getAffiliateId() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("aff_id") || null;
-}
-const affiliateId = getAffiliateId();
-if (affiliateId) {
-  const banner = document.getElementById("affiliate-banner");
-  banner.textContent = `✅ Affiliate link active. Your purchases now support affiliate ID: ${affiliateId}`;
-  banner.style.display = "block";
-}
-
-// --- Voice Setup ---
-function populateVoiceSelects() {
-  const select = document.getElementById('voiceSelect');
-  if (!select) return;
-  let voices = synth.getVoices();
-  if (!voices.length) { setTimeout(populateVoiceSelects, 250); return; }
-  select.innerHTML = '';
-  voices.forEach(v => {
-    const opt = document.createElement('option');
-    opt.value = v.name;
-    opt.textContent = `${v.name} (${v.lang})`;
-    select.appendChild(opt);
-  });
-  const moirai = voices.find(v => v.name.toLowerCase().includes("moirai") && v.lang.toLowerCase() === "en-ie");
-  if (moirai) select.value = moirai.name;
-  else select.selectedIndex = 0;
-}
-if (typeof speechSynthesis !== "undefined") {
-  speechSynthesis.onvoiceschanged = populateVoiceSelects;
-  populateVoiceSelects();
-}
-
-function playTTS(text) {
-  if (synth.speaking) synth.cancel();
-  utter = new SpeechSynthesisUtterance(text);
-  const selectedVoice = document.getElementById('voiceSelect').value;
-  utter.voice = synth.getVoices().find(v => v.name === selectedVoice) || synth.getVoices()[0];
-  synth.speak(utter);
-}
-document.getElementById('stopTTS').onclick = () => { if(synth.speaking) synth.cancel(); };
-
-// --- Load Products ---
-async function loadProducts() {
-  try {
-    const res = await fetch("products.json?cachebust=" + Date.now());
-    const data = await res.json();
-    renderProducts(data);
-  } catch (e) {
-    content.innerHTML = `<p style="color:red;text-align:center;">❌ Failed to load products.</p>`;
+  function getAffiliateId() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("aff_id") || null;
   }
-}
+  const affiliateId = getAffiliateId();
+  if (affiliateId) {
+    const banner = document.getElementById("affiliate-banner");
+    banner.textContent = `✅ Affiliate link active. Your purchases now support affiliate ID: ${affiliateId}`;
+    banner.style.display = "block";
+  }
 
-function renderProducts(data) {
-  content.innerHTML = "";
-  for (const [category, items] of Object.entries(data)) {
-    const section = document.createElement("div");
-    section.className = "category";
-    section.innerHTML = `<h2>${category}</h2><div class="products-grid"></div>`;
-    const grid = section.querySelector(".products-grid");
-
-    items.forEach(p => {
-      const card = document.createElement("div");
-      card.className = "product-card";
-      card.innerHTML = `
-        <h3 class="product-title">${p.title}</h3>
-        <p class="product-price">${p.price}</p>
-        <p class="product-desc">${p.description}</p>
-        <button class="product-btn view-btn">🛒 Click to View</button>
-        <button class="product-btn ask-btn">💬 Ask GPT-4 Nano</button>
-        <textarea class="chat-box" placeholder="Type your question here..."></textarea>
-        <button class="product-btn tts-btn">🔊 Listen</button>
-      `;
-      // Affiliate link
-      card.querySelector(".view-btn").onclick = () => {
-        let link = p.url;
-        if (affiliateId) link += (p.url.includes("?") ? "&" : "?") + "tag=" + affiliateId;
-        window.open(link, "_blank");
-      };
-      // Toggle chat
-      const askBtn = card.querySelector(".ask-btn");
-      const chatBox = card.querySelector(".chat-box");
-      askBtn.onclick = () => { chatBox.style.display = chatBox.style.display === "none" ? "block" : "none"; };
-
-      // GPT Run button
-      const runBtn = document.createElement("button");
-      runBtn.textContent = "▶ Run";
-      runBtn.className = "product-btn run-btn";
-      runBtn.style.marginTop = "5px";
-      card.appendChild(runBtn);
-      runBtn.onclick = async () => {
-        const userText = chatBox.value.trim();
-        if (!userText) return;
-        const response = await puter.ai.chat(userText);
-        chatBox.value += `\nGPT-4 Nano: ${response}`;
-        chatBox.scrollTop = chatBox.scrollHeight;
-        playTTS(response);
-      };
-
-      // TTS button
-      card.querySelector(".tts-btn").onclick = () => {
-        const text = chatBox.value || p.description;
-        playTTS(text);
-      };
-
-      grid.appendChild(card);
+  // --- Voice Setup ---
+  function populateVoiceSelects() {
+    const select = document.getElementById('voiceSelect');
+    if (!select) return;
+    let voices = synth.getVoices();
+    if (!voices.length) { setTimeout(populateVoiceSelects, 250); return; }
+    select.innerHTML = '';
+    voices.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v.name;
+      opt.textContent = `${v.name} (${v.lang})`;
+      select.appendChild(opt);
     });
-    content.appendChild(section);
+    const moirai = voices.find(v => v.name.toLowerCase().includes("moirai") && v.lang.toLowerCase() === "en-ie");
+    if (moirai) select.value = moirai.name;
+    else select.selectedIndex = 0;
   }
-}
-loadProducts();
+  if (typeof speechSynthesis !== "undefined") {
+    speechSynthesis.onvoiceschanged = populateVoiceSelects;
+    populateVoiceSelects();
+  }
+
+  function playTTS(text) {
+    if (synth.speaking) synth.cancel();
+    utter = new SpeechSynthesisUtterance(text);
+    const selectedVoice = document.getElementById('voiceSelect').value;
+    utter.voice = synth.getVoices().find(v => v.name === selectedVoice) || synth.getVoices()[0];
+    synth.speak(utter);
+  }
+  document.getElementById('stopTTS').onclick = () => { if(synth.speaking) synth.cancel(); };
+
+  // --- Load Products ---
+  async function loadProducts() {
+    try {
+      const res = await fetch("products.json?cachebust=" + Date.now());
+      const data = await res.json();
+      renderProducts(data);
+    } catch (e) {
+      content.innerHTML = `<p style="color:red;text-align:center;">❌ Failed to load products.</p>`;
+    }
+  }
+
+  function renderProducts(data) {
+    content.innerHTML = "";
+    for (const [category, items] of Object.entries(data)) {
+      const section = document.createElement("div");
+      section.className = "category";
+      section.innerHTML = `<h2>${category}</h2><div class="products-grid"></div>`;
+      const grid = section.querySelector(".products-grid");
+
+      items.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <h3 class="product-title">${p.title}</h3>
+          <p class="product-price">${p.price}</p>
+          <p class="product-desc">${p.description}</p>
+          <button class="product-btn view-btn">🛒 Click to View</button>
+          <button class="product-btn ask-btn">💬 Ask GPT</button>
+          <button class="product-btn tts-btn">🔊 Listen</button>
+        `;
+        // Affiliate link
+        card.querySelector(".view-btn").onclick = () => {
+          let link = p.url;
+          if (affiliateId) link += (p.url.includes("?") ? "&" : "?") + "tag=" + affiliateId;
+          window.open(link, "_blank");
+        };
+        // Ask GPT floating chat
+        card.querySelector(".ask-btn").onclick = () => {
+          const chat = document.getElementById('floating-chat');
+          const toggleBtn = document.getElementById('chat-toggle');
+          const chatContent = document.getElementById('chat-content');
+          const userInput = document.getElementById('user-input');
+          chat.style.display = 'flex';
+          toggleBtn.style.display = 'none';
+          chatContent.innerHTML += `<div style="color:#00ffff;">You: ${p.title} - ${p.description}</div>`;
+          chatContent.scrollTop = chatContent.scrollHeight;
+        };
+        // TTS button
+        card.querySelector(".tts-btn").onclick = () => {
+          playTTS(p.description);
+        };
+
+        grid.appendChild(card);
+      });
+      content.appendChild(section);
+    }
+  }
+  loadProducts();
+
+  // --- Floating Chat ---
+  const chat = document.getElementById('floating-chat');
+  const toggleBtn = document.getElementById('chat-toggle');
+  const closeBtn = document.getElementById('chat-close');
+  const sendBtn = document.getElementById('send-btn');
+  const chatContent = document.getElementById('chat-content');
+  const userInput = document.getElementById('user-input');
+
+  // Close chat
+  closeBtn.onclick = () => {
+    chat.style.display = 'none';
+    toggleBtn.style.display = 'block';
+  };
+
+  // Open chat
+  toggleBtn.onclick = () => {
+    chat.style.display = 'flex';
+    toggleBtn.style.display = 'none';
+  };
+
+  // Send message
+  sendBtn.onclick = async () => {
+    const text = userInput.value.trim();
+    if (!text) return;
+    chatContent.innerHTML += `<div style="color:#00ffff;">You: ${text}</div>`;
+    userInput.value = '';
+    chatContent.scrollTop = chatContent.scrollHeight;
+
+    const response = await puter.ai.chat(text); // Putter AI
+    chatContent.innerHTML += `<div style="color:#fff;">GPT-4 Nano: ${response}</div>`;
+    chatContent.scrollTop = chatContent.scrollHeight;
+    playTTS(response);
+  };
 </script>
 </body>
 </html>

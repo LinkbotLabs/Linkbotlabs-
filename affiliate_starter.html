@@ -70,6 +70,16 @@ button:hover{opacity:0.85;}
     margin-left:20px;
     line-height:1.5;
 }
+/* Overlay close button */
+.close-btn {
+    position:absolute;
+    top:8px;
+    right:12px;
+    cursor:pointer;
+    font-size:1.2rem;
+    color:#fff;
+}
+.close-btn:hover { color:#ff6f91; }
 </style>
 </head>
 <body>
@@ -139,6 +149,24 @@ button:hover{opacity:0.85;}
   <input type="text" id="accessCode" placeholder="Enter your code">
   <button onclick="checkAccessCode()">Unlock Demo</button>
   <div id="accessOutput" class="output"></div>
+</div>
+
+<!-- ===== Demo Mode Overlay ===== -->
+<div id="demoOverlay" class="glass" style="border:2px dashed #ff6f91; text-align:center; margin-bottom:1rem; position:relative;">
+  <span class="close-btn" onclick="document.getElementById('demoOverlay').style.display='none'">❌</span>
+  <h2 style="color:#ffdd57;">🎁 Demo Mode Active</h2>
+  <p style="line-height:1.6;">
+    You are currently exploring <strong>Demo Mode</strong> of LinkBotLabs Affiliate Showcase.<br>
+    Contribute and unlock the full affiliate-sharing program — it’s up to you! 🚀
+  </p>
+  <a href="https://wise.com/pay/me/davids14542" target="_blank" 
+     style="display:inline-block; margin-top:10px; padding:12px 20px; background:linear-gradient(135deg,#ff6f91,#ffcc70); color:#111; font-weight:bold; border-radius:8px; text-decoration:none;">
+    💸 Contribute via Wise
+  </a>
+  <p style="margin-top:12px; font-size:0.9rem; color:#ccc;">
+    Every donation helps keep the project open-source and growing.<br>
+    Together we can build smarter affiliate tools and share success 🌍
+  </p>
 </div>
 
 <!-- ===== Detailed Explanation Section ===== -->

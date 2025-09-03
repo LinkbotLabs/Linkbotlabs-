@@ -7,7 +7,7 @@
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px;
-    background: linear-gradient(180deg, #0d0d1a, #1a1a2e);
+    background: linear-gradient(180deg, #000, #1a1a1a);
     color: #fff;
     margin: 0;
     height: 100vh;
@@ -20,6 +20,13 @@
     color: cyan; 
     margin: 10px 0; 
   }
+  .affiliate-banner {
+    background: #0077b6;
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+  }
 
   #main {
     flex: 1;
@@ -30,7 +37,7 @@
     flex: 1;
   }
 
-  /* Horizontal scroll products */
+  /* --- Product Carousel --- */
   .top-half {
     display: flex;
     overflow-x: auto;
@@ -40,7 +47,6 @@
   .product-card {
     flex: 0 0 100%;
     height: 100%;
-    box-sizing: border-box;
     scroll-snap-align: center;
     display: flex;
     flex-direction: column;
@@ -52,7 +58,7 @@
     backdrop-filter: blur(6px);
   }
   .product-title { font-size: 28px; font-weight: bold; margin: 15px 0; }
-  .product-price { color: cyan; font-weight: bold; font-size: 24px; }
+  .product-price { color: cyan; font-weight: bold; font-size: 22px; }
   .product-desc { font-size: 18px; color: #ccc; margin: 20px 0; }
   .product-btn {
     padding: 18px;
@@ -60,18 +66,16 @@
     border: 2px solid cyan;
     border-radius: 10px;
     color: white;
-    font-weight: bold;
     font-size: 20px;
+    font-weight: bold;
     cursor: pointer;
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
+    transition: 0.2s;
   }
-  .product-btn:hover {
-    background: cyan;
-    color: black;
-  }
+  .product-btn:hover { background: cyan; color: black; }
 
-  /* Chat half */
+  /* --- Chat Section --- */
   .bottom-half {
     display: flex;
     flex-direction: column;
@@ -101,35 +105,37 @@
   }
   #chatText {
     flex: 1;
-    font-size: 20px;
-    padding: 12px;
+    font-size: 24px;
+    padding: 16px;
+    height: 25%;   /* ~¼ of chat section */
+    min-height: 70px;
     border-radius: 8px;
     border: 1px solid #3a3a5d;
     background: #111;
     color: #fff;
+    resize: none;
+    transition: 0.2s;
+  }
+  #chatText:focus {
+    outline: none;
+    border: 2px solid cyan;
+    box-shadow: 0 0 10px cyan;
   }
 
-  /* Round buttons */
   .round-btn {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    border: none;
+    border: 2px solid cyan;
     background: black;
     color: white;
-    font-size: 30px;
-    font-weight: bold;
+    font-size: 24px;
     cursor: pointer;
     transition: 0.2s;
-    border: 2px solid cyan;
   }
-  .round-btn:hover { 
-    transform: scale(1.15); 
-    background: cyan; 
-    color: black; 
-  }
+  .round-btn:hover { transform: scale(1.1); background: cyan; color: black; }
 
-  /* Socials */
+  /* --- Socials --- */
   .socials {
     position: fixed;
     top: 50%;
@@ -154,6 +160,7 @@
 </style>
 </head>
 <body>
+<div id="affiliate-banner" class="affiliate-banner" style="display:none;"></div>
 <h1>✨ LinkBotLabs Product Picks ✨</h1>
 
 <div id="main">
@@ -161,7 +168,7 @@
   <div class="bottom-half">
     <div id="chat-feed"></div>
     <div class="chat-input">
-      <input id="chatText" type="text" placeholder="Type your message..." />
+      <textarea id="chatText" placeholder="Type your message..."></textarea>
       <button id="runGlobal" class="round-btn">▶</button>
       <button id="speakGlobal" class="round-btn">🎤</button>
       <button id="clearGlobal" class="round-btn">❌</button>
@@ -181,12 +188,23 @@
 <script>
 const content = document.getElementById("content");
 const chatFeed = document.getElementById("chat-feed");
-const chatInput = document.getElementById("chatText");
-
+const chatText = document.getElementById("chatText");
 let synth = window.speechSynthesis;
 let utter;
 
-// Products
+// ✅ Affiliate ID
+function getAffiliateId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("aff_id") || null;
+}
+const affiliateId = getAffiliateId();
+if (affiliateId) {
+  const banner = document.getElementById("affiliate-banner");
+  banner.textContent = `✅ Affiliate active. Purchases support ID: ${affiliateId}`;
+  banner.style.display = "block";
+}
+
+// ✅ Load Products
 async function loadProducts() {
   try {
     const res = await fetch("products.json?cachebust=" + Date.now());
@@ -206,40 +224,42 @@ function renderProducts(data) {
         <h3 class="product-title">${p.title}</h3>
         <p class="product-price">${p.price}</p>
         <p class="product-desc">${p.description}</p>
-        <button class="product-btn">🛒 View Product</button>
+        <button class="product-btn">🛒 View</button>
       `;
-      card.querySelector("button").onclick = () => window.open(p.url, "_blank");
+      card.querySelector("button").onclick = () => {
+        let link = p.url;
+        if (affiliateId) link += (p.url.includes("?") ? "&" : "?") + "tag=" + affiliateId;
+        window.open(link, "_blank");
+      };
       content.appendChild(card);
     });
   }
 }
 loadProducts();
 
-// Chat
-function appendMessage(sender, text) {
+// ✅ Chat functions
+function appendMessage(text, sender="ai") {
   const div = document.createElement("div");
-  div.className = "msg " + (sender === "You" ? "user" : "ai");
-  div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  div.className = "msg " + sender;
+  div.textContent = sender === "user" ? `🧑: ${text}` : `🤖: ${text}`;
   chatFeed.appendChild(div);
   chatFeed.scrollTop = chatFeed.scrollHeight;
 }
 
 document.getElementById("runGlobal").onclick = async () => {
-  const userText = chatInput.value.trim();
+  const userText = chatText.value.trim();
   if (!userText) return;
-  appendMessage("You", userText);
-  chatInput.value = "";
-
+  appendMessage(userText, "user");
+  chatText.value = "";
   const response = await puter.ai.chat(userText);
-  appendMessage("AI", response);
+  appendMessage(response, "ai");
   playTTS(response);
 };
-
 document.getElementById("ttsGlobal").onclick = () => playTTS(chatFeed.innerText);
 document.getElementById("clearGlobal").onclick = () => chatFeed.innerHTML = "";
 document.getElementById("speakGlobal").onclick = () => alert("🎤 Voice input coming soon!");
 
-// TTS
+// ✅ TTS
 function playTTS(text) {
   if (synth.speaking) synth.cancel();
   utter = new SpeechSynthesisUtterance(text);

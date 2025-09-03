@@ -4,142 +4,166 @@
 <meta charset="UTF-8">
 <title>LinkBotLabs Products</title>
 <style>
+  /* --- Global Styles --- */
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px;
     line-height: 1.6;
-    background: linear-gradient(180deg, #0d0d1a, #1a1a2e);
+    background: linear-gradient(180deg, #0b0c1c, #1a1a2f); /* Dark navy gradient */
     color: #fff;
     margin: 0;
     padding: 20px;
   }
-  h1 { 
-    text-align: center; 
-    color: turquoise; 
-    margin-bottom: 20px; 
+  h1 {
+    text-align: center;
+    color: #00ffff; /* Cyan highlight */
+    margin-bottom: 25px;
+    text-shadow: 0 2px 6px rgba(0,255,255,0.5);
   }
   .affiliate-banner {
-    background: #0077b6;
+    background: rgba(0, 123, 255, 0.8);
     color: #fff;
     padding: 12px;
     text-align: center;
     font-weight: bold;
     margin-bottom: 20px;
-    border-radius: 6px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
   }
-  .voice-controls { 
-    text-align: center; 
-    margin-bottom: 20px; 
+
+  /* --- Voice Controls --- */
+  .voice-controls {
+    text-align: center;
+    margin-bottom: 25px;
   }
   .voice-controls select, 
   .voice-controls button { 
-    padding: 5px 10px; 
+    padding: 8px 12px; 
     font-size: 16px; 
-    margin-right: 10px; 
+    margin-right: 12px; 
+    border-radius: 6px;
+    border: none;
+    background: rgba(0,255,255,0.1);
+    color: #fff;
   }
+  .voice-controls button:hover, .voice-controls select:hover {
+    background: rgba(0,255,255,0.2);
+    cursor: pointer;
+  }
+
+  /* --- Product Categories --- */
   .category { 
-    margin: 40px 0; 
+    margin: 50px 0; 
   }
   .category h2 { 
-    color: turquoise; /* ✅ match price color */
-    border-bottom: 2px solid turquoise; 
-    padding-bottom: 5px; 
+    color: #00ffff; 
+    border-bottom: 2px solid #00ffff; 
+    padding-bottom: 6px; 
     text-transform: capitalize;
+    text-shadow: 0 1px 3px rgba(0,255,255,0.3);
   }
+
+  /* --- Product Cards --- */
   .products-grid { 
     display: flex; 
-    flex-direction: column; /* ✅ vertical scroll */
+    flex-direction: column; 
     gap: 20px; 
     padding: 10px; 
   }
   .product-card {
-    background: rgba(26, 26, 46, 0.8); /* ✅ glassy effect */
-    border: 1px solid #3a3a5d;
-    border-radius: 10px;
-    padding: 15px;
+    background: rgba(20, 20, 40, 0.85); /* Glass effect */
+    border: 1px solid #2a2a4d;
+    border-radius: 12px;
+    padding: 20px;
     backdrop-filter: blur(6px);
-    width: 100%;
-    max-width: 500px;
+    max-width: 550px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s, border-color 0.3s;
+    transition: transform 0.2s, border-color 0.3s, box-shadow 0.3s;
   }
   .product-card:hover { 
     transform: translateY(-5px); 
-    border-color: turquoise; 
+    border-color: #00ffff; 
+    box-shadow: 0 8px 25px rgba(0,255,255,0.3);
   }
+
   .product-title { 
-    font-size: 18px; 
+    font-size: 20px; 
     font-weight: 600; 
-    margin: 8px 0; 
+    margin: 10px 0; 
   }
   .product-price { 
-    color: turquoise; /* ✅ highlight */
+    color: #00ffff; 
     font-weight: bold; 
-    margin: 4px 0; 
+    margin: 5px 0; 
   }
   .product-desc, .chat-box { 
     font-size: 16px; 
+    color: #ccc; 
+    margin-bottom: 10px; 
     font-family: 'Segoe UI', sans-serif; 
     line-height: 1.5; 
-    color: #ccc; 
-    margin-bottom: 8px; 
   }
+
   .product-btn {
-    margin-top: 10px;
-    padding: 10px;
-    background: linear-gradient(135deg, #9d4edd, #3c096c);
+    margin-top: 12px;
+    padding: 12px;
+    background: linear-gradient(135deg, #00ffff, #0088ff);
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     color: white;
     font-weight: bold;
     cursor: pointer;
-    width: 100%;
+    transition: background 0.3s;
   }
-  .product-btn:hover { 
-    background: linear-gradient(135deg, #3c096c, #9d4edd); 
+  .product-btn:hover {
+    background: linear-gradient(135deg, #0088ff, #00ffff);
   }
+
   .chat-box {
     min-height: 100px;
-    border-radius: 6px;
-    padding: 8px;
-    border: 1px solid #3a3a5d;
-    background: #111;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #2a2a4d;
+    background: rgba(0,0,0,0.6);
     color: #fff;
     font-family: monospace;
     resize: vertical;
     display: none;
   }
+
+  /* --- Social Links --- */
   .socials {
     position: fixed;
     top: 50%;
-    left: 10px;
+    left: 12px;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
   }
   .socials a {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: turquoise;
+    width: 44px;
+    height: 44px;
+    background: #00ffff;
     border-radius: 50%;
-    color: #0d0d1a;
+    color: #0b0c1c;
     font-weight: bold;
     text-decoration: none;
     transition: 0.3s;
   }
   .socials a:hover { 
-    background: #9d4edd; 
+    background: #0088ff; 
     color: #fff; 
   }
 </style>
 </head>
 <body>
+
 <div id="affiliate-banner" class="affiliate-banner" style="display:none;"></div>
 <h1>✨ LinkBotLabs Product Picks ✨</h1>
 
@@ -160,11 +184,11 @@
 
 <script src="https://js.puter.com/v2/"></script>
 <script>
+// --- Affiliate Handling ---
 const content = document.getElementById("content");
 let synth = window.speechSynthesis;
 let utter;
 
-// ✅ Affiliate ID
 function getAffiliateId() {
   const params = new URLSearchParams(window.location.search);
   return params.get("aff_id") || null;
@@ -176,17 +200,12 @@ if (affiliateId) {
   banner.style.display = "block";
 }
 
-// ✅ Populate voice dropdown
+// --- Voice Setup ---
 function populateVoiceSelects() {
   const select = document.getElementById('voiceSelect');
   if (!select) return;
-
   let voices = synth.getVoices();
-  if (!voices.length) {
-    setTimeout(populateVoiceSelects, 250);
-    return;
-  }
-
+  if (!voices.length) { setTimeout(populateVoiceSelects, 250); return; }
   select.innerHTML = '';
   voices.forEach(v => {
     const opt = document.createElement('option');
@@ -194,23 +213,15 @@ function populateVoiceSelects() {
     opt.textContent = `${v.name} (${v.lang})`;
     select.appendChild(opt);
   });
-
-  // Auto-select Moirai en-IE if found
-  const moirai = voices.find(v =>
-    v.name.toLowerCase().includes("moirai") && v.lang.toLowerCase() === "en-ie"
-  );
-  if (moirai) {
-    select.value = moirai.name;
-  } else {
-    select.selectedIndex = 0;
-  }
+  const moirai = voices.find(v => v.name.toLowerCase().includes("moirai") && v.lang.toLowerCase() === "en-ie");
+  if (moirai) select.value = moirai.name;
+  else select.selectedIndex = 0;
 }
 if (typeof speechSynthesis !== "undefined") {
   speechSynthesis.onvoiceschanged = populateVoiceSelects;
   populateVoiceSelects();
 }
 
-// ✅ Play TTS
 function playTTS(text) {
   if (synth.speaking) synth.cancel();
   utter = new SpeechSynthesisUtterance(text);
@@ -218,13 +229,9 @@ function playTTS(text) {
   utter.voice = synth.getVoices().find(v => v.name === selectedVoice) || synth.getVoices()[0];
   synth.speak(utter);
 }
+document.getElementById('stopTTS').onclick = () => { if(synth.speaking) synth.cancel(); };
 
-// ✅ Stop TTS
-document.getElementById('stopTTS').onclick = () => {
-  if (synth.speaking) synth.cancel();
-};
-
-// ✅ Load products
+// --- Load Products ---
 async function loadProducts() {
   try {
     const res = await fetch("products.json?cachebust=" + Date.now());
@@ -246,7 +253,6 @@ function renderProducts(data) {
     items.forEach(p => {
       const card = document.createElement("div");
       card.className = "product-card";
-
       card.innerHTML = `
         <h3 class="product-title">${p.title}</h3>
         <p class="product-price">${p.price}</p>
@@ -256,28 +262,23 @@ function renderProducts(data) {
         <textarea class="chat-box" placeholder="Type your question here..."></textarea>
         <button class="product-btn tts-btn">🔊 Listen</button>
       `;
-
       // Affiliate link
       card.querySelector(".view-btn").onclick = () => {
         let link = p.url;
         if (affiliateId) link += (p.url.includes("?") ? "&" : "?") + "tag=" + affiliateId;
         window.open(link, "_blank");
       };
-
-      // Toggle chat box
+      // Toggle chat
       const askBtn = card.querySelector(".ask-btn");
       const chatBox = card.querySelector(".chat-box");
-      askBtn.onclick = () => {
-        chatBox.style.display = chatBox.style.display === "none" ? "block" : "none";
-      };
+      askBtn.onclick = () => { chatBox.style.display = chatBox.style.display === "none" ? "block" : "none"; };
 
-      // Run GPT button
+      // GPT Run button
       const runBtn = document.createElement("button");
       runBtn.textContent = "▶ Run";
       runBtn.className = "product-btn run-btn";
       runBtn.style.marginTop = "5px";
       card.appendChild(runBtn);
-
       runBtn.onclick = async () => {
         const userText = chatBox.value.trim();
         if (!userText) return;
@@ -295,11 +296,9 @@ function renderProducts(data) {
 
       grid.appendChild(card);
     });
-
     content.appendChild(section);
   }
 }
-
 loadProducts();
 </script>
 </body>

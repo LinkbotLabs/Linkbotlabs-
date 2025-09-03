@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Puter Image Generator - LinkBotLabs</title>
+  <title>Puter Image Generator & Degen - LinkBotLabs</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -35,7 +35,6 @@
     .launch-btn:hover {
       background: #e60070;
     }
-
     /* Lock screen */
     #lock-screen {
       position: fixed; inset: 0;
@@ -60,6 +59,19 @@
       border-radius:8px; text-decoration:none; border:0; cursor:pointer;
     }
     #lock-box a { background:#ffe169; color:#000; }
+
+    /* Degen iframe */
+    #degen-container {
+      margin-top: 50px;
+    }
+    iframe.degen-frame {
+      width: 100%;
+      max-width: 900px;
+      height: 700px;
+      border: 0;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
   </style>
 </head>
 <body>
@@ -79,6 +91,13 @@
       <input type="password" id="unlock-pass" placeholder="Enter password">
       <button onclick="checkPass()">Unlock</button>
     </div>
+  </div>
+
+  <!-- DEGEN EMBED -->
+  <div id="degen-container">
+    <h1>🎲 Degen App</h1>
+    <p>Play directly on this page!</p>
+    <iframe class="degen-frame" src="https://puter.com/app/d-3-g-3-n" allowfullscreen></iframe>
   </div>
 
 <script>

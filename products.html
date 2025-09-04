@@ -5,63 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LinkBotLabs Affiliate Shop</title>
 <style>
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 16px;
-  background: linear-gradient(180deg, #000, #1a1a1a);
-  color: #fff;
-  margin: 0;
-}
-h1 { text-align: center; color: cyan; margin: 15px 0; }
-
-/* Affiliate Banner */
-.affiliate-banner {
-  background: #0077b6;
-  color: #fff;
-  padding: 12px;
-  text-align: center;
-  font-weight: bold;
-}
-
-/* Container */
-.container {
-  padding: 10px;
-}
-
-/* Categories */
-.categories { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 15px; }
-.category-box {
-  padding: 8px 14px; background: #222; border-radius: 6px; cursor: pointer;
-  color: cyan; white-space: nowrap; flex: 0 0 auto;
-}
-.category-box:hover { background: #333; }
-
-/* Products Grid */
-.products { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
-.product-card {
-  background: rgba(26,26,46,0.85); border: 1px solid #3a3a5d; border-radius: 10px;
-  padding: 16px; width: 220px; text-align: center;
-}
-.product-title { font-size: 20px; font-weight: bold; margin: 10px 0; }
-.product-price { color: cyan; font-weight: bold; margin: 8px 0; }
-.product-desc { font-size: 14px; color: #ccc; margin-bottom: 12px; }
-.product-btn {
-  padding: 12px; background: black; border: 2px solid cyan; border-radius: 8px;
-  color: white; font-weight: bold; cursor: pointer; width: 90%;
-  transition: 0.2s;
-}
-.product-btn:hover { background: cyan; color: black; }
-
-/* Affiliate Section */
-.affiliate-section { background: rgba(10,10,40,0.6); padding: 16px; margin: 15px 0; border-radius: 10px; border: 1px solid rgba(0,255,255,0.3);}
-.affiliate-section input, .affiliate-section button { width: 100%; padding: 12px; margin: 6px 0; border-radius: 6px; border: none; font-size: 1rem;}
-.affiliate-section input { background: rgba(15,15,50,0.7); color: #fff;}
-.affiliate-section button { background: linear-gradient(135deg,#00ffff,#00bfff); color:#0b0c22; font-weight:bold; cursor:pointer; transition:0.3s;}
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:16px; background: linear-gradient(180deg,#000,#1a1a1a); color:#fff; margin:0; }
+h1 { text-align:center; color:cyan; margin:15px 0; }
+.affiliate-banner { background:#0077b6; color:#fff; padding:12px; text-align:center; font-weight:bold; }
+.container { padding:10px; }
+.categories { display:flex; gap:10px; overflow-x:auto; margin-bottom:15px; }
+.category-box { padding:8px 14px; background:#222; border-radius:6px; cursor:pointer; color:cyan; white-space:nowrap; flex:0 0 auto; }
+.category-box:hover { background:#333; }
+.products { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; }
+.product-card { background:rgba(26,26,46,0.85); border:1px solid #3a3a5d; border-radius:10px; padding:16px; width:220px; text-align:center; }
+.product-title { font-size:20px; font-weight:bold; margin:10px 0; }
+.product-price { color:cyan; font-weight:bold; margin:8px 0; }
+.product-desc { font-size:14px; color:#ccc; margin-bottom:12px; }
+.product-btn { padding:12px; background:black; border:2px solid cyan; border-radius:8px; color:white; font-weight:bold; cursor:pointer; width:90%; transition:0.2s; }
+.product-btn:hover { background:cyan; color:black; }
+.affiliate-section { background: rgba(10,10,40,0.6); padding:16px; margin:15px 0; border-radius:10px; border:1px solid rgba(0,255,255,0.3);}
+.affiliate-section input, .affiliate-section button { width:100%; padding:12px; margin:6px 0; border-radius:6px; border:none; font-size:1rem;}
+.affiliate-section input { background: rgba(15,15,50,0.7); color:#fff; }
+.affiliate-section button { background: linear-gradient(135deg,#00ffff,#00bfff); color:#0b0c22; font-weight:bold; cursor:pointer; transition:0.3s; }
 .affiliate-section button:hover { opacity:0.85; }
-.output { margin-top: 8px; color: #00ffea; }
-
-/* Responsive */
-@media(max-width:768px){ .products { justify-content: center; } .product-card { width: 90%; } }
+.output { margin-top:8px; color:#00ffea; }
+@media(max-width:768px){ .products{justify-content:center;} .product-card{width:90%;} }
 </style>
 </head>
 <body>
@@ -70,16 +34,10 @@ h1 { text-align: center; color: cyan; margin: 15px 0; }
 <h1>✨ LinkBotLabs Affiliate Shop ✨</h1>
 
 <div class="container">
-  <!-- Categories -->
   <div class="categories" id="categories"></div>
-
-  <!-- Products Grid -->
   <div class="products" id="products"></div>
-
-  <!-- Google Search (to add new products) -->
   <div class="gcse-search"></div>
 
-  <!-- Affiliate Section -->
   <div class="affiliate-section">
     <h2>🚀 Join the Affiliate Program</h2>
     <p>Enter your affiliate tag to activate it:</p>
@@ -91,8 +49,23 @@ h1 { text-align: center; color: cyan; margin: 15px 0; }
   </div>
 </div>
 
+<!-- Google CSE -->
 <script async src="https://cse.google.com/cse.js?cx=f7e219616fe1d4629"></script>
-<script>
+
+<!-- Firebase SDKs -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "linkbotlabs-41504489.firebaseapp.com",
+  projectId: "linkbotlabs-41504489"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 let categoriesDiv = document.getElementById("categories");
 let productsDiv = document.getElementById("products");
 
@@ -104,25 +77,39 @@ function updateBanner() {
 }
 updateBanner();
 
-// Load products.json dynamically
+// Load products from Firestore
 let productData = {};
-fetch('products.json')
-  .then(r => r.json())
-  .then(data => { productData = data; renderCategories(); renderProducts(); })
-  .catch(()=>{ productData = {}; renderCategories(); renderProducts(); });
+async function loadProducts() {
+  try {
+    const snapshot = await getDocs(collection(db, "products"));
+    productData = {};
+    snapshot.forEach(doc => {
+      const p = doc.data();
+      if(!productData[p.category]) productData[p.category] = [];
+      productData[p.category].push(p);
+    });
+    renderCategories();
+    renderProducts();
+  } catch(err) {
+    console.error("Firestore failed, falling back to products.json", err);
+    // Fallback to JSON
+    fetch('products.json')
+      .then(r => r.json())
+      .then(data => { productData = data; renderCategories(); renderProducts(); })
+      .catch(()=>{ productData = {}; renderCategories(); renderProducts(); });
+  }
+}
 
 // Render categories
 function renderCategories() {
   categoriesDiv.innerHTML = "";
   const allBox = document.createElement("div");
-  allBox.className = "category-box";
-  allBox.textContent = "All";
+  allBox.className = "category-box"; allBox.textContent = "All";
   allBox.onclick = ()=>renderProducts();
   categoriesDiv.appendChild(allBox);
   for(const cat of Object.keys(productData)){
     const box = document.createElement("div");
-    box.className = "category-box";
-    box.textContent = cat;
+    box.className = "category-box"; box.textContent = cat;
     box.onclick = ()=>renderProducts(cat);
     categoriesDiv.appendChild(box);
   }
@@ -179,9 +166,12 @@ function appendAffiliateToCSE() {
       }
     });
   });
-  observer.observe(document.body, { childList: true, subtree: true });
+  observer.observe(document.body, { childList:true, subtree:true });
 }
-window.addEventListener("load", appendAffiliateToCSE);
+window.addEventListener("load", ()=>{
+  loadProducts();
+  appendAffiliateToCSE();
+});
 </script>
 </body>
 </html>

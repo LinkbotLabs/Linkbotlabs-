@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Playground – LinkBotLabs</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #0B0F2A;
+        color: #FFFFFF;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    h1 { color: #00FFFF; text-align: center; }
+    #chat-history {
+        width: 100%;
+        max-width: 800px;
+        height: 400px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        overflow-y: scroll;
+        background: rgba(255,255,255,0.05);
+        border-radius: 12px;
+        margin-bottom: 10px;
+    }
+    #user-input { width: 70%; padding: 10px; border-radius: 6px; border: none; }
+    #send-button { width: 25%; padding: 10px; border-radius: 6px; border: none; cursor: pointer; background: #00FFFF; color: #000; font-weight: 700; }
+    #send-button:hover { background: #00CED1; }
+</style>
+</head>
+<body>
+
+<h1>Chat with Kimi K2</h1>
+<div id="chat-history"></div>
+<input type="text" id="user-input" placeholder="Type your message here..." />
+<button id="send-button">Send</button>
+
+<!-- Puter.js library -->
+<script src="https://js.puter.com/v2/"></script>
+<script>
+    const chatHistory = document.getElementById('chat-history');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+
+    function addMessage(sender, message, isStreaming = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.style.marginBottom = '10px';
+        messageDiv.innerHTML = `<strong>${sender}:</strong> <span class="message-content">${message}</span>`;
+        if (sender === 'You') messageDiv.style.color = '#00CCFF';
+        else messageDiv.style.color = '#00FF00';
+        chatHistory.appendChild(messageDiv);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+        if (isStreaming) return messageDiv.querySelector('.message-content');
+    }
+
+    async function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        addMessage('You', message);
+        userInput.value = '';
+        sendButton.disabled = true;
+
+        const responseSpan = addMessage('Kimi K2', '', true);
+
+        try {
+            const response = await puter.ai.chat(message, { model: 'moonshotai/kimi-k2', stream: true });
+            for await (const part of response) {
+                if (part?.text) {
+                    responseSpan.innerHTML += part.text;
+                    chatHistory.scrollTop = chatHistory.scrollHeight;
+                }
+            }
+        } catch (error) {
+            responseSpan.innerHTML = `Error: ${error.message}`;
+        }
+
+        sendButton.disabled = false;
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+</script>
+
+</body>
+</html>

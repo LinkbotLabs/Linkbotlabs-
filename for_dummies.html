@@ -65,6 +65,27 @@
     background: rgba(0,0,40,0.6);
     backdrop-filter: blur(8px);
   }
+  /* Video containers */
+  .video-container {
+    position:relative;
+    padding-bottom:56.25%; /* 16:9 ratio */
+    height:0;
+    margin:1.5rem auto;
+    border-radius:12px;
+    overflow:hidden;
+    border:2px solid #00ffff;
+    max-width:100%;
+  }
+  .video-container iframe {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+  }
+  /* Responsive max widths */
+  .short-video { max-width:400px; }
+  .full-video { max-width:600px; }
 </style>
 </head>
 <body>
@@ -73,84 +94,77 @@
     <h1>⚡ LinkBotLabs Full Automation Tool ⚡</h1>
   </header>
 
-<section>
-  <h2>🚀 What This Tool Does</h2>
-  <p>The <strong>LinkBotLabs Full Automation Tool</strong> is an all-in-one solution for affiliate marketers and content creators. It automates the process of:</p>
-  <ul>
-    <li>Fetching products from Amazon using your <strong>Affiliate Tag + API keys</strong>.</li>
-    <li>Generating <strong>SEO-optimized reviews</strong> instantly.</li>
-    <li>Converting reviews into <strong>voice narration (TTS)</strong>.</li>
-    <li>Assembling product videos with narration + background music.</li>
-    <li>Uploading videos automatically to <strong>YouTube</strong> (or exporting for other platforms).</li>
-    <li>Embedding your <strong>affiliate links</strong> for monetization.</li>
-  </ul>
-</section>
+  <section>
+    <h2>🚀 What This Tool Does</h2>
+    <p>The <strong>LinkBotLabs Full Automation Tool</strong> is an all-in-one solution for affiliate marketers and content creators. It automates the process of:</p>
+    <ul>
+      <li>Fetching products from Amazon using your <strong>Affiliate Tag + API keys</strong>.</li>
+      <li>Generating <strong>SEO-optimized reviews</strong> instantly.</li>
+      <li>Converting reviews into <strong>voice narration (TTS)</strong>.</li>
+      <li>Assembling product videos with narration + background music.</li>
+      <li>Uploading videos automatically to <strong>YouTube</strong> (or exporting for other platforms).</li>
+      <li>Embedding your <strong>affiliate links</strong> for monetization.</li>
+    </ul>
+  </section>
 
-<section>
-  <h2>💼 Download & Purchase Full Automation Tool</h2>
-  <p>Get the full LinkBotLabs automation tool in a single ZIP file:</p>
-  
-  <!-- Full Tool ZIP -->
-  <a href="https://drive.google.com/uc?export=download&id=1YafIRh8OkM_OfzF55iWKDcxc-9So1aPv" class="btn" download>
-    💾 Download Full Automation Tool ZIP
-  </a>
+  <section>
+    <h2>💼 Download & Purchase Full Automation Tool</h2>
+    <p>Get the full LinkBotLabs automation tool in a single ZIP file:</p>
+    <a href="https://drive.google.com/uc?export=download&id=1YafIRh8OkM_OfzF55iWKDcxc-9So1aPv" class="btn" download>
+      💾 Download Full Automation Tool ZIP
+    </a>
+    <a href="https://wise.com/pay/me/davids14542" class="btn" target="_blank">
+      💰 Purchase Full Tool – $50 / £42
+    </a>
+    <p><em>The ZIP contains a demo version (no API keys required – see README) and the full automation desktop version (requires your own Amazon + YouTube API keys).</em></p>
+  </section>
 
-  <!-- Purchase Full Tool -->
-  <a href="https://wise.com/pay/me/davids14542" class="btn" target="_blank">
-    💰 Purchase Full Tool – $50 / £42
-  </a>
+  <section>
+    <h2>📘 Setup Guide</h2>
+    <p>Before using the full tool, make sure you have:</p>
+    <ol>
+      <li>Amazon Affiliate Tag (from <a href="https://affiliate-program.amazon.com/" target="_blank">Amazon Associates</a>).</li>
+      <li>Amazon Product Advertising API keys (for product lookup).</li>
+      <li>YouTube Data API key (for automated uploads).</li>
+    </ol>
+  </section>
 
-  <p><em>The ZIP contains a demo version (no API keys required – see README) and the full automation desktop version (requires your own Amazon + YouTube API keys).</em></p>
-</section>
+  <section>
+    <h2>📺 Watch in Action</h2>
+    <p>Here are examples of videos <strong>fully auto-generated</strong> by the LinkBotLabs tool:</p>
+    
+    <h3>🎬 Featured Short Video</h3>
+    <div class="video-container short-video">
+      <iframe src="https://www.youtube.com/embed/O6N9Y0Q0Q0w" 
+        title="Short Auto Video by LinkBotLabs" 
+        frameborder="0" allowfullscreen>
+      </iframe>
+    </div>
 
-<section>
-  <h2>📘 Setup Guide</h2>
-  <p>Before using the full tool, make sure you have:</p>
-  <ol>
-    <li>Amazon Affiliate Tag (from <a href="https://affiliate-program.amazon.com/" target="_blank">Amazon Associates</a>).</li>
-    <li>Amazon Product Advertising API keys (for product lookup).</li>
-    <li>YouTube Data API key (for automated uploads).</li>
-  </ol>
-</section>
+    <h3>📺 Full-Length Video</h3>
+    <div class="video-container full-video">
+      <iframe src="https://www.youtube.com/embed/UbzRCz52Jes" 
+        title="Full Auto Video by LinkBotLabs" 
+        frameborder="0" allowfullscreen>
+      </iframe>
+    </div>
 
-<section>
-  <h2>📺 Watch in Action</h2>
-  <p>Here are examples of videos <strong>fully auto-generated</strong> by the LinkBotLabs tool:</p>
-  
-  <h3>🎬 Short Video</h3>
-  <div style="position:relative; padding-bottom:56.25%; height:0; margin-bottom:1rem;">
-    <iframe src="https://www.youtube.com/embed/O6N9Y0Q0Q0w" 
-      title="Short Auto Video by LinkBotLabs" 
-      frameborder="0" allowfullscreen 
-      style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius:12px; border:2px solid #00ffff;">
-    </iframe>
-  </div>
+    <p>👉 Explore more automation examples on our official channel: 
+       <a href="https://www.youtube.com/@Linkbotlabs" target="_blank">@LinkBotLabs on YouTube</a>
+    </p>
+  </section>
 
-  <h3>📺 Full-Length Video</h3>
-  <div style="position:relative; padding-bottom:56.25%; height:0; margin-bottom:1rem;">
-    <iframe src="https://www.youtube.com/embed/UbzRCz52Jes" 
-      title="Full Auto Video by LinkBotLabs" 
-      frameborder="0" allowfullscreen 
-      style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius:12px; border:2px solid #00ffff;">
-    </iframe>
-  </div>
+  <section>
+    <p style="margin-top:1rem; font-style:italic; color:#00ffff;">
+      Need passwords for the demo or full automation tool? Please 
+      <a href="index.html#contact-form" style="color:#ffffff; text-decoration:underline;">contact us via the homepage form</a>.
+    </p>
+  </section>
 
-  <p>👉 Explore more automation examples on our official channel: 
-     <a href="https://www.youtube.com/@Linkbotlabs" target="_blank">@LinkBotLabs on YouTube</a>
-  </p>
-</section>
-
-<section>
-  <p style="margin-top:1rem; font-style:italic; color:#00ffff;">
-    Need passwords for the demo or full automation tool? Please 
-    <a href="index.html#contact-form" style="color:#ffffff; text-decoration:underline;">contact us via the homepage form</a>.
-  </p>
-</section>
-
-<footer>
-  <p>© 2025 LinkBotLabs – All Rights Reserved</p>
-  <p>Support development by shopping via <a href="https://www.amazon.com/?tag=mychanneld-20" target="_blank">Amazon Affiliate Link</a></p>
-  <p>Need custom automation? <a href="https://www.fiverr.com/s/jj18w9L?utm_source=CopyLink_Mobile" target="_blank">Hire Me on Fiverr</a></p>
-</footer>
+  <footer>
+    <p>© 2025 LinkBotLabs – All Rights Reserved</p>
+    <p>Support development by shopping via <a href="https://www.amazon.com/?tag=mychanneld-20" target="_blank">Amazon Affiliate Link</a></p>
+    <p>Need custom automation? <a href="https://www.fiverr.com/s/jj18w9L?utm_source=CopyLink_Mobile" target="_blank">Hire Me on Fiverr</a></p>
+  </footer>
 </body>
 </html>

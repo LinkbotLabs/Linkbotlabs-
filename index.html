@@ -18,20 +18,20 @@
     line-height:1.5;
   }
 
-  /* ===== Flash Message ===== */
-  #flash-message {
+  /* ===== Flash Banner ===== */
+  #flash-banner {
     position: fixed;
-    top: 15px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 255, 255, 0.15); 
-    color: white;
-    padding: 12px 20px;
+    background: rgba(0, 255, 255, 0.15);
+    color: #fff;
+    padding: 14px 24px;
     border-radius: 12px;
     backdrop-filter: blur(8px);
     box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1rem;
     text-align: center;
     max-width: 90%;
     z-index: 9999;
@@ -39,7 +39,23 @@
     transition: opacity 1s ease;
     pointer-events: none;
   }
-  #flash-message.show { opacity: 1; }
+  #flash-banner.show { opacity: 1; }
+
+  .flash-link {
+    color: #00FFFF;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 6px;
+    display: inline-block;
+    animation: pulse 1.5s infinite;
+  }
+  .flash-link:hover { color: #00CED1; }
+
+  @keyframes pulse {
+    0% { transform: scale(1); text-shadow: 0 0 0 #00FFFF; }
+    50% { transform: scale(1.1); text-shadow: 0 0 8px #00FFFF, 0 0 12px #00FFFF; }
+    100% { transform: scale(1); text-shadow: 0 0 0 #00FFFF; }
+  }
 
   /* ===== Header ===== */
   header {
@@ -82,13 +98,15 @@
     font-size:1rem;
     backdrop-filter: blur(8px);
     border: 1px solid rgba(0,255,255,0.2);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
   }
   .categories a:hover { transform: scale(1.08); background: rgba(0,255,255,0.15); }
-  .categories img { margin-top:5px; border-radius:8px; width:100%; }
+  .categories img { margin-top:8px; border-radius:8px; width:100%; }
 
   /* ===== Video Container ===== */
   .video-container {
-    position: relative; width: 100%; padding-bottom: 56.25%; margin-bottom:1rem;
+    position: relative; width: 100%; max-width:360px; margin:auto; padding-bottom: 200%; /* for vertical short format */
+    margin-bottom:1rem;
   }
   .video-container iframe {
     position: absolute; top:0; left:0; width:100%; height:100%; border-radius:12px;
@@ -137,12 +155,11 @@
 </head>
 <body>
 
-<!-- Flash Message -->
-<div id="flash-message">
-  💝 No subscription, no hidden fees! Donate any amount to support your developer.<br>
-  Enjoy free AI models, image generators, cloud computing, virtual desktop, affiliate marketing,<br>
-  and our desktop product-to-video generator.<br>
-  👉 Use the contact form below to enquire about the video generator.
+<!-- Flash Banner -->
+<div id="flash-banner">
+  ⚡ Hey there, savvy shopper! Unlock <strong>free AI tools, product hacks & video magic</strong>!<br>
+  💖 Love what you see? Support us with any donation & get exclusive perks! 
+  <a href="#contact-form" class="flash-link">💌 Contact Us!</a>
 </div>
 
 <header>
@@ -175,22 +192,12 @@
 <section>
   <h2>📂 Shop Categories – Support Us</h2>
   <div class="categories">
-    <a href="https://www.amazon.com/s?k=face+cream&tag=mychanneld-20">
-      💆 Face Cream
-      <img src="https://img.youtube.com/vi/abhg_bRxaSQ/hqdefault.jpg" alt="Beauty Video">
-    </a>
-    <a href="https://www.amazon.com/s?k=tech&tag=mychanneld-20">
-      💻 Tech Gadgets
-      <img src="https://img.youtube.com/vi/W-JyOAE9bfw/hqdefault.jpg" alt="Tech Video">
-    </a>
-    <a href="https://www.amazon.com/s?k=kitchen&tag=mychanneld-20">
-      🍳 Kitchen
-      <img src="https://img.youtube.com/vi/R-UUqEVBYT0/hqdefault.jpg" alt="Kitchen Video">
-    </a>
+    <a href="https://www.amazon.com/s?k=face+cream&tag=mychanneld-20">💆 Face Cream</a>
     <a href="https://www.amazon.com/s?k=supplements&tag=mychanneld-20">💊 Supplements</a>
     <a href="https://www.amazon.com/s?k=blender&tag=mychanneld-20">🥤 Blenders</a>
     <a href="https://www.amazon.com/s?k=rice+cooker&tag=mychanneld-20">🍚 Rice Cookers</a>
     <a href="https://www.amazon.com/s?k=headphones&tag=mychanneld-20">🎧 Headphones</a>
+    <a href="https://www.amazon.com/s?k=tech&tag=mychanneld-20">💻 Tech Gadgets</a>
     <a href="https://www.amazon.com/s?k=gaming&tag=mychanneld-20">🎮 Gaming</a>
     <a href="https://www.amazon.com/s?k=fitness&tag=mychanneld-20">🏋️ Fitness</a>
     <a href="https://www.amazon.com/s?k=home+office&tag=mychanneld-20">🏠 Home Office</a>
@@ -228,11 +235,11 @@
 </footer>
 
 <script>
-  // Flash message
+  // Flash banner
   window.addEventListener("load", () => {
-    const flash = document.getElementById("flash-message");
-    flash.classList.add("show");
-    setTimeout(() => { flash.classList.remove("show"); }, 12000);
+    const banner = document.getElementById("flash-banner");
+    banner.classList.add("show");
+    setTimeout(() => { banner.classList.remove("show"); }, 12000);
   });
 
   // EmailJS contact form

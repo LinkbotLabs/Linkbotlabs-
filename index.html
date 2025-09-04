@@ -13,8 +13,8 @@
   body {
     font-family: 'Inter', sans-serif;
     margin:0; padding:0;
-    background-color: #0B0F2A; /* Dark navy */
-    color: #FFFFFF; /* White text */
+    background-color: #0B0F2A; 
+    color: #FFFFFF; 
     line-height:1.5;
   }
 
@@ -24,11 +24,11 @@
     top: 15px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 255, 255, 0.2); /* Glass cyan effect */
+    background: rgba(0, 255, 255, 0.15); 
     color: white;
     padding: 12px 20px;
     border-radius: 12px;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
     box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     font-weight: 600;
     font-size: 0.95rem;
@@ -57,7 +57,7 @@
   /* ===== Buttons ===== */
   .btn {
     display:inline-block; margin:0.5rem; padding:1rem 1.5rem;
-    background: rgba(0,255,255,0.2); /* Glassy cyan */
+    background: rgba(0,255,255,0.2);
     color:white; text-decoration:none; border-radius:8px;
     font-weight:700; transition: all 0.3s ease;
     font-size:1.05rem;
@@ -84,6 +84,7 @@
     border: 1px solid rgba(0,255,255,0.2);
   }
   .categories a:hover { transform: scale(1.08); background: rgba(0,255,255,0.15); }
+  .categories img { margin-top:5px; border-radius:8px; width:100%; }
 
   /* ===== Video Container ===== */
   .video-container {
@@ -164,23 +165,46 @@
 </section>
 
 <section>
-  <h2>📺 AI Playground + Automation</h2>
+  <h2>📺 Featured Short Video</h2>
   <div class="video-container">
-    <iframe src="https://www.youtube.com/embed/GVtN9ZgYsQc?si=3IZ7-xQWjINVpw6i" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/O6N9Y0Q0Q0w?si=PLkF_PyWpWTtOjbJ" allowfullscreen></iframe>
   </div>
-  <p>See how the Playground & desktop app can turn a product into a script + video in minutes.</p>
+  <p>See how our tools work in seconds with this short demo video.</p>
 </section>
 
 <section>
   <h2>📂 Shop Categories – Support Us</h2>
   <div class="categories">
-    <a href="https://www.amazon.com/s?k=face+cream&tag=mychanneld-20">💆 Face Cream</a>
+    <a href="https://www.amazon.com/s?k=face+cream&tag=mychanneld-20">
+      💆 Face Cream
+      <img src="https://img.youtube.com/vi/abhg_bRxaSQ/hqdefault.jpg" alt="Beauty Video">
+    </a>
+    <a href="https://www.amazon.com/s?k=tech&tag=mychanneld-20">
+      💻 Tech Gadgets
+      <img src="https://img.youtube.com/vi/W-JyOAE9bfw/hqdefault.jpg" alt="Tech Video">
+    </a>
+    <a href="https://www.amazon.com/s?k=kitchen&tag=mychanneld-20">
+      🍳 Kitchen
+      <img src="https://img.youtube.com/vi/R-UUqEVBYT0/hqdefault.jpg" alt="Kitchen Video">
+    </a>
     <a href="https://www.amazon.com/s?k=supplements&tag=mychanneld-20">💊 Supplements</a>
     <a href="https://www.amazon.com/s?k=blender&tag=mychanneld-20">🥤 Blenders</a>
     <a href="https://www.amazon.com/s?k=rice+cooker&tag=mychanneld-20">🍚 Rice Cookers</a>
     <a href="https://www.amazon.com/s?k=headphones&tag=mychanneld-20">🎧 Headphones</a>
-    <a href="https://www.amazon.com/s?k=tech&tag=mychanneld-20">💻 Tech Gadgets</a>
+    <a href="https://www.amazon.com/s?k=gaming&tag=mychanneld-20">🎮 Gaming</a>
+    <a href="https://www.amazon.com/s?k=fitness&tag=mychanneld-20">🏋️ Fitness</a>
+    <a href="https://www.amazon.com/s?k=home+office&tag=mychanneld-20">🏠 Home Office</a>
+    <a href="https://www.amazon.com/s?k=books&tag=mychanneld-20">📚 Books</a>
+    <a href="https://www.amazon.com/s?k=smart+home&tag=mychanneld-20">🏡 Smart Home</a>
   </div>
+</section>
+
+<section>
+  <h2>📺 Full Video + Channel</h2>
+  <div class="video-container">
+    <iframe src="https://www.youtube.com/embed/UbzRCz52Jes?si=Jab3bIzHQ5A9ZvsB" allowfullscreen></iframe>
+  </div>
+  <p>📺 Explore more videos on our <a href="https://www.youtube.com/@Linkbotlabs" target="_blank">YouTube @Linkbotlabs</a></p>
 </section>
 
 <section>
@@ -194,7 +218,6 @@
   <p id="form-status" style="margin-top:10px; font-size:0.9rem; color:#00FFFF;"></p>
 </section>
 
-<!-- Credit Block -->
 <section class="credit">
   ⚡ Some apps and services here are powered by 
   <a href="https://puter.com" target="_blank">Puter Cloud Platform</a>.

@@ -18,6 +18,45 @@
     line-height:1.5;
   }
 
+  /* ===== Flash Banner ===== */
+  #flash-banner {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 255, 255, 0.15);
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    max-width: 90%;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+  }
+  #flash-banner.show { opacity: 1; }
+
+  .flash-link {
+    color: #00FFFF;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 6px;
+    display: inline-block;
+    animation: pulse 1.5s infinite;
+  }
+  .flash-link:hover { color: #00CED1; }
+
+  @keyframes pulse {
+    0% { transform: scale(1); text-shadow: 0 0 0 #00FFFF; }
+    50% { transform: scale(1.1); text-shadow: 0 0 8px #00FFFF, 0 0 12px #00FFFF; }
+    100% { transform: scale(1); text-shadow: 0 0 0 #00FFFF; }
+  }
+
   /* ===== Header ===== */
   header {
     text-align:center;
@@ -63,9 +102,9 @@
   }
   .categories a:hover { transform: scale(1.08); background: rgba(0,255,255,0.15); }
 
-  /* ===== Video Container ===== */
+  /* ===== Video Containers ===== */
   .video-container {
-    position: relative; width: 100%; max-width:720px; margin:auto; padding-bottom:56.25%; /* 16:9 landscape */
+    position: relative; width: 100%; max-width:800px; margin:auto; padding-bottom: 56.25%; /* 16:9 */
     margin-bottom:1rem;
   }
   .video-container iframe {
@@ -73,26 +112,23 @@
     border: 2px solid #00FFFF;
   }
 
-  /* ===== Donation / Unlock Banner ===== */
-  #donation-banner {
-    background: rgba(0,255,255,0.15);
-    color: #FFFFFF;
-    padding: 14px 24px;
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    text-align: center;
-    max-width: 95%;
-    margin: 1.5rem auto;
-    border: 1px solid #00FFFF;
-    font-weight: 600;
-    line-height:1.4;
+  /* ===== Short Video Portrait ===== */
+  .short-video-container {
+    position: relative;
+    width: 320px;           
+    max-width: 100%;
+    margin: 0 auto 1rem;
+    padding-bottom: 177%;    /* 9:16 aspect ratio */
   }
-  #donation-banner a {
-    color:#00FFFF;
-    font-weight:700;
-    text-decoration:none;
+  .short-video-container iframe {
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    border-radius:12px;
+    border: 2px solid #00FFFF;
   }
-  #donation-banner a:hover { color:#00CED1; }
 
   /* ===== Forms ===== */
   .contact-form input, .contact-form textarea {
@@ -151,14 +187,16 @@
 <section>
   <h2>📖 About the Tool</h2>
   <p>LinkBotLabs gives you full <strong>product search, description writing, review scripts, and video automation</strong>.<br>
-     Download the desktop demo ZIP, extract & run – no key needed.<br>
+     Explore the full tools here: <a href="automation.html" class="btn">⚙️ Full Automation Tool</a><br>
      Share our affiliate links to earn <strong>commissions together</strong> on every sale!</p>
 </section>
 
-<section id="donation-banner">
-💖 Support & Unlock Everything!<br>
-Make a <strong>one-time donation</strong> via Wise or purchase <strong>any product</strong> from our affiliate store to unlock **full AI Playground access** and our **Affiliate Program** perks.  
-<a href="https://wise.com/pay/me/davids14542" target="_blank">💌 Donate Now!</a>
+<section>
+  <h2>📱 Featured Short Video</h2>
+  <div class="short-video-container">
+    <iframe src="https://www.youtube.com/shorts/O6N9Y0Q0Q0w?feature=share" frameborder="0" allowfullscreen></iframe>
+  </div>
+  <p>See how our tools work in seconds with this short demo video.</p>
 </section>
 
 <section>
@@ -176,14 +214,6 @@ Make a <strong>one-time donation</strong> via Wise or purchase <strong>any produ
     <a href="https://www.amazon.com/s?k=books&tag=mychanneld-20">📚 Books</a>
     <a href="https://www.amazon.com/s?k=smart+home&tag=mychanneld-20">🏡 Smart Home</a>
   </div>
-</section>
-
-<section>
-  <h2>📺 Featured Short Video</h2>
-  <div class="video-container">
-    <iframe src="https://www.youtube.com/embed/O6N9Y0Q0Q0w?si=PLkF_PyWpWTtOjbJ" allowfullscreen></iframe>
-  </div>
-  <p>See how our tools work in seconds with this short demo video.</p>
 </section>
 
 <section>
@@ -207,7 +237,7 @@ Make a <strong>one-time donation</strong> via Wise or purchase <strong>any produ
 
 <section class="credit">
   ⚡ Some apps and services here are powered by 
-  <a href="https://puter.com" target="_blank">Puter Cloud Platform</a>.
+  <a href="puter.com" target="_blank">Puter Cloud Platform</a>.
 </section>
 
 <footer>
@@ -215,6 +245,8 @@ Make a <strong>one-time donation</strong> via Wise or purchase <strong>any produ
 </footer>
 
 <script>
+  // Flash banner removed (as requested)
+
   // EmailJS contact form
   emailjs.init("bceEcXpLIRDpJxOHM"); 
   const form = document.getElementById("contact-form");

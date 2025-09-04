@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>LinkBotLabs – AI Playground</title>
+<title>LinkBotLabs – AI Playground + Products</title>
 <script src="https://js.puter.com/v2/"></script>
 <style>
   :root {
@@ -13,7 +13,6 @@
     --text: #ffffff;
     --muted: #7deaff;
     --accent: #00fff7;
-    --affiliate-bg: #0077b6;
   }
   * { box-sizing: border-box; }
   body { margin:0; padding:24px; font-family: system-ui, Inter, sans-serif; background: var(--background); color: var(--text); }
@@ -21,41 +20,23 @@
   h2 { color: var(--accent); }
   .grid { display:grid; grid-template-columns:repeat(12,1fr); gap:18px; }
   .card { grid-column: span 12; background: var(--glass); border: 1px solid var(--stroke); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
-  @media(min-width:900px){ #card-chat,#card-stream,#card-image{grid-column: span 6;} }
+  @media(min-width:900px){ #card-chat,#card-stream,#card-image,#card-search{grid-column: span 6;} }
   label { display:block; font-size:12px; color:var(--muted); margin:8px 0 6px; }
-  textarea,select { width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--stroke); border-radius:12px; padding:12px 14px; color:var(--text); outline:none; }
+  textarea,select,input { width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--stroke); border-radius:12px; padding:12px 14px; color:var(--text); outline:none; }
   textarea { min-height:120px; }
   button { margin-top:12px; padding:12px 16px; background:var(--accent); color:#000; border:none; border-radius:12px; font-weight:700; cursor:pointer; transition: all .2s; }
   button:hover { transform:translateY(-2px); }
   .output { margin-top:14px; padding:16px; border-radius:12px; border:1px solid var(--stroke); background:rgba(255,255,255,0.05); min-height:140px; white-space:pre-wrap; overflow-y:auto; }
   .hint { font-size:12px; color:var(--muted); }
-
-  /* --- Affiliate Banner --- */
-  #affiliate-banner { background: var(--affiliate-bg); color: white; padding: 10px; text-align: center; font-weight: bold; font-size: 1rem; margin-bottom:12px; }
-
-  /* --- Lock Screen --- */
-  #lock-screen { position:fixed; inset:0; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.9); z-index:9999; }
-  #lock-box { max-width:400px; padding:25px; background:rgba(10,10,30,0.7); border:1px solid var(--accent); border-radius:15px; text-align:center; color:#fff; }
-  #lock-box h2 { color:var(--accent); margin-bottom:12px; }
-  #lock-box a, #lock-box button { display:block; margin:12px auto 0; padding:10px 16px; border-radius:10px; background:rgba(0,255,255,0.2); border:1px solid var(--accent); color:var(--accent); font-weight:bold; text-decoration:none; cursor:pointer; }
-  #lock-box a:hover,#lock-box button:hover{background:rgba(0,255,255,0.4);color:#fff;}
-  #lock-box input { width:100%; padding:10px; margin-top:12px; border-radius:8px; border:1px solid var(--accent); background:rgba(0,0,50,0.7); color:var(--accent); }
 </style>
 </head>
 <body>
 
-<!-- Affiliate Banner -->
-<div id="affiliate-banner">Active Affiliate Tag: <span id="activeTag"></span></div>
-
-<h1>🤖 LinkBotLabs – AI Playground</h1>
+<h1>🤖 LinkBotLabs – AI Playground + Product Search</h1>
 <p class="hint">Demo lasts 15 minutes. After that, please donate to unlock unlimited access across all AI apps.</p>
 
-<!-- Product Search -->
-<h2>Search Products</h2>
-<div class="gcse-search"></div>
-<script async src="https://cse.google.com/cse.js?cx=f7e219616fe1d4629"></script>
-
 <div class="grid">
+
   <!-- Chat -->
   <div class="card" id="card-chat">
     <h2>Chat / Q&amp;A</h2>
@@ -73,21 +54,6 @@
     <div class="output" id="chat-out"></div>
   </div>
 
-  <!-- Streaming -->
-  <div class="card" id="card-stream">
-    <h2>Streaming Responses</h2>
-    <label for="stream-model">Model</label>
-    <select id="stream-model">
-      <option value="gpt-4.1-nano" selected>GPT-4.1-nano</option>
-      <option value="gpt-4.1">GPT-4.1</option>
-      <option value="gpt-4o">GPT-4o</option>
-    </select>
-    <label for="stream-prompt">Prompt</label>
-    <textarea id="stream-prompt">Explain relativity in detail.</textarea>
-    <button id="stream-run">Stream</button>
-    <div class="output" id="stream-out"></div>
-  </div>
-
   <!-- Image -->
   <div class="card" id="card-image">
     <h2>Image Generator</h2>
@@ -97,113 +63,70 @@
     <button id="image-run">Generate</button>
     <div class="output" id="image-out"></div>
   </div>
-</div>
 
-<!-- Lock screen -->
-<div id="lock-screen">
-  <div id="lock-box">
-    <h2>💝 Demo Expired</h2>
-    <p>Donate any amount once to unlock all AI apps forever.</p>
-    <a href="https://wise.com/pay/me/davids14542" target="_blank">Donate via Wise</a>
-    <p style="margin-top:12px;font-size:14px;color:#aaa;">
-      After donation you’ll receive a password.<br>Enter it below to unlock:
-    </p>
-    <input type="password" id="unlock-pass" placeholder="Enter password">
-    <button onclick="checkPass()">Unlock</button>
+  <!-- Product Search -->
+  <div class="card" id="card-search">
+    <h2>Product Search (Amazon + Temu)</h2>
+    <label for="search-query">Search Products</label>
+    <input type="text" id="search-query" placeholder="Enter product name">
+    <button id="search-btn">Search</button>
+    <div class="output" id="search-output"></div>
   </div>
+
 </div>
 
 <script>
-/* ---------- AFFILIATE ---------- */
-let defaultAffiliateTag = "davids-20";
-let userAffiliateTag = localStorage.getItem("affiliateTag") || defaultAffiliateTag;
-function updateAffiliateBanner(){ 
-  document.getElementById("activeTag").textContent = localStorage.getItem("affiliateTag") ? userAffiliateTag + " (User)" : userAffiliateTag + " (Default)"; 
-}
-updateAffiliateBanner();
-
-/* ---------- DEMO TIMER + UNLOCK ---------- */
-const PASSWORD = "unlockai";
-let unlocked = localStorage.getItem("aiUnlocked")==="true";
-let demoActive = true;
-setTimeout(()=>{ demoActive=false; if(!unlocked) showLock(); },15*60*1000);
-function showLock(){ document.getElementById("lock-screen").style.display="flex"; }
-function checkPass(){
-  const val=document.getElementById("unlock-pass").value.trim();
-  if(val===PASSWORD){
-    unlocked=true; localStorage.setItem("aiUnlocked","true");
-    document.getElementById("lock-screen").style.display="none";
-    alert("✅ Unlimited access unlocked across all AI apps!");
-  } else { alert("❌ Wrong password. Please donate to get your unlock code."); }
-}
-
-/* ---------- HELPERS ---------- */
-function putText(el,text){ el.innerHTML=text; }
-function appendText(el,text){ el.innerHTML+=text; }
-function escapeHTML(str){ return str.replace(/[&<>]/g, t=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[t])); }
-function normalizeResp(r){ return r?.output_text||r?.text||r?.message?.content||r||""; }
-
-/* ---------- CHAT ---------- */
+/* ------------------ AI CHAT ------------------ */
 async function runChat(){
-  if(!unlocked && !demoActive) return showLock();
+  const unlocked=true; // remove demo lock for simplicity
   const m=document.getElementById("chat-model").value;
   const p=document.getElementById("chat-prompt").value.trim();
   const o=document.getElementById("chat-out");
-  if(!p) return putText(o,"Enter a prompt");
-  putText(o,"Thinking…");
-  try{ const r=await puter.ai.chat(p,{model:m}); putText(o,escapeHTML(normalizeResp(r)).replaceAll("\n","<br>")); }
-  catch(e){ putText(o,"Error: "+e.message); }
+  if(!p) return o.innerHTML="Enter a prompt";
+  o.innerHTML="Thinking…";
+  try{
+    const r=await puter.ai.chat(p,{model:m});
+    o.innerHTML=r?.output_text || r?.text || r?.message?.content || r || "";
+  } catch(e){ o.innerHTML="Error: "+e.message; }
 }
 document.getElementById("chat-run").onclick=runChat;
 
-/* ---------- STREAM ---------- */
-async function runStream(){
-  if(!unlocked && !demoActive) return showLock();
-  const m=document.getElementById("stream-model").value;
-  const p=document.getElementById("stream-prompt").value.trim();
-  const o=document.getElementById("stream-out");
-  putText(o,"");
-  try{
-    const s=await puter.ai.chat(p,{model:m,stream:true});
-    for await(const part of s){ appendText(o,escapeHTML(normalizeResp(part)).replaceAll("\n","<br>")); }
-  }catch(e){ putText(o,"Error: "+e.message); }
-}
-document.getElementById("stream-run").onclick=runStream;
-
-/* ---------- IMAGE ---------- */
-let usedImage=false;
+/* ------------------ IMAGE GENERATOR ------------------ */
 async function runImage(){
-  if(!unlocked && !demoActive){
-    if(!usedImage){ usedImage=true; localStorage.setItem("imageUsed","true"); }
-    else return showLock();
-  }
   const p=document.getElementById("image-prompt").value.trim();
   const o=document.getElementById("image-out");
-  putText(o,"Generating...");
+  o.innerHTML="Generating...";
   try{
     const r=await puter.ai.image(p,{size:"512x512"});
-    if(r?.url) putText(o,'<img src="'+r.url+'" style="max-width:100%;border-radius:10px;">');
-    else putText(o,"No image returned.");
-  }catch(e){ putText(o,"Error: "+e.message); }
+    if(r?.url) o.innerHTML='<img src="'+r.url+'" style="max-width:100%;border-radius:10px;">';
+    else o.innerHTML="No image returned.";
+  } catch(e){ o.innerHTML="Error: "+e.message; }
 }
 document.getElementById("image-run").onclick=runImage;
 
-/* ---------- GOOGLE CSE AFFILIATE INTEGRATION ---------- */
-function appendAffiliateToCSE() {
-  const observer = new MutationObserver(() => {
-    document.querySelectorAll(".gsc-results .gsc-thumbnail-inside a, .gsc-results .gsc-url-top a")
-      .forEach(link => {
-        if(!link.dataset.affiliateApplied){
-          let url = new URL(link.href);
-          url.searchParams.set("tag", userAffiliateTag);
-          link.href = url.toString();
-          link.dataset.affiliateApplied = true;
-        }
-      });
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
+/* ------------------ GOOGLE CUSTOM SEARCH ------------------ */
+const API_KEY = "AIzaSyB9YwW8EVXQJsVwSMbJrk-NU9B9ZrzzkGs";
+const CSE_ID = "f7e219616fe1d4629";
+
+async function searchProducts(query){
+  const o=document.getElementById("search-output");
+  o.innerHTML="Searching…";
+  try {
+    const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CSE_ID}&q=${encodeURIComponent(query)}&num=10`);
+    const data = await res.json();
+    if(!data.items || data.items.length===0){ o.innerHTML="No results found."; return; }
+    o.innerHTML = data.items.map(item => `
+      <div style="margin-bottom:12px; padding:10px; border:1px solid #ccc; border-radius:8px;">
+        <a href="${item.link}" target="_blank"><strong>${item.title}</strong></a>
+        <p>${item.snippet}</p>
+      </div>
+    `).join("");
+  } catch(e){ o.innerHTML="Error: "+e.message; }
 }
-window.addEventListener("load", appendAffiliateToCSE);
+document.getElementById("search-btn").onclick = () => {
+  const q = document.getElementById("search-query").value.trim();
+  if(q) searchProducts(q);
+};
 </script>
 
 </body>

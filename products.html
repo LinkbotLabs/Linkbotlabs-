@@ -36,7 +36,6 @@ h1 { text-align:center; color:cyan; margin:15px 0; }
 <div class="container">
   <div class="categories" id="categories"></div>
   <div class="products" id="products"></div>
-  <div class="gcse-search"></div>
 
   <div class="affiliate-section">
     <h2>🚀 Join the Affiliate Program</h2>
@@ -92,7 +91,6 @@ async function loadProducts() {
     renderProducts();
   } catch(err) {
     console.error("Firestore failed, falling back to products.json", err);
-    // Fallback to JSON
     fetch('products.json')
       .then(r => r.json())
       .then(data => { productData = data; renderCategories(); renderProducts(); })
@@ -153,14 +151,36 @@ document.getElementById("affiliateForm").addEventListener("submit", e=>{
   } else document.getElementById("regOutput").innerText = "❌ Enter a valid affiliate tag.";
 });
 
-// Append affiliate to Google search links
+// Google Custom Search integration with affiliate tag
+const API_KEY = "AIzaSyB9YwW8EVXQJsVwSMbJrk-NU9B9ZrzzkGs";
+const CSE_ID = "f7e219616fe1d4629";
+
+async function searchProducts(query){
+  const outputDiv = document.getElementById("products");
+  outputDiv.innerHTML = "Searching…";
+  try{
+    const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CSE_ID}&q=${encodeURIComponent(query)}&num=10`);
+    const data = await res.json();
+    if(!data.items || data.items.length===0){ outputDiv.innerHTML="No results found."; return; }
+    outputDiv.innerHTML = data.items.map(item=>{
+      let link = item.link;
+      if(userAffiliateTag) link += (link.includes("?") ? "&" : "?") + "tag=" + userAffiliateTag;
+      return `<div class="product-card">
+                <h3 class="product-title">${item.title}</h3>
+                <p class="product-desc">${item.snippet}</p>
+                <button class="product-btn" onclick="window.open('${link}','_blank')">🛒 Buy Now</button>
+              </div>`;
+    }).join("");
+  }catch(e){ outputDiv.innerHTML="Error: "+e.message; }
+}
+
+// Observe dynamically loaded CSE links to add affiliate tag
 function appendAffiliateToCSE() {
-  const userTag = localStorage.getItem("affiliateTag") || "davids-20";
   const observer = new MutationObserver(() => {
     document.querySelectorAll(".gsc-results .gsc-thumbnail-inside a, .gsc-results .gsc-url-top a").forEach(link => {
       if (!link.dataset.affiliateApplied) {
         let url = new URL(link.href);
-        url.searchParams.set("tag", userTag);
+        url.searchParams.set("tag", userAffiliateTag || "davids-20");
         link.href = url.toString();
         link.dataset.affiliateApplied = true;
       }
@@ -168,6 +188,7 @@ function appendAffiliateToCSE() {
   });
   observer.observe(document.body, { childList:true, subtree:true });
 }
+
 window.addEventListener("load", ()=>{
   loadProducts();
   appendAffiliateToCSE();

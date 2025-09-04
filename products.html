@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LinkBotLabs Products + Affiliate</title>
+<title>LinkBotLabs Products + Affiliate + Search</title>
 <style>
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -41,13 +41,12 @@ h1 { text-align: center; color: cyan; margin: 10px 0; }
   overflow-y: auto;
   padding-right: 10px;
 }
-.products {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+
+/* Google Search Box */
+.gcse-search { margin-bottom: 12px; }
 
 /* Product Cards */
+.products { display: flex; flex-direction: column; gap: 12px; }
 .product-card {
   background: rgba(26,26,46,0.85);
   border: 1px solid #3a3a5d;
@@ -198,8 +197,10 @@ button:hover { opacity:0.85; }
 <h1>✨ LinkBotLabs Product Picks ✨</h1>
 
 <div class="container">
-  <!-- Products -->
+  <!-- Products + Search -->
   <div class="products-section">
+    <!-- Google Custom Search -->
+    <div class="gcse-search"></div>
     <div class="categories" id="categories"></div>
     <div class="products" id="products"></div>
   </div>
@@ -232,7 +233,9 @@ button:hover { opacity:0.85; }
   <div id="regOutput" class="output"></div>
 </div>
 
+<!-- Scripts -->
 <script src="https://js.puter.com/v2/"></script>
+<script async src="https://cse.google.com/cse.js?cx=f7e219616fe1d4629"></script>
 <script>
 const categoriesDiv = document.getElementById("categories");
 const productsDiv = document.getElementById("products");
@@ -256,12 +259,8 @@ updateBanner();
 let productData = {};
 fetch('products.json')
   .then(r => r.json())
-  .then(data => {
-    productData = data;
-    renderCategories();
-    renderProducts();
-  })
-  .catch(()=>{
+  .then(data => { productData = data; renderCategories(); renderProducts(); })
+  .catch(()=>{ // fallback
     productData = {
       "Health": [{title:"Vitamin C", description:"Boost immunity", price:"$10", url:"#"}],
       "Beauty": [{title:"Lipstick", description:"Long-lasting color", price:"$15", url:"#"}],
@@ -269,8 +268,7 @@ fetch('products.json')
       "Tech": [{title:"Headphones", description:"Noise cancelling", price:"$120", url:"#"}],
       "Temu": [{title:"Cute plush", description:"Soft and fun", price:"$12", url:"#"}]
     };
-    renderCategories();
-    renderProducts();
+    renderCategories(); renderProducts();
   });
 
 // Render categories
@@ -355,6 +353,24 @@ document.getElementById("affiliateForm").addEventListener("submit", e=>{
     updateBanner();
   } else document.getElementById("regOutput").innerText = "❌ Enter a valid affiliate tag.";
 });
+
+// Add affiliate tag to Google CSE results
+function appendAffiliateToCSE() {
+  const userTag = localStorage.getItem("affiliateTag") || "davids-20"; // default
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll(".gsc-results .gsc-thumbnail-inside a, .gsc-results .gsc-url-top a").forEach(link => {
+      if (!link.dataset.affiliateApplied) {
+        let url = new URL(link.href);
+        url.searchParams.set("tag", userTag);
+        link.href = url.toString();
+        link.dataset.affiliateApplied = true;
+      }
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+window.addEventListener("load", appendAffiliateToCSE);
 </script>
 
 </body>

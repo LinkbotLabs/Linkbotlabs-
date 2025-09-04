@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
 
 <style>
-  /* --- Global Styles --- */
   body {
     font-family: 'Inter', sans-serif;
     margin: 0; padding: 0;
@@ -46,7 +45,6 @@
   section { padding:2.5rem 1rem; text-align:center; max-width:1100px; margin:auto; }
   h2 { font-size:2rem; margin-bottom:1.3rem; color:#00FFFF; }
 
-  /* --- Categories --- */
   .categories {
     display:flex; flex-wrap:wrap; justify-content:center; gap:0.8rem;
   }
@@ -62,19 +60,15 @@
   }
   .categories a:hover { transform: scale(1.08); background: rgba(0,255,255,0.15); }
 
-  /* --- Videos --- */
-  .video-container, .short-video-container {
+  .video-container {
     position: relative; width: 100%; max-width:800px; margin:auto; overflow:hidden; border-radius:12px;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+    border: 2px solid #00FFFF; margin-bottom:1rem;
   }
-
-  .video-container { padding-top: 56.25%; /* 16:9 aspect ratio */ border: 2px solid #00FFFF; margin-bottom:1rem; }
-  .short-video-container { padding-top: 177%; /* 9:16 vertical */ border: 2px solid #00FFFF; margin-bottom:1rem; max-width:320px; }
-
-  .video-container iframe, .short-video-container iframe {
+  .video-container iframe {
     position: absolute; top:0; left:0; width:100%; height:100%; border-radius:12px; border:none;
   }
 
-  /* --- Forms --- */
   .contact-form input, .contact-form textarea {
     padding:10px; width:100%; max-width:320px; border-radius:6px; border:none; margin:5px 0;
     background: rgba(255,255,255,0.05); color:white; backdrop-filter: blur(5px);
@@ -106,7 +100,6 @@
   footer a { color:#00FFFF; text-decoration:none; }
   footer a:hover { color:#00CED1; }
 
-  /* --- Responsive --- */
   @media (max-width:480px) {
     header h1 { font-size:2rem; }
     header p { font-size:1rem; }
@@ -134,19 +127,6 @@
   <p>LinkBotLabs gives you full <strong>product search, description writing, review scripts, and video automation</strong>.<br>
      Explore the full tools here: <a href="for_dummies.html" class="btn">⚙️ Full Automation Tool</a><br>
      Share our affiliate links to earn <strong>commissions together</strong> on every sale!</p>
-</section>
-
-<section>
-  <h2>📱 Featured Short Video</h2>
-  <div class="short-video-container">
-    <iframe 
-      src="https://www.youtube.com/embed/T81maTrI-kw?si=CCUsY1g_WOzneP4A" 
-      allowfullscreen>
-    </iframe>
-  </div>
-  <p style="text-align:center; max-width:320px; margin:auto;">
-    See how our tools work in seconds with this short demo video.
-  </p>
 </section>
 
 <section>

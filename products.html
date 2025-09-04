@@ -26,35 +26,30 @@ h1 { text-align: center; color: cyan; margin: 10px 0; }
   display: none;
 }
 
-/* Categories */
-.categories {
+/* Container layout */
+.container {
   display: flex;
-  overflow-x: auto;
-  padding: 10px;
+  height: calc(100vh - 60px);
   gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
 }
-.category-box {
-  flex: 0 0 auto;
-  padding: 12px 16px;
-  background: #222;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  white-space: nowrap;
-  text-align: center;
-  color: cyan;
-}
-.category-box:hover { background: #333; }
 
-/* Product Cards */
+/* Products Section */
+.products-section {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+}
 .products {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 10px;
 }
+
+/* Product Cards */
 .product-card {
-  background: rgba(26, 26, 46, 0.85);
+  background: rgba(26,26,46,0.85);
   border: 1px solid #3a3a5d;
   padding: 20px;
   border-radius: 10px;
@@ -78,15 +73,38 @@ h1 { text-align: center; color: cyan; margin: 10px 0; }
 }
 .product-btn:hover { background: cyan; color: black; }
 
+/* Categories */
+.categories {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0;
+  gap: 10px;
+}
+.category-box {
+  flex: 0 0 auto;
+  padding: 12px 16px;
+  background: #222;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+  color: cyan;
+}
+.category-box:hover { background: #333; }
+
 /* Chat Section */
 .chat-section {
-  background: rgba(15, 15, 25, 0.9);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: rgba(15,15,25,0.9);
   padding: 12px;
-  margin-top: 12px;
   border-radius: 10px;
+  position: relative;
 }
 #chat-feed {
-  max-height: 200px;
+  flex: 1;
   overflow-y: auto;
   padding: 10px;
   font-size: 20px;
@@ -151,6 +169,14 @@ button {
 }
 button:hover { opacity:0.85; }
 .output { margin-top: 8px; color: #00ffea; }
+
+/* Responsive */
+@media (max-width: 768px){
+  .container { flex-direction: column; height: auto; }
+  .products-section, .chat-section { width: 100%; height: 50vh; }
+  .products-section { order: 2; overflow-y: scroll; }
+  .chat-section { order: 1; }
+}
 </style>
 </head>
 <body>
@@ -158,21 +184,23 @@ button:hover { opacity:0.85; }
 <div id="affiliate-banner" class="affiliate-banner"></div>
 <h1>✨ LinkBotLabs Product Picks ✨</h1>
 
-<!-- Categories -->
-<div class="categories" id="categories"></div>
+<div class="container">
+  <!-- Products -->
+  <div class="products-section">
+    <div class="categories" id="categories"></div>
+    <div class="products" id="products"></div>
+  </div>
 
-<!-- Products -->
-<div class="products" id="products"></div>
-
-<!-- Chat -->
-<div class="chat-section">
-  <div id="chat-feed"></div>
-  <div class="chat-input">
-    <textarea id="chatText" placeholder="Type your message..."></textarea>
-    <button id="runGlobal" class="round-btn">▶</button>
-    <button id="speakGlobal" class="round-btn">🎤</button>
-    <button id="clearGlobal" class="round-btn">❌</button>
-    <button id="ttsGlobal" class="round-btn">🔊</button>
+  <!-- Chat -->
+  <div class="chat-section">
+    <div id="chat-feed"></div>
+    <div class="chat-input">
+      <textarea id="chatText" placeholder="Type your message..."></textarea>
+      <button id="runGlobal" class="round-btn">▶</button>
+      <button id="speakGlobal" class="round-btn">🎤</button>
+      <button id="clearGlobal" class="round-btn">❌</button>
+      <button id="ttsGlobal" class="round-btn">🔊</button>
+    </div>
   </div>
 </div>
 
@@ -211,14 +239,27 @@ function updateBanner() {
 }
 updateBanner();
 
-// Sample product data (replace with products.json fetch if needed)
-const productData = {
-  "Health": [{title:"Vitamin C", description:"Boost immunity", price:"$10", url:"#"}],
-  "Beauty": [{title:"Lipstick", description:"Long-lasting color", price:"$15", url:"#"}],
-  "Kitchen": [{title:"Blender", description:"Smoothies fast", price:"$45", url:"#"}],
-  "Tech": [{title:"Headphones", description:"Noise cancelling", price:"$120", url:"#"}],
-  "Temu": [{title:"Cute plush", description:"Soft and fun", price:"$12", url:"#"}]
-};
+// Load products.json dynamically
+let productData = {};
+fetch('products.json')
+  .then(r => r.json())
+  .then(data => {
+    productData = data;
+    renderCategories();
+    renderProducts();
+  })
+  .catch(()=>{
+    // fallback sample data
+    productData = {
+      "Health": [{title:"Vitamin C", description:"Boost immunity", price:"$10", url:"#"}],
+      "Beauty": [{title:"Lipstick", description:"Long-lasting color", price:"$15", url:"#"}],
+      "Kitchen": [{title:"Blender", description:"Smoothies fast", price:"$45", url:"#"}],
+      "Tech": [{title:"Headphones", description:"Noise cancelling", price:"$120", url:"#"}],
+      "Temu": [{title:"Cute plush", description:"Soft and fun", price:"$12", url:"#"}]
+    };
+    renderCategories();
+    renderProducts();
+  });
 
 // Render categories
 function renderCategories() {
@@ -236,7 +277,6 @@ function renderCategories() {
     categoriesDiv.appendChild(box);
   }
 }
-renderCategories();
 
 // Render products
 function renderProducts(category){
@@ -263,7 +303,6 @@ function renderProducts(category){
     productsDiv.appendChild(card);
   });
 }
-renderProducts();
 
 // Chat functions
 function appendMessage(text, sender="ai"){

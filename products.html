@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LinkBotLabs Products + Affiliate + Search</title>
+<title>LinkBotLabs Affiliate Shop</title>
 <style>
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,9 +12,7 @@ body {
   color: #fff;
   margin: 0;
 }
-
-/* Header */
-h1 { text-align: center; color: cyan; margin: 10px 0; }
+h1 { text-align: center; color: cyan; margin: 15px 0; }
 
 /* Affiliate Banner */
 .affiliate-banner {
@@ -23,235 +21,86 @@ h1 { text-align: center; color: cyan; margin: 10px 0; }
   padding: 12px;
   text-align: center;
   font-weight: bold;
-  display: none;
 }
 
-/* Container layout */
+/* Container */
 .container {
-  display: flex;
-  height: calc(100vh - 60px);
-  gap: 10px;
   padding: 10px;
-  box-sizing: border-box;
 }
 
-/* Products Section */
-.products-section {
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 10px;
+/* Categories */
+.categories { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 15px; }
+.category-box {
+  padding: 8px 14px; background: #222; border-radius: 6px; cursor: pointer;
+  color: cyan; white-space: nowrap; flex: 0 0 auto;
 }
+.category-box:hover { background: #333; }
 
-/* Google Search Box */
-.gcse-search { margin-bottom: 12px; }
-
-/* Product Cards */
-.products { display: flex; flex-direction: column; gap: 12px; }
+/* Products Grid */
+.products { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
 .product-card {
-  background: rgba(26,26,46,0.85);
-  border: 1px solid #3a3a5d;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
+  background: rgba(26,26,46,0.85); border: 1px solid #3a3a5d; border-radius: 10px;
+  padding: 16px; width: 220px; text-align: center;
 }
-.product-title { font-size: 28px; font-weight: bold; margin: 15px 0; }
-.product-price { color: cyan; font-weight: bold; font-size: 22px; }
-.product-desc { font-size: 18px; color: #ccc; margin: 20px 0; }
+.product-title { font-size: 20px; font-weight: bold; margin: 10px 0; }
+.product-price { color: cyan; font-weight: bold; margin: 8px 0; }
+.product-desc { font-size: 14px; color: #ccc; margin-bottom: 12px; }
 .product-btn {
-  padding: 18px;
-  background: black;
-  border: 2px solid cyan;
-  border-radius: 10px;
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 90%;
-  margin: 0 auto;
+  padding: 12px; background: black; border: 2px solid cyan; border-radius: 8px;
+  color: white; font-weight: bold; cursor: pointer; width: 90%;
   transition: 0.2s;
 }
 .product-btn:hover { background: cyan; color: black; }
 
-/* Categories */
-.categories {
-  display: flex;
-  overflow-x: auto;
-  padding: 10px 0;
-  gap: 10px;
-}
-.category-box {
-  flex: 0 0 auto;
-  padding: 12px 16px;
-  background: #222;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  white-space: nowrap;
-  text-align: center;
-  color: cyan;
-}
-.category-box:hover { background: #333; }
-
-/* Chat Section */
-.chat-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: rgba(15,15,25,0.9);
-  padding: 12px;
-  border-radius: 10px;
-  position: relative;
-}
-#chat-feed {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-  font-size: 20px;
-  line-height: 1.5;
-  border-radius: 10px;
-  border: 1px solid #3a3a5d;
-  background: #111;
-  margin-bottom: 12px;
-}
-.msg { margin: 8px 0; }
-.user { color: cyan; font-weight: bold; }
-.ai { color: #fff; }
-.chat-input {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-#chatText {
-  flex: 1 1 100%;
-  font-size: 20px;
-  padding: 16px;
-  border-radius: 8px;
-  border: 1px solid #3a3a5d;
-  background: #111;
-  color: #fff;
-  resize: none;
-  min-height: 80px;
-}
-.round-btn {
-  flex: 0 0 60px;
-  width: 60px; height: 60px;
-  border-radius: 50%;
-  border: 2px solid cyan;
-  background: black; color: white;
-  font-size: 24px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.round-btn:hover { transform: scale(1.1); background: cyan; color: black; }
-
 /* Affiliate Section */
-.affiliate-section {
-  background: rgba(10,10,40,0.6);
-  border-radius: 12px;
-  padding: 16px;
-  border: 1px solid rgba(0,255,255,0.3);
-  margin-top: 12px;
-}
-.affiliate-section h2 { color: cyan; margin-bottom: 10px; }
-input, button {
-  width: 100%;
-  padding: 12px;
-  margin: 6px 0;
-  border-radius: 8px;
-  border: none;
-  font-size: 1rem;
-}
-input { background: rgba(15,15,50,0.7); color: #fff; }
-button {
-  background: linear-gradient(135deg,#00ffff,#00bfff);
-  color:#0b0c22; font-weight:bold; cursor:pointer; transition:0.3s;
-}
-button:hover { opacity:0.85; }
+.affiliate-section { background: rgba(10,10,40,0.6); padding: 16px; margin: 15px 0; border-radius: 10px; border: 1px solid rgba(0,255,255,0.3);}
+.affiliate-section input, .affiliate-section button { width: 100%; padding: 12px; margin: 6px 0; border-radius: 6px; border: none; font-size: 1rem;}
+.affiliate-section input { background: rgba(15,15,50,0.7); color: #fff;}
+.affiliate-section button { background: linear-gradient(135deg,#00ffff,#00bfff); color:#0b0c22; font-weight:bold; cursor:pointer; transition:0.3s;}
+.affiliate-section button:hover { opacity:0.85; }
 .output { margin-top: 8px; color: #00ffea; }
 
-/* Responsive Mobile: 50/50 chat & product cards full width */
-@media (max-width: 768px){
-  .container { flex-direction: column; height: 100vh; }
-  .products-section {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 50%;
-    overflow-y: scroll;
-    z-index: 1;
-  }
-  .chat-section {
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 100%;
-    height: 50%;
-    z-index: 2;
-  }
-  .product-card { width: 100%; }
-}
+/* Responsive */
+@media(max-width:768px){ .products { justify-content: center; } .product-card { width: 90%; } }
 </style>
 </head>
 <body>
 
-<div id="affiliate-banner" class="affiliate-banner"></div>
-<h1>✨ LinkBotLabs Product Picks ✨</h1>
+<div class="affiliate-banner" id="affiliate-banner"></div>
+<h1>✨ LinkBotLabs Affiliate Shop ✨</h1>
 
 <div class="container">
-  <!-- Products + Search -->
-  <div class="products-section">
-    <!-- Google Custom Search -->
-    <div class="gcse-search"></div>
-    <div class="categories" id="categories"></div>
-    <div class="products" id="products"></div>
-  </div>
+  <!-- Categories -->
+  <div class="categories" id="categories"></div>
 
-  <!-- Chat -->
-  <div class="chat-section">
-    <div id="chat-feed"></div>
-    <div class="chat-input">
-      <textarea id="chatText" placeholder="Type your message..."></textarea>
-      <button id="runGlobal" class="round-btn">▶</button>
-      <button id="speakGlobal" class="round-btn">🎤</button>
-      <button id="clearGlobal" class="round-btn">❌</button>
-      <button id="ttsGlobal" class="round-btn">🔊</button>
-    </div>
+  <!-- Products Grid -->
+  <div class="products" id="products"></div>
+
+  <!-- Google Search (to add new products) -->
+  <div class="gcse-search"></div>
+
+  <!-- Affiliate Section -->
+  <div class="affiliate-section">
+    <h2>🚀 Join the Affiliate Program</h2>
+    <p>Enter your affiliate tag to activate it:</p>
+    <form id="affiliateForm">
+      <input type="text" id="userAffiliate" placeholder="Enter your tag (mytag-20)" required>
+      <button type="submit">Activate Affiliate Tag</button>
+    </form>
+    <div id="regOutput" class="output"></div>
   </div>
 </div>
 
-<!-- Affiliate Section -->
-<div class="affiliate-section">
-  <h2>🚀 Join the Affiliate Program</h2>
-  <p>Join by <strong>buying 1 product</strong> OR <strong>contributing</strong> via Wise.</p>
-  <a href="https://wise.com/pay/me/davids14542" target="_blank">
-    <button>💸 Contribute via Wise</button>
-  </a>
-  <p>After contribution or purchase, register your affiliate tag below:</p>
-  <form id="affiliateForm">
-    <input type="text" id="userAffiliate" placeholder="Enter your tag (mytag-20)" required>
-    <button type="submit">Activate Affiliate Tag</button>
-  </form>
-  <div id="regOutput" class="output"></div>
-</div>
-
-<!-- Scripts -->
-<script src="https://js.puter.com/v2/"></script>
 <script async src="https://cse.google.com/cse.js?cx=f7e219616fe1d4629"></script>
 <script>
-const categoriesDiv = document.getElementById("categories");
-const productsDiv = document.getElementById("products");
-const chatFeed = document.getElementById("chat-feed");
-const chatText = document.getElementById("chatText");
-
-// Speech synthesis
-let synth = window.speechSynthesis;
-let utter;
+let categoriesDiv = document.getElementById("categories");
+let productsDiv = document.getElementById("products");
 
 // Affiliate
 let userAffiliateTag = localStorage.getItem('affiliateTag') || "";
 function updateBanner() {
   const banner = document.getElementById("affiliate-banner");
-  banner.textContent = userAffiliateTag ? `✅ Active Affiliate: ${userAffiliateTag}` : "ℹ️ No affiliate tag set. Register yours below!";
-  banner.style.display = "block";
+  banner.textContent = userAffiliateTag ? `✅ Active Affiliate: ${userAffiliateTag}` : "ℹ️ No affiliate tag set.";
 }
 updateBanner();
 
@@ -260,16 +109,7 @@ let productData = {};
 fetch('products.json')
   .then(r => r.json())
   .then(data => { productData = data; renderCategories(); renderProducts(); })
-  .catch(()=>{ // fallback
-    productData = {
-      "Health": [{title:"Vitamin C", description:"Boost immunity", price:"$10", url:"#"}],
-      "Beauty": [{title:"Lipstick", description:"Long-lasting color", price:"$15", url:"#"}],
-      "Kitchen": [{title:"Blender", description:"Smoothies fast", price:"$45", url:"#"}],
-      "Tech": [{title:"Headphones", description:"Noise cancelling", price:"$120", url:"#"}],
-      "Temu": [{title:"Cute plush", description:"Soft and fun", price:"$12", url:"#"}]
-    };
-    renderCategories(); renderProducts();
-  });
+  .catch(()=>{ productData = {}; renderCategories(); renderProducts(); });
 
 // Render categories
 function renderCategories() {
@@ -295,7 +135,7 @@ function renderProducts(category){
   if(!category || category==="All"){
     for(const items of Object.values(productData)) filtered.push(...items);
   } else filtered = productData[category] || [];
-  
+
   filtered.forEach(p=>{
     const card = document.createElement("div");
     card.className = "product-card";
@@ -303,7 +143,7 @@ function renderProducts(category){
       <h3 class="product-title">${p.title}</h3>
       <p class="product-price">${p.price}</p>
       <p class="product-desc">${p.description}</p>
-      <button class="product-btn">🛒 View</button>
+      <button class="product-btn">🛒 Buy Now</button>
     `;
     card.querySelector("button").onclick = ()=>{
       let link = p.url;
@@ -312,34 +152,6 @@ function renderProducts(category){
     };
     productsDiv.appendChild(card);
   });
-}
-
-// Chat functions
-function appendMessage(text, sender="ai"){
-  const div = document.createElement("div");
-  div.className = "msg " + sender;
-  div.textContent = sender==="user"?`🧑: ${text}`:`🤖: ${text}`;
-  chatFeed.appendChild(div);
-  chatFeed.scrollTop = chatFeed.scrollHeight;
-}
-
-document.getElementById("runGlobal").onclick = async ()=>{
-  const userText = chatText.value.trim();
-  if(!userText) return;
-  appendMessage(userText,"user");
-  chatText.value = "";
-  const response = await puter.ai.chat(userText);
-  appendMessage(response,"ai");
-  playTTS(response);
-};
-document.getElementById("ttsGlobal").onclick = ()=>playTTS(chatFeed.innerText);
-document.getElementById("clearGlobal").onclick = ()=>chatFeed.innerHTML="";
-document.getElementById("speakGlobal").onclick = ()=>alert("🎤 Voice input coming soon!");
-
-function playTTS(text){
-  if(synth.speaking) synth.cancel();
-  utter = new SpeechSynthesisUtterance(text);
-  synth.speak(utter);
 }
 
 // Affiliate form
@@ -354,9 +166,9 @@ document.getElementById("affiliateForm").addEventListener("submit", e=>{
   } else document.getElementById("regOutput").innerText = "❌ Enter a valid affiliate tag.";
 });
 
-// Add affiliate tag to Google CSE results
+// Append affiliate to Google search links
 function appendAffiliateToCSE() {
-  const userTag = localStorage.getItem("affiliateTag") || "davids-20"; // default
+  const userTag = localStorage.getItem("affiliateTag") || "davids-20";
   const observer = new MutationObserver(() => {
     document.querySelectorAll(".gsc-results .gsc-thumbnail-inside a, .gsc-results .gsc-url-top a").forEach(link => {
       if (!link.dataset.affiliateApplied) {
@@ -369,9 +181,7 @@ function appendAffiliateToCSE() {
   });
   observer.observe(document.body, { childList: true, subtree: true });
 }
-
 window.addEventListener("load", appendAffiliateToCSE);
 </script>
-
 </body>
 </html>

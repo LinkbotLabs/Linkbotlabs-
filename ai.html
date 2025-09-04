@@ -13,82 +13,47 @@
     --text: #ffffff;
     --muted: #7deaff;
     --accent: #00fff7;
+    --affiliate-bg: #0077b6;
   }
   * { box-sizing: border-box; }
-  body {
-    margin:0; padding:24px;
-    font-family: system-ui, Inter, sans-serif;
-    background: var(--background);
-    color: var(--text);
-  }
+  body { margin:0; padding:24px; font-family: system-ui, Inter, sans-serif; background: var(--background); color: var(--text); }
   h1 { margin:0 0 18px; font-weight:700; }
   h2 { color: var(--accent); }
   .grid { display:grid; grid-template-columns:repeat(12,1fr); gap:18px; }
-  .card {
-    grid-column: span 12;
-    background: var(--glass);
-    border: 1px solid var(--stroke);
-    border-radius: 16px;
-    padding: 20px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-  }
+  .card { grid-column: span 12; background: var(--glass); border: 1px solid var(--stroke); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
   @media(min-width:900px){ #card-chat,#card-stream,#card-image{grid-column: span 6;} }
   label { display:block; font-size:12px; color:var(--muted); margin:8px 0 6px; }
-  textarea,select {
-    width:100%; background:rgba(255,255,255,0.05);
-    border:1px solid var(--stroke); border-radius:12px;
-    padding:12px 14px; color:var(--text); outline:none;
-  }
+  textarea,select { width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--stroke); border-radius:12px; padding:12px 14px; color:var(--text); outline:none; }
   textarea { min-height:120px; }
-  button {
-    margin-top:12px; padding:12px 16px;
-    background:var(--accent); color:#000;
-    border:none; border-radius:12px; font-weight:700;
-    cursor:pointer; transition: all .2s;
-  }
+  button { margin-top:12px; padding:12px 16px; background:var(--accent); color:#000; border:none; border-radius:12px; font-weight:700; cursor:pointer; transition: all .2s; }
   button:hover { transform:translateY(-2px); }
-  .output {
-    margin-top:14px; padding:16px;
-    border-radius:12px; border:1px solid var(--stroke);
-    background:rgba(255,255,255,0.05);
-    min-height:140px; white-space:pre-wrap;
-    overflow-y:auto;
-  }
+  .output { margin-top:14px; padding:16px; border-radius:12px; border:1px solid var(--stroke); background:rgba(255,255,255,0.05); min-height:140px; white-space:pre-wrap; overflow-y:auto; }
   .hint { font-size:12px; color:var(--muted); }
+
+  /* --- Affiliate Banner --- */
+  #affiliate-banner { background: var(--affiliate-bg); color: white; padding: 10px; text-align: center; font-weight: bold; font-size: 1rem; margin-bottom:12px; }
+
   /* --- Lock Screen --- */
-  #lock-screen {
-    position:fixed; inset:0; display:none;
-    justify-content:center; align-items:center;
-    background:rgba(0,0,0,0.9); z-index:9999;
-  }
-  #lock-box {
-    max-width:400px; padding:25px;
-    background:rgba(10,10,30,0.7);
-    border:1px solid var(--accent); border-radius:15px;
-    text-align:center; color:#fff;
-  }
+  #lock-screen { position:fixed; inset:0; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.9); z-index:9999; }
+  #lock-box { max-width:400px; padding:25px; background:rgba(10,10,30,0.7); border:1px solid var(--accent); border-radius:15px; text-align:center; color:#fff; }
   #lock-box h2 { color:var(--accent); margin-bottom:12px; }
-  #lock-box a, #lock-box button {
-    display:block; margin:12px auto 0;
-    padding:10px 16px; border-radius:10px;
-    background:rgba(0,255,255,0.2);
-    border:1px solid var(--accent); color:var(--accent);
-    font-weight:bold; text-decoration:none;
-    cursor:pointer;
-  }
+  #lock-box a, #lock-box button { display:block; margin:12px auto 0; padding:10px 16px; border-radius:10px; background:rgba(0,255,255,0.2); border:1px solid var(--accent); color:var(--accent); font-weight:bold; text-decoration:none; cursor:pointer; }
   #lock-box a:hover,#lock-box button:hover{background:rgba(0,255,255,0.4);color:#fff;}
-  #lock-box input {
-    width:100%; padding:10px; margin-top:12px;
-    border-radius:8px; border:1px solid var(--accent);
-    background:rgba(0,0,50,0.7); color:var(--accent);
-  }
+  #lock-box input { width:100%; padding:10px; margin-top:12px; border-radius:8px; border:1px solid var(--accent); background:rgba(0,0,50,0.7); color:var(--accent); }
 </style>
 </head>
 <body>
 
+<!-- Affiliate Banner -->
+<div id="affiliate-banner">Active Affiliate Tag: <span id="activeTag"></span></div>
+
 <h1>🤖 LinkBotLabs – AI Playground</h1>
 <p class="hint">Demo lasts 15 minutes. After that, please donate to unlock unlimited access across all AI apps.</p>
+
+<!-- Product Search -->
+<h2>Search Products</h2>
+<div class="gcse-search"></div>
+<script async src="https://cse.google.com/cse.js?cx=f7e219616fe1d4629"></script>
 
 <div class="grid">
   <!-- Chat -->
@@ -149,12 +114,19 @@
 </div>
 
 <script>
+/* ---------- AFFILIATE ---------- */
+let defaultAffiliateTag = "davids-20";
+let userAffiliateTag = localStorage.getItem("affiliateTag") || defaultAffiliateTag;
+function updateAffiliateBanner(){ 
+  document.getElementById("activeTag").textContent = localStorage.getItem("affiliateTag") ? userAffiliateTag + " (User)" : userAffiliateTag + " (Default)"; 
+}
+updateAffiliateBanner();
+
 /* ---------- DEMO TIMER + UNLOCK ---------- */
 const PASSWORD = "unlockai";
 let unlocked = localStorage.getItem("aiUnlocked")==="true";
 let demoActive = true;
 setTimeout(()=>{ demoActive=false; if(!unlocked) showLock(); },15*60*1000);
-
 function showLock(){ document.getElementById("lock-screen").style.display="flex"; }
 function checkPass(){
   const val=document.getElementById("unlock-pass").value.trim();
@@ -162,9 +134,7 @@ function checkPass(){
     unlocked=true; localStorage.setItem("aiUnlocked","true");
     document.getElementById("lock-screen").style.display="none";
     alert("✅ Unlimited access unlocked across all AI apps!");
-  } else {
-    alert("❌ Wrong password. Please donate to get your unlock code.");
-  }
+  } else { alert("❌ Wrong password. Please donate to get your unlock code."); }
 }
 
 /* ---------- HELPERS ---------- */
@@ -217,6 +187,24 @@ async function runImage(){
   }catch(e){ putText(o,"Error: "+e.message); }
 }
 document.getElementById("image-run").onclick=runImage;
+
+/* ---------- GOOGLE CSE AFFILIATE INTEGRATION ---------- */
+function appendAffiliateToCSE() {
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll(".gsc-results .gsc-thumbnail-inside a, .gsc-results .gsc-url-top a")
+      .forEach(link => {
+        if(!link.dataset.affiliateApplied){
+          let url = new URL(link.href);
+          url.searchParams.set("tag", userAffiliateTag);
+          link.href = url.toString();
+          link.dataset.affiliateApplied = true;
+        }
+      });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+window.addEventListener("load", appendAffiliateToCSE);
 </script>
+
 </body>
 </html>

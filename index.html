@@ -18,45 +18,6 @@
     line-height:1.5;
   }
 
-  /* ===== Flash Banner ===== */
-  #flash-banner {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 255, 255, 0.15);
-    color: #fff;
-    padding: 14px 24px;
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    font-weight: 600;
-    font-size: 1rem;
-    text-align: center;
-    max-width: 90%;
-    z-index: 9999;
-    opacity: 0;
-    transition: opacity 1s ease;
-    pointer-events: none;
-  }
-  #flash-banner.show { opacity: 1; }
-
-  .flash-link {
-    color: #00FFFF;
-    font-weight: 700;
-    text-decoration: none;
-    margin-left: 6px;
-    display: inline-block;
-    animation: pulse 1.5s infinite;
-  }
-  .flash-link:hover { color: #00CED1; }
-
-  @keyframes pulse {
-    0% { transform: scale(1); text-shadow: 0 0 0 #00FFFF; }
-    50% { transform: scale(1.1); text-shadow: 0 0 8px #00FFFF, 0 0 12px #00FFFF; }
-    100% { transform: scale(1); text-shadow: 0 0 0 #00FFFF; }
-  }
-
   /* ===== Header ===== */
   header {
     text-align:center;
@@ -101,17 +62,37 @@
     display: flex; flex-direction: column; align-items: center; justify-content: center;
   }
   .categories a:hover { transform: scale(1.08); background: rgba(0,255,255,0.15); }
-  .categories img { margin-top:8px; border-radius:8px; width:100%; }
 
   /* ===== Video Container ===== */
   .video-container {
-    position: relative; width: 100%; max-width:360px; margin:auto; padding-bottom: 200%; /* for vertical short format */
+    position: relative; width: 100%; max-width:720px; margin:auto; padding-bottom:56.25%; /* 16:9 landscape */
     margin-bottom:1rem;
   }
   .video-container iframe {
     position: absolute; top:0; left:0; width:100%; height:100%; border-radius:12px;
     border: 2px solid #00FFFF;
   }
+
+  /* ===== Donation / Unlock Banner ===== */
+  #donation-banner {
+    background: rgba(0,255,255,0.15);
+    color: #FFFFFF;
+    padding: 14px 24px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    text-align: center;
+    max-width: 95%;
+    margin: 1.5rem auto;
+    border: 1px solid #00FFFF;
+    font-weight: 600;
+    line-height:1.4;
+  }
+  #donation-banner a {
+    color:#00FFFF;
+    font-weight:700;
+    text-decoration:none;
+  }
+  #donation-banner a:hover { color:#00CED1; }
 
   /* ===== Forms ===== */
   .contact-form input, .contact-form textarea {
@@ -155,13 +136,6 @@
 </head>
 <body>
 
-<!-- Flash Banner -->
-<div id="flash-banner">
-  ⚡ Hey there, savvy shopper! Unlock <strong>free AI tools, product hacks & video magic</strong>!<br>
-  💖 Love what you see? Support us with any donation & get exclusive perks! 
-  <a href="#contact-form" class="flash-link">💌 Contact Us!</a>
-</div>
-
 <header>
   <a href="index.html"><img src="img_splash.jpg" alt="LinkBotLabs Logo"></a>
   <h1>🚀 Welcome to LinkBotLabs</h1>
@@ -181,12 +155,10 @@
      Share our affiliate links to earn <strong>commissions together</strong> on every sale!</p>
 </section>
 
-<section>
-  <h2>📺 Featured Short Video</h2>
-  <div class="video-container">
-    <iframe src="https://www.youtube.com/embed/O6N9Y0Q0Q0w?si=PLkF_PyWpWTtOjbJ" allowfullscreen></iframe>
-  </div>
-  <p>See how our tools work in seconds with this short demo video.</p>
+<section id="donation-banner">
+💖 Support & Unlock Everything!<br>
+Make a <strong>one-time donation</strong> via Wise or purchase <strong>any product</strong> from our affiliate store to unlock **full AI Playground access** and our **Affiliate Program** perks.  
+<a href="https://wise.com/pay/me/davids14542" target="_blank">💌 Donate Now!</a>
 </section>
 
 <section>
@@ -204,6 +176,14 @@
     <a href="https://www.amazon.com/s?k=books&tag=mychanneld-20">📚 Books</a>
     <a href="https://www.amazon.com/s?k=smart+home&tag=mychanneld-20">🏡 Smart Home</a>
   </div>
+</section>
+
+<section>
+  <h2>📺 Featured Short Video</h2>
+  <div class="video-container">
+    <iframe src="https://www.youtube.com/embed/O6N9Y0Q0Q0w?si=PLkF_PyWpWTtOjbJ" allowfullscreen></iframe>
+  </div>
+  <p>See how our tools work in seconds with this short demo video.</p>
 </section>
 
 <section>
@@ -235,13 +215,6 @@
 </footer>
 
 <script>
-  // Flash banner
-  window.addEventListener("load", () => {
-    const banner = document.getElementById("flash-banner");
-    banner.classList.add("show");
-    setTimeout(() => { banner.classList.remove("show"); }, 12000);
-  });
-
   // EmailJS contact form
   emailjs.init("bceEcXpLIRDpJxOHM"); 
   const form = document.getElementById("contact-form");

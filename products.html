@@ -83,8 +83,8 @@ const db = getFirestore(app);
 const categoriesDiv = document.getElementById("categories");
 const productsDiv = document.getElementById("products");
 
-// Affiliate tag persistence
-let userAffiliateTag = localStorage.getItem('affiliateTag') || "";
+// Affiliate tag persistence with default
+let userAffiliateTag = localStorage.getItem('affiliateTag') || "mychanneld-20";
 function updateBanner() {
   const banner = document.getElementById("affiliate-banner");
   banner.textContent = userAffiliateTag ? `✅ Active Affiliate: ${userAffiliateTag}` : "ℹ️ No affiliate tag set.";
@@ -204,7 +204,7 @@ function appendAffiliateToCSE() {
     document.querySelectorAll(".gsc-results .gsc-thumbnail-inside a, .gsc-results .gsc-url-top a").forEach(link => {
       if (!link.dataset.affiliateApplied) {
         let url = new URL(link.href);
-        url.searchParams.set("tag", userAffiliateTag || "davids-20");
+        url.searchParams.set("tag", userAffiliateTag || "mychanneld-20");
         link.href = url.toString();
         link.dataset.affiliateApplied = true;
       }
@@ -218,5 +218,4 @@ window.addEventListener("load", ()=>{
   appendAffiliateToCSE();
 });
 </script>
-</body>
-</html>
+

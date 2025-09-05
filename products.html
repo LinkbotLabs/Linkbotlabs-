@@ -31,9 +31,9 @@
 <div class="products" id="products"></div>
 
 <script>
-const API_KEY = "AIzaSyB9YwW8EVXQJsVwSMbJrk-NU9B9ZrzzkGs";
-const CSE_ID = "f7e219616fe1d4629";
-const AFFILIATE_TAG = "mychanneld-20";
+const API_KEY = "AIzaSyB9YwW8EVXQJsVwSMbJrk-NU9B9ZrzzkGs"; // your API key
+const CSE_ID = "f7e219616fe1d4629"; // your CSE ID
+const AFFILIATE_TAG = "mychanneld-20"; // your affiliate tag
 
 const productsDiv = document.getElementById("products");
 
@@ -42,8 +42,9 @@ async function searchProducts(query){
   try{
     const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CSE_ID}&q=${encodeURIComponent(query)}&num=10`);
     const data = await res.json();
+    
     if(!data.items || data.items.length===0){ 
-      productsDiv.innerHTML="No results found."; 
+      productsDiv.innerHTML = "No results found."; 
       return; 
     }
 
@@ -56,7 +57,7 @@ async function searchProducts(query){
       const card = document.createElement("div");
       card.className = "product-card";
       card.innerHTML = `
-        ${img ? `<img src="${img}">` : '<div style="height:120px; background:#222; border-radius:6px;"></div>'}
+        ${img ? `<img src="${img}">` : ''}
         <h3 class="product-title">${item.title}</h3>
         <p class="product-desc">${item.snippet}</p>
         <button class="product-btn">🛒 Buy Now</button>

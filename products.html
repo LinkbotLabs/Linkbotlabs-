@@ -1,128 +1,58 @@
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getFirestore, collection, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkBotLabs Affiliate Shop</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background:#0b0c1a; color:#fff; margin:0; padding:20px; }
+  h1 { text-align:center; color:cyan; margin-bottom:20px; }
+  .search-section { display:flex; justify-content:center; gap:10px; margin-bottom:20px; max-width:600px; margin:auto; }
+  .search-section input { flex:1; padding:12px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:16px; }
+  .search-section button { padding:12px 18px; border:none; border-radius:6px; background:cyan; color:#000; font-weight:bold; cursor:pointer; }
+  .products { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; }
+  .product-card { background:rgba(26,26,46,0.85); border:1px solid #3a3a5d; border-radius:10px; padding:16px; width:220px; text-align:center; }
+  .product-card img { width:100%; border-radius:6px; margin-bottom:8px; }
+  .product-title { font-size:18px; font-weight:bold; margin:10px 0; }
+  .product-desc { font-size:14px; color:#ccc; margin-bottom:12px; }
+  .product-btn { padding:12px; background:black; border:2px solid cyan; border-radius:8px; color:white; font-weight:bold; cursor:pointer; width:90%; transition:0.2s; }
+  .product-btn:hover { background:cyan; color:black; }
+</style>
+</head>
+<body>
 
-// Firebase config (optional)
-let db;
-try {
-  const firebaseConfig = {
-    apiKey: "AIzaSyAmfbpdZvSMzAcU9AwPqKojKG08K3Qe0SE",
-    authDomain: "linkbotlabs.firebaseapp.com",
-    projectId: "linkbotlabs",
-    storageBucket: "linkbotlabs.firebasestorage.app",
-    messagingSenderId: "413558906075",
-    appId: "1:413558906075:web:a92dc7ec6cbeccec0540fe"
-  };
-  const app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
-} catch(e) {
-  console.warn("Firestore not available:", e.message);
-}
+<h1>✨ LinkBotLabs Shop ✨</h1>
 
-// Affiliate tag
-let userAffiliateTag = localStorage.getItem('affiliateTag') || "mychanneld-20";
-function updateBanner() {
-  const banner = document.getElementById("affiliate-banner");
-  banner.textContent = userAffiliateTag ? `✅ Active Affiliate: ${userAffiliateTag}` : "ℹ️ No affiliate tag set.";
-}
-updateBanner();
+<div class="search-section">
+  <input type="text" id="searchInput" placeholder="🔍 Search products (e.g. smart watch)">
+  <button id="searchBtn">Search</button>
+</div>
 
-// Load local products
-let productData = {};
-async function loadProducts() {
-  try {
-    const res = await fetch('products.json');
-    productData = await res.json();
-  } catch(err) {
-    console.error("Failed to load products.json:", err);
-  }
-  renderCategories();
-  renderProducts();
-}
+<div class="products" id="products"></div>
 
-function renderCategories() {
-  const categoriesDiv = document.getElementById("categories");
-  categoriesDiv.innerHTML = "";
-  const allBox = document.createElement("div");
-  allBox.className = "category-box";
-  allBox.textContent = "All";
-  allBox.onclick = () => renderProducts();
-  categoriesDiv.appendChild(allBox);
+<script>
+const API_KEY = "YOUR_GOOGLE_CSE_API_KEY"; // Replace with your key
+const CSE_ID = "YOUR_CUSTOM_SEARCH_ENGINE_ID"; // Replace with your CSE ID
+const AFFILIATE_TAG = "mytag-20"; // Replace with your affiliate tag
 
-  for(const cat of Object.keys(productData)){
-    const box = document.createElement("div");
-    box.className = "category-box";
-    box.textContent = cat;
-    box.onclick = () => renderProducts(cat);
-    categoriesDiv.appendChild(box);
-  }
-}
+const productsDiv = document.getElementById("products");
 
-function renderProducts(category) {
-  const productsDiv = document.getElementById("products");
-  productsDiv.innerHTML = "";
-  let filtered = [];
-  if(!category || category==="All"){
-    for(const items of Object.values(productData)) filtered.push(...items);
-  } else filtered = productData[category] || [];
-
-  filtered.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "product-card";
-    const imgTag = p.image ? `<img src="${p.image}">` : '';
-    card.innerHTML = `
-      ${imgTag}
-      <h3 class="product-title">${p.title}</h3>
-      <p class="product-price">${p.price || ''}</p>
-      <p class="product-desc">${p.description || ''}</p>
-      <button class="product-btn">🛒 Buy Now</button>
-    `;
-    card.querySelector("button").onclick = () => {
-      let link = p.url.startsWith("http") ? p.url : "https://" + p.url;
-      if(userAffiliateTag) link += (link.includes("?") ? "&" : "?") + "tag=" + userAffiliateTag;
-      window.open(link, "_blank");
-    };
-    productsDiv.appendChild(card);
-  });
-}
-
-// Affiliate form
-document.getElementById("affiliateForm").addEventListener("submit", e=>{
-  e.preventDefault();
-  const tag = document.getElementById("userAffiliate").value.trim();
-  if(tag){
-    userAffiliateTag = tag;
-    localStorage.setItem('affiliateTag', tag);
-    document.getElementById("regOutput").innerText = `✅ Tag "${tag}" saved!`;
-    updateBanner();
-  } else {
-    document.getElementById("regOutput").innerText = "❌ Enter a valid affiliate tag.";
-  }
-});
-
-// Google CSE API Search
-const API_KEY = "AIzaSyB9YwW8EVXQJsVwSMbJrk-NU9B9ZrzzkGs";
-const CSE_ID = "f7e219616fe1d4629";
-
-async function searchProducts(query) {
-  const productsDiv = document.getElementById("products");
+async function searchProducts(query){
   productsDiv.innerHTML = "🔎 Searching…";
-  try {
+  try{
     const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CSE_ID}&q=${encodeURIComponent(query)}&num=10`);
     const data = await res.json();
-    if(!data.items || data.items.length===0){ productsDiv.innerHTML="No results found."; return; }
+    if(!data.items || data.items.length===0){ 
+      productsDiv.innerHTML="No results found."; 
+      return; 
+    }
 
     productsDiv.innerHTML = "";
-    const newProducts = [];
-
-    data.items.forEach(item => {
+    data.items.forEach(item=>{
       let link = item.link;
+      if(AFFILIATE_TAG) link += (link.includes("?") ? "&" : "?") + "tag=" + AFFILIATE_TAG;
+
       const img = item.pagemap?.cse_image?.[0]?.src || '';
-      const productObj = { title: item.title, description: item.snippet, url: link, image: img, category: "Search" };
-      newProducts.push(productObj);
-
-      if(userAffiliateTag) link += (link.includes("?") ? "&" : "?") + "tag=" + userAffiliateTag;
-
       const card = document.createElement("div");
       card.className = "product-card";
       card.innerHTML = `
@@ -131,36 +61,19 @@ async function searchProducts(query) {
         <p class="product-desc">${item.snippet}</p>
         <button class="product-btn">🛒 Buy Now</button>
       `;
-      card.querySelector("button").onclick = () => window.open(link,"_blank");
+      card.querySelector("button").onclick = ()=>window.open(link,"_blank");
       productsDiv.appendChild(card);
     });
-
-    // Optional Firestore backup
-    if(db){
-      newProducts.forEach(async p=>{
-        try{
-          const docRef = doc(db,"products",p.title.replace(/\W/g,"_"));
-          const docSnap = await getDoc(docRef);
-          if(!docSnap.exists()) await setDoc(docRef,p);
-        } catch(e){ console.warn("Firestore save failed:", e.message); }
-      });
-    }
-
-    // Merge into local categories
-    if(!productData["Search"]) productData["Search"] = [];
-    for(const p of newProducts){
-      if(!productData["Search"].some(pr=>pr.title===p.title && pr.url===p.url)) productData["Search"].push(p);
-    }
-    renderCategories();
-
-  } catch(e){ productsDiv.innerHTML = "Error: " + e.message; }
+  }catch(e){
+    productsDiv.innerHTML="Error: "+e.message;
+  }
 }
 
-// Search button
 document.getElementById("searchBtn").addEventListener("click", ()=>{
   const query = document.getElementById("searchInput").value.trim();
   if(query) searchProducts(query);
 });
-
-window.addEventListener("load", loadProducts);
 </script>
+
+</body>
+</html>

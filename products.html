@@ -12,87 +12,23 @@
     color:#fff;
     margin:0;
   }
-  h1 {
-    text-align:center;
-    color:cyan;
-    margin:15px 0;
-  }
-  .affiliate-banner {
-    background:#0077b6;
-    color:#fff;
-    padding:12px;
-    text-align:center;
-    font-weight:bold;
-  }
+  h1 { text-align:center; color:cyan; margin:15px 0; }
+  .affiliate-banner { background:#0077b6; color:#fff; padding:12px; text-align:center; font-weight:bold; }
   .container { padding:10px; }
-  .categories {
-    display:flex;
-    gap:10px;
-    overflow-x:auto;
-    margin-bottom:15px;
-  }
-  .category-box {
-    padding:8px 14px;
-    background:#222;
-    border-radius:6px;
-    cursor:pointer;
-    color:cyan;
-    white-space:nowrap;
-    flex:0 0 auto;
-  }
+  .categories { display:flex; gap:10px; overflow-x:auto; margin-bottom:15px; }
+  .category-box { padding:8px 14px; background:#222; border-radius:6px; cursor:pointer; color:cyan; white-space:nowrap; flex:0 0 auto; }
   .category-box:hover { background:#333; }
-  .products {
-    display:flex;
-    flex-wrap:wrap;
-    gap:15px;
-    justify-content:center;
-  }
-  .product-card {
-    background:rgba(26,26,46,0.85);
-    border:1px solid #3a3a5d;
-    border-radius:10px;
-    padding:16px;
-    width:220px;
-    text-align:center;
-  }
+  .products { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; }
+  .product-card { background:rgba(26,26,46,0.85); border:1px solid #3a3a5d; border-radius:10px; padding:16px; width:220px; text-align:center; }
   .product-title { font-size:20px; font-weight:bold; margin:10px 0; }
   .product-price { color:cyan; font-weight:bold; margin:8px 0; }
   .product-desc { font-size:14px; color:#ccc; margin-bottom:12px; }
-  .product-btn {
-    padding:12px;
-    background:black;
-    border:2px solid cyan;
-    border-radius:8px;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-    width:90%;
-    transition:0.2s;
-  }
+  .product-btn { padding:12px; background:black; border:2px solid cyan; border-radius:8px; color:white; font-weight:bold; cursor:pointer; width:90%; transition:0.2s; }
   .product-btn:hover { background:cyan; color:black; }
-  .affiliate-section {
-    background: rgba(10,10,40,0.6);
-    padding:16px;
-    margin:15px 0;
-    border-radius:10px;
-    border:1px solid rgba(0,255,255,0.3);
-  }
-  .affiliate-section input, .affiliate-section button {
-    width:100%;
-    padding:12px;
-    margin:6px 0;
-    border-radius:6px;
-    border:none;
-    font-size:1rem;
-  }
+  .affiliate-section { background: rgba(10,10,40,0.6); padding:16px; margin:15px 0; border-radius:10px; border:1px solid rgba(0,255,255,0.3); }
+  .affiliate-section input, .affiliate-section button { width:100%; padding:12px; margin:6px 0; border-radius:6px; border:none; font-size:1rem; }
   .affiliate-section input { background: rgba(15,15,50,0.7); color:#fff; }
-  .affiliate-section button {
-    background: linear-gradient(135deg,#00ffff,#00bfff);
-    color:#0b0c22;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.3s;
-  }
+  .affiliate-section button { background: linear-gradient(135deg,#00ffff,#00bfff); color:#0b0c22; font-weight:bold; cursor:pointer; transition:0.3s; }
   .affiliate-section button:hover { opacity:0.85; }
   .output { margin-top:8px; color:#00ffea; }
   @media(max-width:768px){
@@ -130,11 +66,14 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-// Firebase config for project 48626571
+// Firebase config for new project 'linkbotlabs'
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY_FOR_48626571",
-  authDomain: "linkbotlabs-48626571.firebaseapp.com",
-  projectId: "linkbotlabs-48626571"
+  apiKey: "AIzaSyAmfbpdZvSMzAcU9AwPqKojKG08K3Qe0SE",
+  authDomain: "linkbotlabs.firebaseapp.com",
+  projectId: "linkbotlabs",
+  storageBucket: "linkbotlabs.firebasestorage.app",
+  messagingSenderId: "413558906075",
+  appId: "1:413558906075:web:a92dc7ec6cbeccec0540fe"
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);

@@ -5,13 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LinkBotLabs Affiliate Shop</title>
 <style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size:16px;
-    background: linear-gradient(180deg,#000,#1a1a1a);
-    color:#fff;
-    margin:0;
-  }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:16px; background: linear-gradient(180deg,#000,#1a1a1a); color:#fff; margin:0; }
   h1 { text-align:center; color:cyan; margin:15px 0; }
   .affiliate-banner { background:#0077b6; color:#fff; padding:12px; text-align:center; font-weight:bold; }
   .container { padding:10px; }
@@ -32,11 +26,7 @@
   .affiliate-section button { background: linear-gradient(135deg,#00ffff,#00bfff); color:#0b0c22; font-weight:bold; cursor:pointer; transition:0.3s; }
   .affiliate-section button:hover { opacity:0.85; }
   .output { margin-top:8px; color:#00ffea; }
-  @media(max-width:768px){
-    .products{justify-content:center;}
-    .product-card{width:90%;}
-    .product-title{font-size:22px;}
-  }
+  @media(max-width:768px){ .products{justify-content:center;} .product-card{width:90%;} .product-title{font-size:22px;} }
 </style>
 </head>
 <body>
@@ -65,7 +55,7 @@
 <!-- Firebase SDKs -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, setDoc, query, where, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 // Firebase config
 const firebaseConfig = {
@@ -83,7 +73,7 @@ const db = getFirestore(app);
 const categoriesDiv = document.getElementById("categories");
 const productsDiv = document.getElementById("products");
 
-// Affiliate tag persistence with default
+// Affiliate tag
 let userAffiliateTag = localStorage.getItem('affiliateTag') || "mychanneld-20";
 function updateBanner() {
   const banner = document.getElementById("affiliate-banner");
@@ -91,25 +81,31 @@ function updateBanner() {
 }
 updateBanner();
 
-// Load products from Firestore or fallback
+// Load products.json first, then Firestore
 let productData = {};
 async function loadProducts() {
   try {
+    // Load JSON first
+    const res = await fetch('products.json');
+    const jsonData = await res.json();
+    productData = jsonData;
+
+    // Load Firestore
     const snapshot = await getDocs(collection(db, "products"));
-    productData = {};
-    snapshot.forEach(doc => {
-      const p = doc.data();
+    snapshot.forEach(docSnap => {
+      const p = docSnap.data();
       if(!productData[p.category]) productData[p.category] = [];
-      productData[p.category].push(p);
+      // Avoid duplicates by checking title + URL
+      if(!productData[p.category].some(pr=>pr.title===p.title && pr.url===p.url)) {
+        productData[p.category].push(p);
+      }
     });
     renderCategories();
     renderProducts();
   } catch(err) {
-    console.error("Firestore failed, falling back to products.json", err);
-    fetch('products.json')
-      .then(r => r.json())
-      .then(data => { productData = data; renderCategories(); renderProducts(); })
-      .catch(()=>{ productData = {}; renderCategories(); renderProducts(); });
+    console.error("Failed to load products:", err);
+    renderCategories();
+    renderProducts();
   }
 }
 
@@ -146,7 +142,7 @@ function renderProducts(category){
     card.innerHTML = `
       ${imgTag}
       <h3 class="product-title">${p.title}</h3>
-      <p class="product-price">${p.price}</p>
+      <p class="product-price">${p.price || ''}</p>
       <p class="product-desc">${p.description}</p>
       <button class="product-btn">🛒 Buy Now</button>
     `;
@@ -173,7 +169,7 @@ document.getElementById("affiliateForm").addEventListener("submit", e=>{
   }
 });
 
-// Google Custom Search with affiliate tag
+// Google Custom Search
 const API_KEY = "AIzaSyB9YwW8EVXQJsVwSMbJrk-NU9B9ZrzzkGs";
 const CSE_ID = "f7e219616fe1d4629";
 
@@ -184,10 +180,21 @@ async function searchProducts(query){
     const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CSE_ID}&q=${encodeURIComponent(query)}&num=10`);
     const data = await res.json();
     if(!data.items || data.items.length===0){ outputDiv.innerHTML="No results found."; return; }
+
+    const newProducts = [];
+
     outputDiv.innerHTML = data.items.map(item=>{
       let link = item.link;
-      if(userAffiliateTag) link += (link.includes("?") ? "&" : "?") + "tag=" + userAffiliateTag;
       const img = item.pagemap?.cse_image?.[0]?.src || '';
+      const productObj = {
+        title: item.title,
+        description: item.snippet,
+        url: link,
+        image: img,
+        category: "Search"
+      };
+      newProducts.push(productObj);
+      if(userAffiliateTag) link += (link.includes("?") ? "&" : "?") + "tag=" + userAffiliateTag;
       return `<div class="product-card">
                 ${img ? `<img src="${img}">` : ''}
                 <h3 class="product-title">${item.title}</h3>
@@ -195,6 +202,22 @@ async function searchProducts(query){
                 <button class="product-btn" onclick="window.open('${link}','_blank')">🛒 Buy Now</button>
               </div>`;
     }).join("");
+
+    // Save new products to Firestore
+    for(const p of newProducts){
+      const docRef = doc(db,"products",p.title.replace(/\W/g,"_"));
+      const docSnap = await getDoc(docRef);
+      if(!docSnap.exists()) await setDoc(docRef,p);
+    }
+
+    // Merge into productData
+    if(!productData["Search"]) productData["Search"] = [];
+    for(const p of newProducts){
+      if(!productData["Search"].some(pr=>pr.title===p.title && pr.url===p.url)) productData["Search"].push(p);
+    }
+
+    renderCategories();
+
   }catch(e){ outputDiv.innerHTML="Error: "+e.message; }
 }
 
@@ -218,4 +241,5 @@ window.addEventListener("load", ()=>{
   appendAffiliateToCSE();
 });
 </script>
-
+</body>
+</html>

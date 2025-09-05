@@ -127,6 +127,24 @@ document.getElementById("search-btn").onclick = () => {
   const q = document.getElementById("search-query").value.trim();
   if(q) searchProducts(q);
 };
+
+/* ------------------ FIREBASE ------------------ */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.1/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.2.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAmfbpdZvSMzAcU9AwPqKojKG08K3Qe0SE",
+  authDomain: "linkbotlabs.firebaseapp.com",
+  projectId: "linkbotlabs",
+  storageBucket: "linkbotlabs.firebasestorage.app",
+  messagingSenderId: "413558906075",
+  appId: "1:413558906075:web:a92dc7ec6cbeccec0540fe"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+console.log("Firebase initialized for LinkBotLabs AI Playground");
 </script>
 
 </body>

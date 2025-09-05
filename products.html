@@ -10,7 +10,6 @@
   .affiliate-banner { background:#0077b6; color:#fff; padding:12px; text-align:center; font-weight:bold; }
   .container { padding:10px; }
 
-  /* Search Bar */
   .search-section { display:flex; justify-content:center; gap:10px; margin:20px auto; max-width:600px; }
   .search-section input { flex:1; padding:12px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:16px; }
   .search-section button { padding:12px 18px; border:none; border-radius:6px; background:cyan; color:#000; font-weight:bold; cursor:pointer; }
@@ -44,7 +43,6 @@
 <h1>✨ LinkBotLabs Affiliate Shop ✨</h1>
 
 <div class="container">
-  <!-- 🔍 Search -->
   <div class="search-section">
     <input type="text" id="searchInput" placeholder="🔍 Search products (e.g. kitchen blender, smart watch)">
     <button id="searchBtn">Search</button>
@@ -64,11 +62,11 @@
   </div>
 </div>
 
-<!-- Firebase + Search Logic -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
+// Firebase setup
 const firebaseConfig = {
   apiKey: "AIzaSyAmfbpdZvSMzAcU9AwPqKojKG08K3Qe0SE",
   authDomain: "linkbotlabs.firebaseapp.com",
@@ -80,9 +78,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// DOM
 const categoriesDiv = document.getElementById("categories");
 const productsDiv = document.getElementById("products");
 
+// Affiliate
 let userAffiliateTag = localStorage.getItem('affiliateTag') || "mychanneld-20";
 function updateBanner() {
   const banner = document.getElementById("affiliate-banner");
@@ -90,6 +90,7 @@ function updateBanner() {
 }
 updateBanner();
 
+// Load products from JSON + Firestore
 let productData = {};
 async function loadProducts() {
   try {
@@ -105,15 +106,14 @@ async function loadProducts() {
         productData[p.category].push(p);
       }
     });
-    renderCategories();
-    renderProducts();
   } catch(err) {
     console.error("Failed to load products:", err);
-    renderCategories();
-    renderProducts();
   }
+  renderCategories();
+  renderProducts();
 }
 
+// Render categories
 function renderCategories() {
   categoriesDiv.innerHTML = "";
   const allBox = document.createElement("div");
@@ -131,6 +131,7 @@ function renderCategories() {
   }
 }
 
+// Render products
 function renderProducts(category){
   productsDiv.innerHTML = "";
   let filtered = [];
@@ -212,12 +213,11 @@ async function searchProducts(query){
       if(!docSnap.exists()) await setDoc(docRef,p);
     }
 
-    // Merge into local categories
+    // Merge into local category but DO NOT auto-render categories to avoid overwriting search results
     if(!productData["Search"]) productData["Search"] = [];
     for(const p of newProducts){
       if(!productData["Search"].some(pr=>pr.title===p.title && pr.url===p.url)) productData["Search"].push(p);
     }
-    renderCategories();
 
   }catch(e){ productsDiv.innerHTML="Error: "+e.message; }
 }

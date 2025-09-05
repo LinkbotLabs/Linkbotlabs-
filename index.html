@@ -8,8 +8,11 @@
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
   body { background: linear-gradient(135deg, #0b0c1a, #1a1b2c); color: #fff; overflow-x: hidden; }
 
+  /* --- Logo --- */
+  .logo { display: block; margin: 20px auto; max-width: 180px; }
+
   .hero {
-    height: 100vh;
+    height: 90vh;
     display: flex; flex-direction: column;
     justify-content: center; align-items: center;
     text-align: center;
@@ -19,14 +22,16 @@
   }
   .hero h1 { font-size: 3rem; color: #00fff0; margin-bottom: 20px; }
   .hero p { font-size: 1.3rem; margin-bottom: 40px; color: #aaa; }
-  .hero .buttons { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
+  .hero .buttons { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
   .hero .btn {
-    padding: 15px 35px; font-size: 1.2rem; font-weight: bold;
+    padding: 15px 25px; font-size: 1.1rem; font-weight: bold;
     border: none; border-radius: 8px; cursor: pointer; transition: transform 0.2s;
   }
   .hero .btn:hover { transform: scale(1.05); }
   .btn-shop { background: #00fff0; color: #0b0c1a; }
   .btn-affiliate { background: #ff00ff; color: #fff; }
+  .btn-ai { background: #ffaa00; color: #0b0c1a; }
+  .btn-video { background: #00aaff; color: #fff; }
 
   /* --- Swipe Sections --- */
   .swipe-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; position: relative; }
@@ -68,13 +73,18 @@
 </head>
 <body>
 
+  <!-- Logo -->
+  <img src="img_splash.jpg" alt="LinkBotLabs Logo" class="logo">
+
   <!-- Hero Section -->
   <section class="hero">
     <h1>Shop the World in Your Language – Earn with Every Click</h1>
-    <p>Discover products globally, compare instantly, and earn via our dynamic affiliate system.</p>
+    <p>Discover products globally, explore AI tools, and earn via our dynamic affiliate system.</p>
     <div class="buttons">
-      <button class="btn btn-shop" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'});">Shop Now 🌎</button>
-      <button class="btn btn-affiliate" onclick="document.getElementById('affiliate').scrollIntoView({behavior:'smooth'});">Affiliate Portal 💸</button>
+      <button class="btn btn-shop" onclick="scrollToSection('shop')">Shop Now 🌎</button>
+      <button class="btn btn-affiliate" onclick="scrollToSection('affiliate')">Affiliate Portal 💸</button>
+      <button class="btn btn-ai" onclick="scrollToSection('explore-ai')">Explore AI 🤖</button>
+      <button class="btn btn-video" onclick="scrollToSection('video-tool')">Full Tool 🎬</button>
     </div>
     <div class="swipe-hint">⬅️ Swipe left/right to explore ⬅️</div>
   </section>
@@ -120,6 +130,9 @@
   const container = document.getElementById('swipeContainer');
   function scrollSwipe(direction) {
     container.scrollBy({ left: window.innerWidth * direction, behavior: 'smooth' });
+  }
+  function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
   }
 </script>
 

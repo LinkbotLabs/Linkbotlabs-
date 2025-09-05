@@ -1,43 +1,29 @@
-name: Firebase Deploy
+name: Firebase Hosting Deploy
 
 on:
   push:
     branches:
-      - main  # or your default branch
+      - main   # Or your default branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20   # or your preferred Node version
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Configure Firebase service account
-      env:
-        FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-      run: |
-        echo "$FIREBASE_SERVICE_ACCOUNT" > serviceAccountKey.json
-
-    - name: Initialize Firebase Admin SDK (optional)
-      run: |
-        node -e "
-          const admin = require('firebase-admin');
-          const serviceAccount = require('./serviceAccountKey.json');
-          admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL: 'https://linkbotlabs.firebaseio.com' });
-          console.log('✅ Firebase Admin initialized');"
-
-    - name: Deploy to Firebase Hosting
-      uses: FirebaseExtended/action-hosting-deploy@v1
-      with:
-        repoToken: ${{ secrets.GITHUB_TOKEN }}
-        firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        projectId: linkbotlabs
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v1.1.3
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: linkbotlabs

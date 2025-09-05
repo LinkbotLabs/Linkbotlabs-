@@ -3,187 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LinkBotLabs – Smart Shopping Assistant</title>
-<link rel="icon" type="image/png" href="/preview.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
-
+<title>LinkBotLabs – Global Shopping & Affiliates</title>
 <style>
-  body {
-    font-family: 'Inter', sans-serif;
-    margin:0; padding:0;
-    background-color:#0B0F2A;
-    color:#fff;
-    line-height:1.5;
+  /* --- Reset & Base --- */
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+  body { background: linear-gradient(135deg, #0b0c1a, #1a1b2c); color: #fff; overflow-x: hidden; }
+
+  /* --- Hero Section --- */
+  .hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(11,12,26,0.9), rgba(26,27,44,0.9));
+    padding: 0 20px;
   }
-  header {
-    text-align:center;
-    padding:3rem 1rem;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(12px);
-    border-radius:12px;
-    margin: 1rem;
+  .hero h1 { font-size: 3rem; color: #00fff0; margin-bottom: 20px; }
+  .hero p { font-size: 1.3rem; margin-bottom: 40px; color: #aaa; }
+  .hero .buttons { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
+  .hero .btn {
+    padding: 15px 35px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
   }
-  header h1 { font-size:2.8rem; margin-bottom:1rem; color:#00FFFF; }
-  header p { font-size:1.15rem; opacity:0.9; margin-bottom:0.7rem; }
-  header img { max-width:220px; display:block; margin:0 auto 1rem; }
-  .btn {
-    display:inline-block; margin:0.5rem; padding:1rem 1.5rem;
-    background: rgba(0,255,255,0.2);
-    color:white; text-decoration:none; border-radius:8px;
-    font-weight:700; transition: all 0.3s ease;
-    font-size:1.05rem;
-    border: 1px solid #00FFFF;
+  .hero .btn:hover { transform: scale(1.05); }
+  .btn-shop { background: #00fff0; color: #0b0c1a; }
+  .btn-affiliate { background: #ff00ff; color: #fff; }
+
+  /* --- Swipe Sections --- */
+  .swipe-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
   }
-  .btn:hover {
-    transform: scale(1.05);
-    background: rgba(0,255,255,0.3);
+  .swipe-section {
+    scroll-snap-align: start;
+    min-width: 100vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
   }
-  section { padding:2.5rem 1rem; text-align:center; max-width:1100px; margin:auto; }
-  h2 { font-size:2rem; margin-bottom:1.3rem; color:#00FFFF; }
-  .categories {
-    display:flex; flex-wrap:wrap; justify-content:center; gap:0.8rem;
+  .swipe-section h2 { font-size: 2.5rem; margin-bottom: 20px; color: #00fff0; }
+  .swipe-section a {
+    display: block;
+    margin: 10px 0;
+    font-size: 1.5rem;
+    color: #fff;
+    text-decoration: none;
+    border: 2px solid #00fff0;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: 0.2s;
   }
-  .categories a {
-    flex:1 1 180px; max-width:220px;
-    background: rgba(255,255,255,0.05);
-    padding:1rem; border-radius:12px; color:white; font-weight:600;
-    text-decoration:none; transition: transform 0.2s, background 0.3s;
-    font-size:1rem;
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(0,255,255,0.2);
-    display:flex; flex-direction: column; align-items:center; justify-content:center;
-  }
-  .categories a:hover { transform: scale(1.08); background: rgba(0,255,255,0.15); }
-  .video-container { position: relative; width:100%; max-width:800px; margin:auto; overflow:hidden; border-radius:12px; padding-top:56.25%; border:2px solid #00FFFF; margin-bottom:1rem; }
-  .video-container iframe { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:12px; border:none; }
-  .contact-form input, .contact-form textarea {
-    padding:10px; width:100%; max-width:320px; border-radius:6px; border:none; margin:5px 0;
-    background: rgba(255,255,255,0.05); color:white; backdrop-filter: blur(5px);
-  }
-  .contact-form button {
-    padding:10px 18px; border-radius:6px; border:none; cursor:pointer; background:#00FFFF; color:#000; font-weight:700;
-    transition: all 0.3s ease;
-  }
-  .contact-form button:hover { background:#00CED1; }
-  .credit { text-align:center; margin:2rem auto; padding:1rem 1.5rem; border-radius:12px; background:rgba(255,255,255,0.05); backdrop-filter:blur(8px); max-width:800px; border:1px solid rgba(0,255,255,0.2); }
-  .credit a { color:#00FFFF; font-weight:600; text-decoration:none; }
-  .credit a:hover { text-decoration:underline; }
-  footer { background: rgba(255,255,255,0.05); text-align:center; padding:2rem 1rem; font-size:0.9rem; backdrop-filter: blur(10px); border-top:1px solid #00FFFF; }
-  footer a { color:#00FFFF; text-decoration:none; }
-  footer a:hover { color:#00CED1; }
-  @media (max-width:480px){
-    header h1 { font-size:2rem; }
-    header p { font-size:1rem; }
-    .btn { font-size:0.95rem; padding:0.8rem 1.2rem; }
-    .categories a { font-size:0.9rem; padding:0.8rem; }
-  }
+  .swipe-section a:hover { background: #00fff0; color: #0b0c1a; }
+
+  /* --- Footer --- */
+  footer { text-align: center; padding: 20px; font-size: 0.9rem; color: #888; }
+
+  /* --- Scrollbar styling --- */
+  .swipe-container::-webkit-scrollbar { height: 8px; }
+  .swipe-container::-webkit-scrollbar-thumb { background: #00fff0; border-radius: 4px; }
 </style>
 </head>
 <body>
 
-<header>
-  <a href="index.html"><img src="img_splash.jpg" alt="LinkBotLabs Logo"></a>
-  <h1>🚀 Welcome to LinkBotLabs</h1>
-  <p><strong>AI-powered shopping, reviews, and video automation tools</strong></p>
-  <p>Test our AI Playground + Desktop Demo (no key required!)</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Shop the World in Your Language – Earn with Every Click</h1>
+    <p>Discover products globally, compare instantly, and earn via our dynamic affiliate system.</p>
+    <div class="buttons">
+      <button class="btn btn-shop" onclick="location.href='#shop'">Shop Now 🌎</button>
+      <button class="btn btn-affiliate" onclick="location.href='#affiliate'">Affiliate Portal 💸</button>
+    </div>
+  </section>
 
-  <a href="products.html" class="btn">🛒 Affiliate Product Page</a>
-  <a href="ai.html" class="btn">🤖 Try AI Playground (Demo)</a>
-  <a href="aiai.html" class="btn">🤖 Try AI Playground 2 (Demo)</a>
-  <a href="for_dummies.html" class="btn">⚙️ Full Automation Tool</a>
-  <a href="image.html" class="btn">🖼️ AI Image Generator (Demo)</a>
-</header>
+  <!-- Swipeable Sections -->
+  <div class="swipe-container">
+    <!-- Shoppers Section -->
+    <section class="swipe-section" id="shop" style="background:#11121f;">
+      <h2>🛒 For Shoppers</h2>
+      <a href="products.html">Browse Products</a>
+      <a href="aiai.html">AI Product Search</a>
+      <a href="contact.html">Contact Support</a>
+    </section>
 
-<section>
-  <h2>📖 About the Tool</h2>
-  <p>LinkBotLabs gives you full <strong>product search, description writing, review scripts, and video automation</strong>.<br>
-     Explore the full tools here: <a href="for_dummies.html" class="btn">⚙️ Full Automation Tool</a><br>
-     Share our affiliate links to earn <strong>commissions together</strong> on every sale!</p>
-</section>
-
-<section>
-  <h2>📂 Shop Categories – Support Us</h2>
-  <div class="categories">
-    <a href="https://www.amazon.com/s?k=face+cream&tag=mychanneld-20">💆 Face Cream</a>
-    <a href="https://www.amazon.com/s?k=supplements&tag=mychanneld-20">💊 Supplements</a>
-    <a href="https://www.amazon.com/s?k=blender&tag=mychanneld-20">🥤 Blenders</a>
-    <a href="https://www.amazon.com/s?k=rice+cooker&tag=mychanneld-20">🍚 Rice Cookers</a>
-    <a href="https://www.amazon.com/s?k=headphones&tag=mychanneld-20">🎧 Headphones</a>
-    <a href="https://www.amazon.com/s?k=tech&tag=mychanneld-20">💻 Tech Gadgets</a>
-    <a href="https://www.amazon.com/s?k=gaming&tag=mychanneld-20">🎮 Gaming</a>
-    <a href="https://www.amazon.com/s?k=fitness&tag=mychanneld-20">🏋️ Fitness</a>
-    <a href="https://www.amazon.com/s?k=home+office&tag=mychanneld-20">🏠 Home Office</a>
-    <a href="https://www.amazon.com/s?k=books&tag=mychanneld-20">📚 Books</a>
-    <a href="https://www.amazon.com/s?k=smart+home&tag=mychanneld-20">🏡 Smart Home</a>
+    <!-- Affiliates Section -->
+    <section class="swipe-section" id="affiliate" style="background:#1a112c;">
+      <h2>💸 For Affiliates</h2>
+      <a href="affiliate-dashboard.html">Dashboard</a>
+      <a href="affiliate-guide.html">Setup Guide</a>
+      <a href="affiliate-earnings.html">Earnings Overview</a>
+    </section>
   </div>
-</section>
 
-<section>
-  <h2>💖 Support LinkBotLabs</h2>
-  <p>Help us keep building amazing tools! A <strong>one-time donation</strong> unlocks all extra features, full AI access, and entry into our affiliate program.  
-     Or, making <strong>just one purchase</strong> from our affiliate products will also grant you access. Every contribution helps us grow and improve! 🌟</p>
-  <a href="https://wise.com/pay/me/davids14542" class="btn">💸 Contribute / Donate</a>
-</section>
-
-<section>
-  <h2>📺 Full Video + Channel</h2>
-  <div class="video-container">
-    <iframe src="https://www.youtube.com/embed/UbzRCz52Jes?si=Jab3bIzHQ5A9ZvsB" allowfullscreen></iframe>
-  </div>
-  <p>📺 Explore more videos on our <a href="https://www.youtube.com/@Linkbotlabs" target="_blank">YouTube @Linkbotlabs</a></p>
-</section>
-
-<section>
-  <h2>📧 Contact Developer</h2>
-  <form id="contact-form" class="contact-form">
-    <input type="text" name="from_name" placeholder="Your name" required><br>
-    <input type="email" name="reply_to" placeholder="Your email" required><br>
-    <textarea name="message" placeholder="Your message" rows="4" required></textarea><br>
-    <button type="submit">Send Message</button>
-  </form>
-  <p id="form-status" style="margin-top:10px; font-size:0.9rem; color:#00FFFF;"></p>
-</section>
-
-<section class="credit">
-  ⚡ Some apps and services here are powered by 
-  <a href="https://puter.com" target="_blank">Puter Cloud Platform</a>.
-</section>
-
-<footer>
-  <p>© 2025 LinkBotLabs – Affiliate Shopping Automation</p>
-</footer>
-
-<!-- EmailJS -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script>
-  emailjs.init("bceEcXpLIRDpJxOHM"); 
-  const form = document.getElementById("contact-form");
-  const status = document.getElementById("form-status");
-  form.addEventListener("submit", function(event){
-    event.preventDefault();
-    status.innerText = "⏳ Sending...";
-    emailjs.sendForm("service_pzzseh7","template_2sariuw",form)
-      .then(()=>{ status.innerText="✅ Message sent successfully!"; form.reset(); })
-      .catch((err)=>{ status.innerText="❌ Failed to send. Please try again."; console.error(err); });
-  });
-</script>
-
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAmfbpdZvSMzAcU9AwPqKojKG08K3Qe0SE",
-    authDomain: "linkbotlabs.firebaseapp.com",
-    projectId: "linkbotlabs",
-    storageBucket: "linkbotlabs.firebasestorage.app",
-    messagingSenderId: "413558906075",
-    appId: "1:413558906075:web:a92dc7ec6cbeccec0540fe"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  console.log("Firebase initialized", app);
-</script>
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 LinkBotLabs – Global Shopping & Affiliate Network
+  </footer>
 
 </body>
 </html>

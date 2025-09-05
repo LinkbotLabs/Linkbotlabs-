@@ -31,9 +31,9 @@
 <div class="products" id="products"></div>
 
 <script>
-const API_KEY = "YOUR_GOOGLE_CSE_API_KEY"; // Replace with your key
-const CSE_ID = "YOUR_CUSTOM_SEARCH_ENGINE_ID"; // Replace with your CSE ID
-const AFFILIATE_TAG = "mytag-20"; // Replace with your affiliate tag
+const API_KEY = "AIzaSyB9YwW8EVXQJsVwSMbJrk-NU9B9ZrzzkGs";
+const CSE_ID = "f7e219616fe1d4629";
+const AFFILIATE_TAG = "mychanneld-20";
 
 const productsDiv = document.getElementById("products");
 
@@ -56,7 +56,7 @@ async function searchProducts(query){
       const card = document.createElement("div");
       card.className = "product-card";
       card.innerHTML = `
-        ${img ? `<img src="${img}">` : ''}
+        ${img ? `<img src="${img}">` : '<div style="height:120px; background:#222; border-radius:6px;"></div>'}
         <h3 class="product-title">${item.title}</h3>
         <p class="product-desc">${item.snippet}</p>
         <button class="product-btn">🛒 Buy Now</button>

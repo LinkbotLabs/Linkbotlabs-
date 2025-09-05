@@ -5,27 +5,101 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LinkBotLabs Affiliate Shop</title>
 <style>
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:16px; background: linear-gradient(180deg,#000,#1a1a1a); color:#fff; margin:0; }
-h1 { text-align:center; color:cyan; margin:15px 0; }
-.affiliate-banner { background:#0077b6; color:#fff; padding:12px; text-align:center; font-weight:bold; }
-.container { padding:10px; }
-.categories { display:flex; gap:10px; overflow-x:auto; margin-bottom:15px; }
-.category-box { padding:8px 14px; background:#222; border-radius:6px; cursor:pointer; color:cyan; white-space:nowrap; flex:0 0 auto; }
-.category-box:hover { background:#333; }
-.products { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; }
-.product-card { background:rgba(26,26,46,0.85); border:1px solid #3a3a5d; border-radius:10px; padding:16px; width:220px; text-align:center; }
-.product-title { font-size:20px; font-weight:bold; margin:10px 0; }
-.product-price { color:cyan; font-weight:bold; margin:8px 0; }
-.product-desc { font-size:14px; color:#ccc; margin-bottom:12px; }
-.product-btn { padding:12px; background:black; border:2px solid cyan; border-radius:8px; color:white; font-weight:bold; cursor:pointer; width:90%; transition:0.2s; }
-.product-btn:hover { background:cyan; color:black; }
-.affiliate-section { background: rgba(10,10,40,0.6); padding:16px; margin:15px 0; border-radius:10px; border:1px solid rgba(0,255,255,0.3);}
-.affiliate-section input, .affiliate-section button { width:100%; padding:12px; margin:6px 0; border-radius:6px; border:none; font-size:1rem;}
-.affiliate-section input { background: rgba(15,15,50,0.7); color:#fff; }
-.affiliate-section button { background: linear-gradient(135deg,#00ffff,#00bfff); color:#0b0c22; font-weight:bold; cursor:pointer; transition:0.3s; }
-.affiliate-section button:hover { opacity:0.85; }
-.output { margin-top:8px; color:#00ffea; }
-@media(max-width:768px){ .products{justify-content:center;} .product-card{width:90%;} }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size:16px;
+    background: linear-gradient(180deg,#000,#1a1a1a);
+    color:#fff;
+    margin:0;
+  }
+  h1 {
+    text-align:center;
+    color:cyan;
+    margin:15px 0;
+  }
+  .affiliate-banner {
+    background:#0077b6;
+    color:#fff;
+    padding:12px;
+    text-align:center;
+    font-weight:bold;
+  }
+  .container { padding:10px; }
+  .categories {
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    margin-bottom:15px;
+  }
+  .category-box {
+    padding:8px 14px;
+    background:#222;
+    border-radius:6px;
+    cursor:pointer;
+    color:cyan;
+    white-space:nowrap;
+    flex:0 0 auto;
+  }
+  .category-box:hover { background:#333; }
+  .products {
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    justify-content:center;
+  }
+  .product-card {
+    background:rgba(26,26,46,0.85);
+    border:1px solid #3a3a5d;
+    border-radius:10px;
+    padding:16px;
+    width:220px;
+    text-align:center;
+  }
+  .product-title { font-size:20px; font-weight:bold; margin:10px 0; }
+  .product-price { color:cyan; font-weight:bold; margin:8px 0; }
+  .product-desc { font-size:14px; color:#ccc; margin-bottom:12px; }
+  .product-btn {
+    padding:12px;
+    background:black;
+    border:2px solid cyan;
+    border-radius:8px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    width:90%;
+    transition:0.2s;
+  }
+  .product-btn:hover { background:cyan; color:black; }
+  .affiliate-section {
+    background: rgba(10,10,40,0.6);
+    padding:16px;
+    margin:15px 0;
+    border-radius:10px;
+    border:1px solid rgba(0,255,255,0.3);
+  }
+  .affiliate-section input, .affiliate-section button {
+    width:100%;
+    padding:12px;
+    margin:6px 0;
+    border-radius:6px;
+    border:none;
+    font-size:1rem;
+  }
+  .affiliate-section input { background: rgba(15,15,50,0.7); color:#fff; }
+  .affiliate-section button {
+    background: linear-gradient(135deg,#00ffff,#00bfff);
+    color:#0b0c22;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+  }
+  .affiliate-section button:hover { opacity:0.85; }
+  .output { margin-top:8px; color:#00ffea; }
+  @media(max-width:768px){
+    .products{justify-content:center;}
+    .product-card{width:90%;}
+    .product-title{font-size:22px;}
+  }
 </style>
 </head>
 <body>
@@ -56,19 +130,20 @@ h1 { text-align:center; color:cyan; margin:15px 0; }
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-// Firebase config
+// Firebase config for project 48626571
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "linkbotlabs-41504489.firebaseapp.com",
-  projectId: "linkbotlabs-41504489"
+  apiKey: "YOUR_API_KEY_FOR_48626571",
+  authDomain: "linkbotlabs-48626571.firebaseapp.com",
+  projectId: "linkbotlabs-48626571"
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-let categoriesDiv = document.getElementById("categories");
-let productsDiv = document.getElementById("products");
+// DOM elements
+const categoriesDiv = document.getElementById("categories");
+const productsDiv = document.getElementById("products");
 
-// Affiliate
+// Affiliate tag persistence
 let userAffiliateTag = localStorage.getItem('affiliateTag') || "";
 function updateBanner() {
   const banner = document.getElementById("affiliate-banner");
@@ -76,7 +151,7 @@ function updateBanner() {
 }
 updateBanner();
 
-// Load products from Firestore
+// Load products from Firestore or fallback
 let productData = {};
 async function loadProducts() {
   try {
@@ -102,12 +177,15 @@ async function loadProducts() {
 function renderCategories() {
   categoriesDiv.innerHTML = "";
   const allBox = document.createElement("div");
-  allBox.className = "category-box"; allBox.textContent = "All";
+  allBox.className = "category-box";
+  allBox.textContent = "All";
   allBox.onclick = ()=>renderProducts();
   categoriesDiv.appendChild(allBox);
+
   for(const cat of Object.keys(productData)){
     const box = document.createElement("div");
-    box.className = "category-box"; box.textContent = cat;
+    box.className = "category-box";
+    box.textContent = cat;
     box.onclick = ()=>renderProducts(cat);
     categoriesDiv.appendChild(box);
   }
@@ -131,8 +209,8 @@ function renderProducts(category){
       <button class="product-btn">🛒 Buy Now</button>
     `;
     card.querySelector("button").onclick = ()=>{
-      let link = p.url;
-      if(userAffiliateTag) link += (p.url.includes("?") ? "&" : "?") + "tag=" + userAffiliateTag;
+      let link = p.url.startsWith("http") ? p.url : "https://"+p.url;
+      if(userAffiliateTag) link += (link.includes("?") ? "&" : "?") + "tag=" + userAffiliateTag;
       window.open(link,"_blank");
     };
     productsDiv.appendChild(card);
@@ -148,10 +226,12 @@ document.getElementById("affiliateForm").addEventListener("submit", e=>{
     localStorage.setItem('affiliateTag',tag);
     document.getElementById("regOutput").innerText = `✅ Tag "${tag}" saved!`;
     updateBanner();
-  } else document.getElementById("regOutput").innerText = "❌ Enter a valid affiliate tag.";
+  } else {
+    document.getElementById("regOutput").innerText = "❌ Enter a valid affiliate tag.";
+  }
 });
 
-// Google Custom Search integration with affiliate tag
+// Google Custom Search with affiliate tag
 const API_KEY = "AIzaSyB9YwW8EVXQJsVwSMbJrk-NU9B9ZrzzkGs";
 const CSE_ID = "f7e219616fe1d4629";
 

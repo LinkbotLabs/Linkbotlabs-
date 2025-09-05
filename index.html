@@ -153,6 +153,7 @@
   <p>© 2025 LinkBotLabs – Affiliate Shopping Automation</p>
 </footer>
 
+<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
   emailjs.init("bceEcXpLIRDpJxOHM"); 
@@ -165,6 +166,23 @@
       .then(()=>{ status.innerText="✅ Message sent successfully!"; form.reset(); })
       .catch((err)=>{ status.innerText="❌ Failed to send. Please try again."; console.error(err); });
   });
+</script>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAmfbpdZvSMzAcU9AwPqKojKG08K3Qe0SE",
+    authDomain: "linkbotlabs.firebaseapp.com",
+    projectId: "linkbotlabs",
+    storageBucket: "linkbotlabs.firebasestorage.app",
+    messagingSenderId: "413558906075",
+    appId: "1:413558906075:web:a92dc7ec6cbeccec0540fe"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  console.log("Firebase initialized", app);
 </script>
 
 </body>

@@ -33,9 +33,12 @@
 <script>
 const API_KEY = "AIzaSyB9YwW8EVXQJsVwSMbJrk-NU9B9ZrzzkGs"; // your API key
 const CSE_ID = "f7e219616fe1d4629"; // your CSE ID
-const AFFILIATE_TAG = "mychanneld-20"; // your affiliate tag
+const YOUR_TAG = "mychanneld-20"; // your commission tag
 
 const productsDiv = document.getElementById("products");
+
+// Check if user is new
+let isNewUser = !localStorage.getItem("visited");
 
 async function searchProducts(query){
   productsDiv.innerHTML = "🔎 Searching…";
@@ -50,9 +53,6 @@ async function searchProducts(query){
 
     productsDiv.innerHTML = "";
     data.items.forEach(item=>{
-      let link = item.link;
-      if(AFFILIATE_TAG) link += (link.includes("?") ? "&" : "?") + "tag=" + AFFILIATE_TAG;
-
       const img = item.pagemap?.cse_image?.[0]?.src || '';
       const card = document.createElement("div");
       card.className = "product-card";
@@ -62,7 +62,20 @@ async function searchProducts(query){
         <p class="product-desc">${item.snippet}</p>
         <button class="product-btn">🛒 Buy Now</button>
       `;
-      card.querySelector("button").onclick = ()=>window.open(link,"_blank");
+
+      // Determine which affiliate tag to use
+      let linkTag = isNewUser ? YOUR_TAG : ""; // future: can replace "" with user.affiliateTag if logged in
+      let link = item.link + (item.link.includes("?") ? "&" : "?") + "tag=" + linkTag;
+
+      card.querySelector("button").onclick = () => {
+        window.open(link,"_blank");
+        // After first product clicked, mark user as visited
+        if(isNewUser){
+          localStorage.setItem("visited", "true");
+          isNewUser = false;
+        }
+      };
+
       productsDiv.appendChild(card);
     });
   }catch(e){

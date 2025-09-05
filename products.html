@@ -9,9 +9,17 @@
   h1 { text-align:center; color:cyan; margin:15px 0; }
   .affiliate-banner { background:#0077b6; color:#fff; padding:12px; text-align:center; font-weight:bold; }
   .container { padding:10px; }
+
+  /* Search Bar */
+  .search-section { display:flex; justify-content:center; gap:10px; margin:20px auto; max-width:600px; }
+  .search-section input { flex:1; padding:12px; border-radius:6px; border:1px solid #444; background:#111; color:#fff; font-size:16px; }
+  .search-section button { padding:12px 18px; border:none; border-radius:6px; background:cyan; color:#000; font-weight:bold; cursor:pointer; }
+  .search-section button:hover { opacity:0.85; }
+
   .categories { display:flex; gap:10px; overflow-x:auto; margin-bottom:15px; }
   .category-box { padding:8px 14px; background:#222; border-radius:6px; cursor:pointer; color:cyan; white-space:nowrap; flex:0 0 auto; }
   .category-box:hover { background:#333; }
+
   .products { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; }
   .product-card { background:rgba(26,26,46,0.85); border:1px solid #3a3a5d; border-radius:10px; padding:16px; width:220px; text-align:center; }
   .product-card img { width:100%; border-radius:6px; margin-bottom:8px; }
@@ -20,6 +28,7 @@
   .product-desc { font-size:14px; color:#ccc; margin-bottom:12px; }
   .product-btn { padding:12px; background:black; border:2px solid cyan; border-radius:8px; color:white; font-weight:bold; cursor:pointer; width:90%; transition:0.2s; }
   .product-btn:hover { background:cyan; color:black; }
+
   .affiliate-section { background: rgba(10,10,40,0.6); padding:16px; margin:15px 0; border-radius:10px; border:1px solid rgba(0,255,255,0.3); }
   .affiliate-section input, .affiliate-section button { width:100%; padding:12px; margin:6px 0; border-radius:6px; border:none; font-size:1rem; }
   .affiliate-section input { background: rgba(15,15,50,0.7); color:#fff; }
@@ -35,6 +44,12 @@
 <h1>✨ LinkBotLabs Affiliate Shop ✨</h1>
 
 <div class="container">
+  <!-- 🔍 Search -->
+  <div class="search-section">
+    <input type="text" id="searchInput" placeholder="🔍 Search products (e.g. kitchen blender, smart watch)">
+    <button id="searchBtn">Search</button>
+  </div>
+
   <div class="categories" id="categories"></div>
   <div class="products" id="products"></div>
 
@@ -49,15 +64,11 @@
   </div>
 </div>
 
-<!-- Google CSE -->
-<script async src="https://cse.google.com/cse.js?cx=f7e219616fe1d4629"></script>
-
-<!-- Firebase SDKs -->
+<!-- Firebase + Search Logic -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, setDoc, query, where, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAmfbpdZvSMzAcU9AwPqKojKG08K3Qe0SE",
   authDomain: "linkbotlabs.firebaseapp.com",
@@ -69,11 +80,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// DOM elements
 const categoriesDiv = document.getElementById("categories");
 const productsDiv = document.getElementById("products");
 
-// Affiliate tag
 let userAffiliateTag = localStorage.getItem('affiliateTag') || "mychanneld-20";
 function updateBanner() {
   const banner = document.getElementById("affiliate-banner");
@@ -81,21 +90,17 @@ function updateBanner() {
 }
 updateBanner();
 
-// Load products.json first, then Firestore
 let productData = {};
 async function loadProducts() {
   try {
-    // Load JSON first
     const res = await fetch('products.json');
     const jsonData = await res.json();
     productData = jsonData;
 
-    // Load Firestore
     const snapshot = await getDocs(collection(db, "products"));
     snapshot.forEach(docSnap => {
       const p = docSnap.data();
       if(!productData[p.category]) productData[p.category] = [];
-      // Avoid duplicates by checking title + URL
       if(!productData[p.category].some(pr=>pr.title===p.title && pr.url===p.url)) {
         productData[p.category].push(p);
       }
@@ -109,7 +114,6 @@ async function loadProducts() {
   }
 }
 
-// Render categories
 function renderCategories() {
   categoriesDiv.innerHTML = "";
   const allBox = document.createElement("div");
@@ -127,7 +131,6 @@ function renderCategories() {
   }
 }
 
-// Render products
 function renderProducts(category){
   productsDiv.innerHTML = "";
   let filtered = [];
@@ -169,77 +172,63 @@ document.getElementById("affiliateForm").addEventListener("submit", e=>{
   }
 });
 
-// Google Custom Search
+// Google CSE API Search
 const API_KEY = "AIzaSyB9YwW8EVXQJsVwSMbJrk-NU9B9ZrzzkGs";
 const CSE_ID = "f7e219616fe1d4629";
 
 async function searchProducts(query){
-  const outputDiv = document.getElementById("products");
-  outputDiv.innerHTML = "Searching…";
+  productsDiv.innerHTML = "🔎 Searching…";
   try{
     const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CSE_ID}&q=${encodeURIComponent(query)}&num=10`);
     const data = await res.json();
-    if(!data.items || data.items.length===0){ outputDiv.innerHTML="No results found."; return; }
+    if(!data.items || data.items.length===0){ productsDiv.innerHTML="No results found."; return; }
 
+    productsDiv.innerHTML = "";
     const newProducts = [];
 
-    outputDiv.innerHTML = data.items.map(item=>{
+    data.items.forEach(item=>{
       let link = item.link;
       const img = item.pagemap?.cse_image?.[0]?.src || '';
-      const productObj = {
-        title: item.title,
-        description: item.snippet,
-        url: link,
-        image: img,
-        category: "Search"
-      };
+      const productObj = { title: item.title, description: item.snippet, url: link, image: img, category: "Search" };
       newProducts.push(productObj);
       if(userAffiliateTag) link += (link.includes("?") ? "&" : "?") + "tag=" + userAffiliateTag;
-      return `<div class="product-card">
-                ${img ? `<img src="${img}">` : ''}
-                <h3 class="product-title">${item.title}</h3>
-                <p class="product-desc">${item.snippet}</p>
-                <button class="product-btn" onclick="window.open('${link}','_blank')">🛒 Buy Now</button>
-              </div>`;
-    }).join("");
 
-    // Save new products to Firestore
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        ${img ? `<img src="${img}">` : ''}
+        <h3 class="product-title">${item.title}</h3>
+        <p class="product-desc">${item.snippet}</p>
+        <button class="product-btn">🛒 Buy Now</button>
+      `;
+      card.querySelector("button").onclick = ()=>window.open(link,"_blank");
+      productsDiv.appendChild(card);
+    });
+
+    // Save to Firestore
     for(const p of newProducts){
       const docRef = doc(db,"products",p.title.replace(/\W/g,"_"));
       const docSnap = await getDoc(docRef);
       if(!docSnap.exists()) await setDoc(docRef,p);
     }
 
-    // Merge into productData
+    // Merge into local categories
     if(!productData["Search"]) productData["Search"] = [];
     for(const p of newProducts){
       if(!productData["Search"].some(pr=>pr.title===p.title && pr.url===p.url)) productData["Search"].push(p);
     }
-
     renderCategories();
 
-  }catch(e){ outputDiv.innerHTML="Error: "+e.message; }
+  }catch(e){ productsDiv.innerHTML="Error: "+e.message; }
 }
 
-// Observe dynamically loaded CSE links to add affiliate tag
-function appendAffiliateToCSE() {
-  const observer = new MutationObserver(() => {
-    document.querySelectorAll(".gsc-results .gsc-thumbnail-inside a, .gsc-results .gsc-url-top a").forEach(link => {
-      if (!link.dataset.affiliateApplied) {
-        let url = new URL(link.href);
-        url.searchParams.set("tag", userAffiliateTag || "mychanneld-20");
-        link.href = url.toString();
-        link.dataset.affiliateApplied = true;
-      }
-    });
-  });
-  observer.observe(document.body, { childList:true, subtree:true });
-}
-
-window.addEventListener("load", ()=>{
-  loadProducts();
-  appendAffiliateToCSE();
+// Search button
+document.getElementById("searchBtn").addEventListener("click", ()=>{
+  const query = document.getElementById("searchInput").value.trim();
+  if(query) searchProducts(query);
 });
+
+window.addEventListener("load", loadProducts);
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>LinkBotLabs – AI Playground + Products</title>
+<title>LinkBotLabs – AI Playground</title>
 <script src="https://js.puter.com/v2/"></script>
 <style>
   :root {
@@ -18,9 +18,7 @@
   body { margin:0; padding:24px; font-family: system-ui, Inter, sans-serif; background: var(--background); color: var(--text); }
   h1 { margin:0 0 18px; font-weight:700; }
   h2 { color: var(--accent); }
-  .grid { display:grid; grid-template-columns:repeat(12,1fr); gap:18px; }
-  .card { grid-column: span 12; background: var(--glass); border: 1px solid var(--stroke); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
-  @media(min-width:900px){ #card-chat,#card-stream,#card-image,#card-search{grid-column: span 6;} }
+  .card { background: var(--glass); border: 1px solid var(--stroke); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); box-shadow: 0 15px 40px rgba(0,0,0,0.6); margin-bottom:20px; }
   label { display:block; font-size:12px; color:var(--muted); margin:8px 0 6px; }
   textarea,select,input { width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--stroke); border-radius:12px; padding:12px 14px; color:var(--text); outline:none; }
   textarea { min-height:120px; }
@@ -28,57 +26,81 @@
   button:hover { transform:translateY(-2px); }
   .output { margin-top:14px; padding:16px; border-radius:12px; border:1px solid var(--stroke); background:rgba(255,255,255,0.05); min-height:140px; white-space:pre-wrap; overflow-y:auto; }
   .hint { font-size:12px; color:var(--muted); }
+
+  /* Modal */
+  .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; }
+  .modal-content { background:var(--glass); border:1px solid var(--stroke); padding:30px; border-radius:16px; max-width:500px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
 </style>
 </head>
 <body>
 
-<h1>🤖 LinkBotLabs – AI Playground + Product Search</h1>
-<p class="hint">Demo lasts 15 minutes. After that, please donate to unlock unlimited access across all AI apps.</p>
+<h1>🤖 LinkBotLabs – AI Playground</h1>
+<p class="hint" id="demo-hint">
+  Demo lasts 15 minutes. After that, please donate to unlock unlimited access across all AI apps.
+</p>
+<div id="reactivate-box" style="display:none; margin-top:10px;">
+  <button id="reactivateBtn" style="background:var(--accent);color:#000;font-weight:bold;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;">
+    🔓 Reactivate Access
+  </button>
+</div>
 
-<div class="grid">
+<!-- Chat -->
+<div class="card" id="card-chat">
+  <h2>Chat / Q&amp;A</h2>
+  <label for="chat-model">Model</label>
+  <select id="chat-model">
+    <option value="gpt-4.1-nano" selected>GPT-4.1-nano</option>
+    <option value="gpt-4.1">GPT-4.1</option>
+    <option value="gpt-4o">GPT-4o</option>
+    <option value="gpt-5">GPT-5</option>
+    <option value="gpt-5-mini">GPT-5-mini</option>
+  </select>
+  <label for="chat-prompt">Prompt</label>
+  <textarea id="chat-prompt" placeholder="Ask me anything..."></textarea>
+  <button id="chat-run">Run</button>
+  <div class="output" id="chat-out"></div>
+</div>
 
-  <!-- Chat -->
-  <div class="card" id="card-chat">
-    <h2>Chat / Q&amp;A</h2>
-    <label for="chat-model">Model</label>
-    <select id="chat-model">
-      <option value="gpt-4.1-nano" selected>GPT-4.1-nano</option>
-      <option value="gpt-4.1">GPT-4.1</option>
-      <option value="gpt-4o">GPT-4o</option>
-      <option value="gpt-5">GPT-5</option>
-      <option value="gpt-5-mini">GPT-5-mini</option>
-    </select>
-    <label for="chat-prompt">Prompt</label>
-    <textarea id="chat-prompt" placeholder="Ask me anything..."></textarea>
-    <button id="chat-run">Run</button>
-    <div class="output" id="chat-out"></div>
+<!-- Demo Expired Modal -->
+<div id="demoModal" class="modal">
+  <div class="modal-content">
+    <h2>⏳ Demo Expired</h2>
+    <p>
+      This AI playground is powered by 
+      <a href="https://puter.com/?r=EFJ83WFV" target="_blank" style="color:var(--accent);font-weight:bold;">Puter</a>.
+    </p>
+    <p>🤖 The demo gives you 15 minutes of free access to different AI models.</p>
+    <p>💳 To continue, please support the developer with a <strong>one-time donation</strong> (not subscription).</p>
+    <p>
+      🌍 You can also 
+      <a href="https://puter.com/?r=EFJ83WFV" target="_blank" style="color:var(--accent);font-weight:bold;">register on Puter</a> 
+      for an extra <strong>1GB free</strong>.
+    </p>
+    <div style="margin-top:20px;">
+      <a href="https://wise.com/pay/me/davids14542" target="_blank">
+        <button style="background:var(--accent);color:#000;font-weight:bold;border:none;padding:12px 20px;border-radius:10px;cursor:pointer;">
+          💳 Donate via Wise
+        </button>
+      </a>
+    </div>
+    <div style="margin-top:15px;">
+      <button id="closeModal" style="background:#444;color:#fff;font-weight:bold;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;">
+        ❌ Close
+      </button>
+    </div>
   </div>
-
-  <!-- Image -->
-  <div class="card" id="card-image">
-    <h2>Image Generator</h2>
-    <div class="hint">First use free. Unlimited use after unlock.</div>
-    <label for="image-prompt">Prompt</label>
-    <textarea id="image-prompt">A futuristic city skyline at night</textarea>
-    <button id="image-run">Generate</button>
-    <div class="output" id="image-out"></div>
-  </div>
-
-  <!-- Product Search -->
-  <div class="card" id="card-search">
-    <h2>Product Search (Amazon + Temu)</h2>
-    <label for="search-query">Search Products</label>
-    <input type="text" id="search-query" placeholder="Enter product name">
-    <button id="search-btn">Search</button>
-    <div class="output" id="search-output"></div>
-  </div>
-
 </div>
 
 <script>
+let unlocked = true;
+const demoDuration = 15 * 60 * 1000; // 15 minutes
+
 /* ------------------ AI CHAT ------------------ */
 async function runChat(){
-  const unlocked=true; // remove demo lock for simplicity
+  if (!unlocked) {
+    document.getElementById("chat-out").innerHTML = "⛔ Demo expired. Please donate or register.";
+    return;
+  }
   const m=document.getElementById("chat-model").value;
   const p=document.getElementById("chat-prompt").value.trim();
   const o=document.getElementById("chat-out");
@@ -91,60 +113,25 @@ async function runChat(){
 }
 document.getElementById("chat-run").onclick=runChat;
 
-/* ------------------ IMAGE GENERATOR ------------------ */
-async function runImage(){
-  const p=document.getElementById("image-prompt").value.trim();
-  const o=document.getElementById("image-out");
-  o.innerHTML="Generating...";
-  try{
-    const r=await puter.ai.image(p,{size:"512x512"});
-    if(r?.url) o.innerHTML='<img src="'+r.url+'" style="max-width:100%;border-radius:10px;">';
-    else o.innerHTML="No image returned.";
-  } catch(e){ o.innerHTML="Error: "+e.message; }
-}
-document.getElementById("image-run").onclick=runImage;
+/* ------------------ DEMO TIMER ------------------ */
+setTimeout(() => {
+  unlocked = false;
+  document.getElementById("demo-hint").innerHTML = 
+    `⏳ Demo expired. Please <a href="https://wise.com/pay/me/davids14542" target="_blank" style="color:var(--accent);font-weight:bold;">donate via Wise</a> 
+     or <a href="https://puter.com/?r=EFJ83WFV" target="_blank" style="color:var(--accent);font-weight:bold;">register on Puter</a> for free 1GB.`;
+  document.getElementById("demoModal").style.display="flex";
+  document.getElementById("reactivate-box").style.display="block";
+}, demoDuration);
 
-/* ------------------ GOOGLE CUSTOM SEARCH ------------------ */
-const API_KEY = "AIzaSyB9YwW8EVXQJsVwSMbJrk-NU9B9ZrzzkGs";
-const CSE_ID = "f7e219616fe1d4629";
-
-async function searchProducts(query){
-  const o=document.getElementById("search-output");
-  o.innerHTML="Searching…";
-  try {
-    const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CSE_ID}&q=${encodeURIComponent(query)}&num=10`);
-    const data = await res.json();
-    if(!data.items || data.items.length===0){ o.innerHTML="No results found."; return; }
-    o.innerHTML = data.items.map(item => `
-      <div style="margin-bottom:12px; padding:10px; border:1px solid #ccc; border-radius:8px;">
-        <a href="${item.link}" target="_blank"><strong>${item.title}</strong></a>
-        <p>${item.snippet}</p>
-      </div>
-    `).join("");
-  } catch(e){ o.innerHTML="Error: "+e.message; }
-}
-document.getElementById("search-btn").onclick = () => {
-  const q = document.getElementById("search-query").value.trim();
-  if(q) searchProducts(q);
+/* ------------------ MODAL CONTROL ------------------ */
+document.getElementById("closeModal").onclick = () => {
+  document.getElementById("demoModal").style.display="none";
 };
-
-/* ------------------ FIREBASE ------------------ */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.1/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.2.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAmfbpdZvSMzAcU9AwPqKojKG08K3Qe0SE",
-  authDomain: "linkbotlabs.firebaseapp.com",
-  projectId: "linkbotlabs",
-  storageBucket: "linkbotlabs.firebasestorage.app",
-  messagingSenderId: "413558906075",
-  appId: "1:413558906075:web:a92dc7ec6cbeccec0540fe"
+document.getElementById("reactivateBtn").onclick = () => {
+  unlocked = true;
+  document.getElementById("demo-hint").innerText = "✅ Access reactivated. Thank you for supporting!";
+  document.getElementById("demoModal").style.display="none";
 };
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-console.log("Firebase initialized for LinkBotLabs AI Playground");
 </script>
 
 </body>

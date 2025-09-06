@@ -64,18 +64,26 @@
         userInput.value = '';
         sendButton.disabled = true;
 
-        const responseSpan = addMessage('Kimi K2', '', true);
+        const responseSpan = addMessage('Kimi K2', '...', true);
 
         try {
-            const response = await puter.ai.chat(message, { model: 'moonshotai/kimi-k2', stream: true });
+            const response = await puter.ai.chat(message, { model: 'moonshotai/kimi-k2:free', stream: true });
+
+            let gotText = false;
             for await (const part of response) {
                 if (part?.text) {
+                    gotText = true;
+                    if (responseSpan.innerHTML === '...') responseSpan.innerHTML = '';
                     responseSpan.innerHTML += part.text;
                     chatHistory.scrollTop = chatHistory.scrollHeight;
                 }
             }
+
+            if (!gotText) {
+                responseSpan.innerHTML = "(No response from Kimmi)";
+            }
         } catch (error) {
-            responseSpan.innerHTML = `Error: ${error.message}`;
+            responseSpan.innerHTML = `⚠️ Error: ${error.message}`;
         }
 
         sendButton.disabled = false;
